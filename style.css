@@ -1,60 +1,75 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;700&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 * {
     padding: 0%;
     margin: 0%;
     box-sizing: border-box;
 }
+
 body {
     width: 100%;
     height: 100vh;
-    background: rgb(0, 0, 0);
+    background: rgb(23, 23, 23);
     font-family: 'Poppins', sans-serif;
     display: flex;
     align-items: center;
     justify-content: center;
 }
+
 header {
     position: relative;
     width: 80%;
     height: 90%;
+    /* border: 1px solid #fff; */
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0px 10px 25px -8px #000;
 }
 
 header::before {
-     content: "";
-     position: absolute;
-     width: 100%;
-     height: 100%;
-     background: url('img/bg.jpeg')no-repeat center center/cover;
-     opacity : .86;
-     z-index: -1;
-}
-
-header::after {
-    
-    content: "";
+    content: '';
     position: absolute;
     width: 100%;
     height: 100%;
-    background: linear-gradient(180deg, transparent,#000);
-
+    background: url('img/bg.jpeg')no-repeat center center/cover;
+    opacity: .6;
+    z-index: -1;
 }
 
-header nav{
-     width: 100%;
-     height: 10%;
-     border: 1px solid #fff;
-     display: flex;
-     align-items: center;
-     justify-content: space-between;
-     padding: 0px 50px;
+header::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, transparent, #000);
+    z-index: -1;
 }
 
-header nav .logo_ul img{
-    width: 50px;
+header video {
+    position: absolute;
+    width: 120%;
+    height: 190%;
+    top: -47%;
+    z-index: -1;
+}
+
+header nav {
+    width: 100%;
+    height: 10%;
+    /* border: 1px solid #fff; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 50px;
+}
+
+header nav .logo_ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+header nav .logo_ul img {
+    width: 90px;
 }
 
 header nav .logo_ul ul {
@@ -63,17 +78,21 @@ header nav .logo_ul ul {
     justify-content: center;
     list-style: none;
 }
-    
-    
+
 header nav .logo_ul ul li {
     padding: 3px 15px;
 }
-    
+
 header nav .logo_ul ul li a {
     text-decoration: none;
     color: #fff;
     font-size: 12px;
     font-weight: bold;
+    transition: .3s linear;
+}
+
+header nav .logo_ul ul li a:hover {
+    color: rgb(255, 255, 255, .7);
 }
 
 header nav .search_user {
@@ -81,7 +100,6 @@ header nav .search_user {
     display: flex;
     align-items: center;
     justify-content: center;
-
 }
 
 header nav .search_user input {
@@ -91,24 +109,53 @@ header nav .search_user input {
     outline: none;
     background: rgb(255, 255, 255, .3);
     color: #fff;
-    margin-right: 10px;
+    margin-right: 20px;
 }
 
-header nav .search_user input::placeholder{
+header nav .search_user input::placeholder {
     color: #fff;
 }
 
-header nav .search_user .search{
+header nav .search_user img {
+    width: 23px;
+    height: 23px;
+    border-radius: 50%;
+}
+
+header nav .search_user .search {
     position: absolute;
     width: 320px;
-    height: 190px;
-    border: 1px solid #fff;
+    height: 270px;
+    /* border: 1px solid #fff; */
     right: 0;
     top: 40px;
     z-index: 99999;
+    overflow-y: auto;
 }
 
-header nav .search_user .search .card{
+header nav .search_user .search::-webkit-scrollbar {
+    width: 5px;
+    background: rgb(255, 255, 255, .3);
+    border-radius: 5px;
+    visibility: hidden;
+}
+
+header nav .search_user .search::-webkit-scrollbar-thumb {
+    width: 5px;
+    background: rgb(255, 255, 255, .4);
+    border-radius: 5px;
+    visibility: hidden;
+}
+
+header nav .search_user .search:hover::-webkit-scrollbar {
+    visibility: visible;
+}
+
+header nav .search_user .search:hover::-webkit-scrollbar-thumb {
+    visibility: visible;
+}
+
+header nav .search_user .search .card {
     position: relative;
     width: 100%;
     height: 50px;
@@ -117,10 +164,11 @@ header nav .search_user .search .card{
     margin-bottom: 5px;
     padding: 3px 0px;
     text-decoration: none;
+    display: none;
 }
 
 header nav .search_user .search .card::before {
-    content: "";
+    content: '';
     position: absolute;
     width: 100%;
     height: 100%;
@@ -138,8 +186,8 @@ header nav .search_user .search .card img {
 }
 
 header nav .search_user .search .card .cont {
-    color: #fff;
     margin-left: 10px;
+    color: #fff;
 }
 
 header nav .search_user .search .card .cont h3 {
@@ -151,21 +199,221 @@ header nav .search_user .search .card .cont h3 {
     width: 250px;
 }
 
-header nav .search_user .search .card p {
+header nav .search_user .search .card .cont p {
     font-size: 10px;
     color: rgb(255, 255, 255, .8);
 }
 
-header nav .search_user .search .card span {
+header nav .search_user .search .card .cont span {
     background: yellow;
     color: #000;
     padding: 0px 3px;
-    margin: 0px 5px;
+    margin: 0px 5px 0px 10px;
     font-weight: 500;
+}
+
+header .content {
+    position: relative;
+    color: #fff;
+    margin-top: 10px;
+    padding-left: 50px;
+}
+
+header .content h1 {
+    font-size: 50px;
+}
+
+header .content p {
+    font-size: 11px;
+    width: 350px;
+    word-break: break-all;
+}
+
+header .content .details {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+header .content .details h6 {
+    color: rgb(255, 255, 255, .8);
+    font-size: 10px;
+    margin-right: 10px;
+}
+
+header .content .details h5 {
+    color: rgb(142, 230, 48);
+    font-size: 10px;
+    margin-right: 10px;
+}
+
+header .content .details h4 {
+    color: #fff;
+    font-size: 10px;
+    margin-right: 10px;
+}
+
+header .content .details h3 {
+    color: #fff;
+    display: flex;
+    align-items: center;
+    font-size: 10px;
+}
+
+header .content .details h3 span {
+    background: yellow;
+    color: #000;
+    padding: 0px 3px;
+    margin: 0px 5px 0px 5px;
+    font-weight: 500;
+}
+
+header .content .details h3 i {
+    margin-right: 5px;
+}
+
+header .content .btns {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+}
+
+header .content .btns a {
+    padding: 8px 12px;
+    font-size: 15px;
+    font-weight: 600;
+    background: linear-gradient(90deg, #00bdff, #0079ff);
+    border-radius: 5px;
+    color: #fff;
+    margin-left: 10px;
+    text-decoration: none;
+    animation: button 1s linear infinite;
+    opacity: 0.99;
+}
+
+
+
+header section {
+    position: absolute;
+    width: 100%;
+    height: auto;
+    padding: 0px 50px;
+    bottom: 20px;
+    color: #fff;
+}
+
+header section .cards {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    /* border: 1px solid #fff; */
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+}
+
+header section .cards::-webkit-scrollbar {
+    display: none;
+}
+
+header section .cards .card {
+    position: relative;
+    min-width: 130px;
+    height: 180px;
+    /* border: 1px solid #fff; */
+    border-radius: 8px;
+    margin-right: 10px;
+    background: #000;
+    transition: .3s linear;
+}
+
+header section .cards .card .poster {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    position: relative;
 }
 
 
 
 
-    
-    
+
+
+header section .bi-chevron-left,
+.bi-chevron-right {
+    position: absolute;
+    top: 50%;
+    left: 3%;
+    width: 25px;
+    height: 25px;
+    background: rgb(255, 255, 255, .3);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 12px;
+    cursor: pointer;
+    transition: .3s linear;
+    z-index: 999999999;
+    opacity: 0;
+}
+
+header section .bi-chevron-right {
+    left: unset;
+    right: 3%;
+}
+
+header section:hover .bi-chevron-right {
+    opacity: 1;
+}
+
+header section:hover .bi-chevron-left {
+    opacity: 1;
+}
+
+@media screen and (max-width: 1250px) {
+    header video {
+        position: absolute;
+        width: 200%;
+        height: 180%;
+    }
+}
+
+@media screen and (max-width: 788px) {
+    header {
+        width: 100%;
+        height: 100%;
+    }
+    header nav {
+        padding: 0px 10px;
+        height: 15%;
+    }
+    header nav .logo_ul ul {
+        position: absolute;
+        top: 0px;
+        left: 10px;
+    }
+    header nav .logo_ul ul li {
+        padding: 3px 5px;
+    }
+    header nav .logo_ul ul li a {
+        font-size: 10px;
+    }
+    header .content {
+        padding-left: 10px;
+    }
+    header section {
+        padding: 0px 10px;
+    }
+}
+
+@media screen and (max-width: 788px) {
+    header video {
+        position: absolute;
+        width: 520%;
+        height: 180%;
+    }
+}
