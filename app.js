@@ -23,14 +23,6 @@ fetch(json_url).then(Response => Response.json())
             card.innerHTML = `
             <img src="${sposter}" alt="${name}" class="poster">
             <div class="rest_card">
-                <img src="${bposter}" alt="">
-                <div class="cont">
-                    <h4>${name}</h4>
-                    <div class="sub">
-                        <p>${genre}, ${date}</p>
-                        <h3><span>IMDB</span><i class="bi bi-star-fill"></i> ${imdb}</h3>
-                    </div>
-                </div>
             </div>
             `
             cards.appendChild(card);
