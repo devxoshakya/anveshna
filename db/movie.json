@@ -25,6 +25,20 @@
     "medium": "video/money heist 720ph.mp4",
     "high": "video/money heist 1080ph.mp4"
 }, {
+    "name": "Wonder Egg Priority",
+    "imdb": 7.9,
+    "date": "2021",
+    "sposter": "/img/wonder-egg.jpg",
+    "bposter": "img/bg.webm",
+    "genre": "Psychological",
+    "type": "series",
+    "url": "landing-page.html",
+    "trailer": "money heist trailer.mp4",
+    "low": "video/money heist 480ph.mp4",
+    "medium": "video/money heist 720ph.mp4",
+    "high": "video/money heist 1080ph.mp4"
+}, 
+{
     "name": "John Wick",
     "imdb": 9.8,
     "date": "2022",

@@ -11,7 +11,7 @@ right_btn.addEventListener('click', () => {
     cards.scrollLeft += 140;
 })
 
-let json_url = "movie.json";
+let json_url = "db/movie.json";
 
 fetch(json_url).then(Response => Response.json())
     .then((data) => {

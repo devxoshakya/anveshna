@@ -27,10 +27,6 @@ header .logo img{
     max-width: 150px;
 }
 
-header .logo:hover img{
-    transform: rotate(360deg);
-    transition: 5s;
-}
 
 .navigation{
     display: flex;
@@ -144,7 +140,7 @@ header .logo:hover img{
     padding: 0 8px;
     display: inline-block;
     font-size: normal;
-    border-radius: 2px;
+    border-radius: 6px;
 }
 
 .banner .content p{
@@ -173,6 +169,7 @@ header .logo:hover img{
     text-transform: uppercase;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.7);
     border: 0.1rem solid rgba(0, 0, 0, 0.7);
+    border-radius: 19px;
 }
 
 .banner .content .buttons a:nth-child(2){
@@ -180,7 +177,7 @@ header .logo:hover img{
 }
 
 .banner .content .buttons a:hover:nth-child(2){
-    background: #de0611;
+    background: #2e51a2;
 }
 
 .play{
