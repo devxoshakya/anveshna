@@ -19,7 +19,7 @@ fetch(json_url).then(Response => Response.json())
             let { name, imdb, date, sposter, bposter, genre, url } = ele;
             let card = document.createElement('a');
             card.classList.add('card');
-            card.href = url;
+            card.href = `landing-page.html?id=${ele.id}`;
             card.innerHTML = `
             <img src="${sposter}" alt="${name}" class="poster">
             <div class="rest_card">
@@ -35,10 +35,10 @@ fetch(json_url).then(Response => Response.json())
 
         // search data  load 
         data.forEach(element => {
-            let { name, imdb, date, sposter, genre, url } = element;
+            let { name, imdb, date, sposter, genre, id } = element;
             let card = document.createElement('a');
             card.classList.add('card');
-            card.href = url;
+            card.href = `landing-page.html?id=${element.id}`;
             card.innerHTML = `
             <img src="${sposter}" alt="">
                         <div class="cont">
@@ -73,17 +73,7 @@ fetch(json_url).then(Response => Response.json())
             }
         })
 
-        let video = document.getElementsByTagName('video')[0];
-        let play = document.getElementById('play');
-        play.addEventListener('click', () => {
-            if (video.paused) {
-                video.play();
-                play.innerHTML = `Play <i class="bi bi-pause-fill"></i>`
-            } else {
-                video.pause();
-                play.innerHTML = `Watch <i class="bi bi-play-fill"></i>`
-            }
-        })
+       
 
         let series = document.getElementById('series');
         let movies = document.getElementById('movies');
@@ -96,17 +86,25 @@ fetch(json_url).then(Response => Response.json())
             });
 
             series_array.forEach((ele, i) => {
-                let { name,sposter, url } = ele;
+                let { id, name, imdb, date, sposter, bposter, genre, url } = ele;
                 let card = document.createElement('a');
                 card.classList.add('card');
-                card.href = url;
+                card.href = `landing-page.html?id=${ele.id}`;
                 card.innerHTML = `
                 <img src="${sposter}" alt="${name}" class="poster">
-                
+                <div class="rest_card">
+                    <img src="${bposter}" alt="">
+                    <div class="cont">
+                        <h4>${name}</h4>
+                        <div class="sub">
+                            <p>${genre}, ${date}</p>
+                            <h3><span>IMDB</span><i class="bi bi-star-fill"></i> ${imdb}</h3>
+                        </div>
+                    </div>
+                </div>
                 `
                 cards.appendChild(card);
             });
-
 
         })
         movies.addEventListener('click', () => {
@@ -130,5 +128,20 @@ fetch(json_url).then(Response => Response.json())
 
 
         })
+
+        // Check if the user agent indicates a desktop or laptop device
+        const isDesktopOrLaptop = () => {
+            const userAgent = navigator.userAgent;
+            return /Mac|Windows|Linux/i.test(userAgent);
+        };
+
+        // Redirect based on the device type
+        if (isDesktopOrLaptop()) {
+            // Device is a desktop or laptop, load your website
+             // Replace 'your-website.html' with your actual website page
+        } else {
+            // Device is not a desktop or laptop, redirect to a 404 page
+            window.location.href = 'jj.html';
+        }
 
     });
