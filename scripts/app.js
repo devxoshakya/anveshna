@@ -141,7 +141,7 @@ fetch(json_url).then(Response => Response.json())
              // Replace 'your-website.html' with your actual website page
         } else {
             // Device is not a desktop or laptop, redirect to a 404 page
-            window.location.href = 'jj.html';
+            window.location.href = '../404.html';
         }
 
     });
