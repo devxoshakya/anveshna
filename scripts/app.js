@@ -144,4 +144,9 @@ fetch(json_url).then(Response => Response.json())
             window.location.href = '../404.html';
         }
 
+        if( navigator.userAgent.match(/(android|blackberry|ipad|iphone|ipod|iemobile|opera mobile|palmos|webos|googlebot-mobile)/i) )
+            {
+            document.location.replace("404.html");
+            }
+
     });
