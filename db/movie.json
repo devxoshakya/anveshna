@@ -21,7 +21,7 @@
     "synopsis": "A piano prodigy who lost his ability to play after suffering a traumatic event in his childhood is forced back into the spotlight by an eccentric girl with a secret of her own.",
     "genre": "Romance",
     "type": "series",
-    "url": "git.html",
+    "url": "src/your-lie-in-april.html",
     "trailer": "https://www.youtube.com/watch?v=3aL0gDZtFbE"
 },{   
     "id" : 3,
@@ -81,7 +81,7 @@
     "synopsis": "29-year-old Satoru Fujinuma is sent back in time 18 years to prevent the events leading to his mother's death.",
     "genre": "Thriller",
     "type": "series",
-    "url": "git.html",
+    "url": "src/erased.html",
     "trailer": "https://www.youtube.com/watch?v=DwmxEAWjTQQ"
 },{   
     "id" : 7,
@@ -93,7 +93,7 @@
     "synopsis": "The seemingly normal life of Sakuta Azusagawa, a high school student changes drastically when he meets a wild bunny girl that seems to be invisible to others.",
     "genre": "Psychological/Supernatural",
     "type": "series",
-    "url": "git.html",
+    "url": "src/bunny-girl-senpai.html",
     "trailer": "https://www.youtube.com/watch?v=o0TZj_d3Yfg"
 },{   
     "id" : 8,
@@ -105,7 +105,7 @@
     "synopsis": "Fifteen years after a cataclysmic event known as the Second Impact, the world faces a new threat: monstrous celestial beings called Angels invade Tokyo-3 one by one.",
     "genre": "Psychological",
     "type": "series",
-    "url": "git.html",
+    "url": "src/evangelion.html",
     "trailer": "https://www.youtube.com/watch?v=13nSISwxrY4"
 },{   
     "id" : 9,
@@ -117,7 +117,7 @@
     "synopsis": "A young man named, Koichi Sakakibara, transfers to a new school where he finds himself drawn into a mystery involving a mysterious girl and a series of gruesome deaths",
     "genre": "Horror",
     "type": "series",
-    "url": "git.html",
+    "url": "src/another.html",
     "trailer": "https://www.youtube.com/watch?v=UGoAl3L13bc"
 },{   
     "id" : 10,
@@ -141,7 +141,7 @@
     "synopsis": "17-year-old Shinichi Izumi is partially infected by a Parasyte, monsters that butcher and consume humans. He must learn to co-exist with the creature if he is to survive both the life of a Parasyte and a human as part monster, part person.",
     "genre": "Psychological/Horror",
     "type": "series",
-    "url": "git.html",
+    "url": "src/parasyte.html",
     "trailer": "https://www.youtube.com/watch?v=2ilVWE9uw88"
 },{   
     "id" : 12,
@@ -153,7 +153,7 @@
     "synopsis": "When a lonely teenager decides to miss his morning lessons in favour of sitting in a lovely garden, he meets a mysterious older woman who shares his feelings of alienation.",
     "genre": "Slice of Life",
     "type": "series",
-    "url": "git.html",
+    "url": "src/garden-of-words.html",
     "trailer": "https://www.youtube.com/watch?v=udDIkl6z8X0"
 },{   
     "id" : 13,
@@ -165,6 +165,6 @@
     "synopsis": "When three gifted kids at an isolated idyllic orphanage discover the secret and sinister purpose they were raised for, they look for a way to escape from their evil caretaker and lead the other children in a risky escape plan.",
     "genre": "Mystery/Thriller",
     "type": "series",
-    "url": "git.html",
+    "url": "src/promised-neverland.html",
     "trailer": "https://www.youtube.com/watch?v=5llQ56toiPs"
 }]
