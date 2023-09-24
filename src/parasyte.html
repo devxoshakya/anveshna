@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="https://devxoshakya.github.io/anveshna"/>
+    <meta property="og:title" content="Anveshna. by Dev Shakya 🌸🦋"/>
+    <meta property="og:image" content="https://devxoshakya.github.io/img/thumb.jpg"/>
+    <meta property="og:image:width" content="650">
+    <meta property="og:image:height" content="350">
+    <meta property="og:description" content="Anveshna is a Free anime streaming website which you can watch English Subbed and Dubbed Anime online with No Account!!"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
+    <link rel="shortcut icon" href="https://devxoshakya.github.io/anveshna/img/anveshna.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anveshna.</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            
+        }
+
+        header {
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        header img {
+            max-width: 15%;
+            height: 60%;
+        }
+
+        .container {
+            display: flex;
+            height: 100%;
+            flex-direction: row;
+            justify-content: space-between;
+        
+            margin: 10px;
+        }
+
+
+        .episode-list {
+            width: 25%;
+            background-color: #2b3035;
+            border-radius: 5px;
+            padding: 20px;
+            overflow-y: scroll;
+            max-height: 360px;
+            margin-left: 7.5%;
+            margin-top: 2%;
+            z-index: 99999;
+            overflow: auto;
+        }
+
+        
+        .episode-list::-webkit-scrollbar {
+            width: 0px;
+            background: rgb(255, 255, 255, .3);
+            border-radius: 5px;
+            visibility: hidden;
+        }
+
+        .episode-list::-webkit-scrollbar-thumb {
+            width: 0px;
+            background: rgb(255, 255, 255, .4);
+            border-radius: 0px;
+            visibility: hidden;
+        }
+
+        .episode-list:hover::-webkit-scrollbar {
+            visibility: visible;
+        }
+
+        .episode-list:hover::-webkit-scrollbar-thumb {
+            visibility: visible;
+        }
+
+        .episode-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .episode-list li {
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            color: #dee2e6;
+            font: optional;
+            font-size: 18px;
+            padding-top: 3px;
+            padding-bottom: 3px;
+            padding-left: 10px;
+            border-radius: 4px;
+            
+        }
+
+        .episode-list li:hover {
+            background-color: rgba(102, 102, 102, 0.817);
+        }
+
+        .episode-list li.playing {
+            background-color: rgb(228, 172, 88);
+            color: white;
+            height: 150%;
+        }
+
+        .episode-list h2 {
+
+            color: #fff;
+            padding-bottom: 0px;
+            margin-bottom: 2px;
+        }
+
+        .episode-list h3 {
+
+            color: #b9b9b9;
+            margin-top: 10px;
+        }
+
+        .video-container {
+            width: 60%;
+            height: 400px;
+            background-color: #000;
+            border-radius: 0px;
+            padding: 0;
+            overflow: hidden;
+            margin-right: 7.5%;
+            margin-top: 2%;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="../img/icon.png" alt="Your Logo">
+        
+    </header>
+    <div class="container">
+        <div class="episode-list">
+            <h2>Parasyte</h2>
+            <h3>Episode List</h3>
+            <ul id="episode-list-ul">
+              
+               
+                <!-- Add more episodes as needed -->
+            </ul>
+        </div>
+        <div class="video-container">
+            <iframe id="video-iframe" class="res"  frameborder="0" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" ></iframe>
+
+        </div>
+    </div>
+    <script>
+        // JavaScript to mark the currently playing episode
+        const episodeItems = document.querySelectorAll('.episode-list li');
+           // JavaScript to fetch and populate episode data
+        const episodeList = document.getElementById('episode-list-ul');
+        const videoIframe = document.getElementById('video-iframe');
+
+        const params = new URLSearchParams(window.location.search);
+        const movieId = parseInt(params.get("id"));
+
+        // Construct the URL for the JSON file based on the movie ID
+        const jsonFileUrl = `../db/movie_7.json`;
+
+        fetch('../db/movie_80.json')
+            .then(response => response.json())
+            .then(data => {
+                data.forEach((episode, index) => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = ` ${episode.name}`;
+                    listItem.addEventListener('click', () => {
+                        // Remove the 'playing' class from all items
+                        const episodeItems = document.querySelectorAll('.episode-list li');
+                        episodeItems.forEach(item => {
+                            item.classList.remove('playing');
+                        });
+
+                        // Add the 'playing' class to the clicked item
+                        listItem.classList.add('playing');
+
+                        // Set the iframe source to the selected episode's link
+                        videoIframe.src = episode.link;
+                    });
+
+                    episodeList.appendChild(listItem);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching episode data:', error);
+            });
+
+        episodeItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                // Remove the 'playing' class from all items
+                episodeItems.forEach((item) => {
+                    item.classList.remove('playing');
+                });
+
+                // Add the 'playing' class to the clicked item
+                item.classList.add('playing');
+            });
+        });
+    </script>
+</body>
+</html>
