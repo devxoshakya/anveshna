@@ -151,7 +151,7 @@
     </header>
     <div class="container">
         <div class="episode-list">
-            <h2>Your name</h2>
+            <h2>Your </h2>
             <h3>Episode List</h3>
             <ul id="episode-list-ul">
               
@@ -182,7 +182,7 @@
             .then(data => {
                 data.forEach((episode, index) => {
                     const listItem = document.createElement('li');
-                    listItem.textContent = ` ${episode.name}`;
+                    listItem.textContent = ` ⁘ ${episode.name}`;
                     listItem.addEventListener('click', () => {
                         // Remove the 'playing' class from all items
                         const episodeItems = document.querySelectorAll('.episode-list li');
