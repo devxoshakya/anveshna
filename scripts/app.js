@@ -73,8 +73,7 @@ fetch(json_url).then(Response => Response.json())
             }
         })
 
-       
-
+    
         let series = document.getElementById('series');
         let movies = document.getElementById('movies');
 
