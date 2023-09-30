@@ -41,7 +41,7 @@
     align-items: center;
 }
 .container{
-    max-width: 800px;
+    max-width: 700px;
     margin-top: 0 auto;
 }
 .contact-form h1{
@@ -156,11 +156,12 @@ textarea{
             <div class="main">
                 <div class="content">
                     <h2>Contact Us</h2>
-                    <form action="#" id="form" onclick="sendemail()" method="post">
+                    <form action="https://formsubmit.co/576756dee42da8564c94c32f4fe8c32c" id="form" method="post">
                         <input type="text" name="name" placeholder="Enter Your Name">
 
-                        <input type="email" name="name" placeholder="Enter Your Email">
-                        <textarea name="message" placeholder="Your Message"></textarea>                   
+                        <input type="email" name="email" placeholder="Enter Your Email">
+                        <textarea name="message" placeholder="Your Message"></textarea>
+                        <input type="hidden" name="_captcha" value="false">
                         <button type="submit" class="btn">Send <i class="fas fa-paper-plane"></i></button>
                     </form>
                 </div>
@@ -171,21 +172,4 @@ textarea{
         </div>
     </div> 
 </body>
-<script src="https://smtpjs.com/v3/smtp.js">
-</script>
-<script>
-    function sendemail() {
-        Email.send({
-            Host : "smtp.elasticemail.com",
-            Username : "anveshnaxo@gmail.com",
-            Password : "FE3CFC5C9ED34DD562A1B2CDFAECC21616FA",
-            To : 'anveshnaxo@gmail.com',
-            From : "devshakya11a@gmail.com",
-            Subject : "This is the subject",
-            Body : "And this is the body"
-    }).then(
-        message => alert(message)
-    );
-}
-</script>
 </html>
