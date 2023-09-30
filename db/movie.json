@@ -167,4 +167,16 @@
     "type": "series",
     "url": "src/promised-neverland.html",
     "trailer": "https://www.youtube.com/watch?v=5llQ56toiPs"
+},{   
+    "id" : 14,
+    "name": "From Up on Poppy Hill!",
+    "imdb": 7.8,
+    "date": "2011",
+    "sposter": "img/sposter/poppy.jpg",
+    "bposter": "img/bposter/poppy.jpg",
+    "synopsis": "A group of Yokohama teens look to save their school's clubhouse from the wrecking ball in preparations for the 1964 Tokyo Olympics.",
+    "genre": "Family/Romance",
+    "type": "series",
+    "url": "src/from-up-on-poppy-hill.html",
+    "trailer": "https://www.youtube.com/watch?v=a0DIxdy8CZA"
 }]
