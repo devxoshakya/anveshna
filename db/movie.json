@@ -45,7 +45,7 @@
     "genre": "Psychological",
     "synopsis": " suicide of her best and only friend, Koito Nagase, Ai Ooto is left grappling with her new reality. With nothing left to live for, she follows the instructions of a mysterious entity and gets roped into purchasing an egg, or specifically, a Wonder Egg.",
     "type": "series",
-    "url": "git.html",
+    "url": "src/wonder-egg-priority.html",
     "trailer": "https://www.youtube.com/watch?v=zJ4yP7Icclc" 
 }, {   
     "id" : 80,
@@ -69,7 +69,7 @@
     "synopsis": "Kaoru Tono heard a rumour: The laws of space and time mean nothing to the Urashima Tunnel. If you find it, walk through and you'll find your heart's desire on the other side.",
     "genre": "Romance/Sci-Fi",
     "type": "series",
-    "url": "git.html",
+    "url": "src/tunnel-to-summer-the-exit-of-goodbyes.html",
     "trailer": "https://www.youtube.com/watch?v=quNGzBv9arI"
 },{   
     "id" : 6,
@@ -167,4 +167,16 @@
     "type": "series",
     "url": "src/promised-neverland.html",
     "trailer": "https://www.youtube.com/watch?v=5llQ56toiPs"
+},{   
+    "id" : 14,
+    "name": "From Up on Poppy Hill!",
+    "imdb": 7.8,
+    "date": "2011",
+    "sposter": "img/sposter/poppy.jpg",
+    "bposter": "img/bposter/poppy.jpg",
+    "synopsis": "A group of Yokohama teens look to save their school's clubhouse from the wrecking ball in preparations for the 1964 Tokyo Olympics.",
+    "genre": "Family/Romance",
+    "type": "series",
+    "url": "src/from-up-on-poppy-hill.html",
+    "trailer": "https://www.youtube.com/watch?v=a0DIxdy8CZA"
 }]

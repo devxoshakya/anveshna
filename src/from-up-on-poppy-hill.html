@@ -151,11 +151,11 @@
     </header>
     <div class="container">
         <div class="episode-list">
-            <h2>Rascal does not dream not of a bunny girl senpai </h2>
+            <h2>From Up on Poppy Hill</h2>
             <h3>Episode List</h3>
             <ul id="episode-list-ul">
-            
-            
+              
+               
                 <!-- Add more episodes as needed -->
             </ul>
         </div>
@@ -177,12 +177,12 @@
         // Construct the URL for the JSON file based on the movie ID
         const jsonFileUrl = `../db/movie_7.json`;
 
-        fetch('../db/movie_7.json')
+        fetch('../db/movie_14.json')
             .then(response => response.json())
             .then(data => {
                 data.forEach((episode, index) => {
                     const listItem = document.createElement('li');
-                    listItem.textContent = `S1.E${episode.number} • ${episode.name}`;
+                    listItem.textContent = ` ${episode.name}`;
                     listItem.addEventListener('click', () => {
                         // Remove the 'playing' class from all items
                         const episodeItems = document.querySelectorAll('.episode-list li');
