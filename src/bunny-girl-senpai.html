@@ -182,7 +182,8 @@
             .then(data => {
                 data.forEach((episode, index) => {
                     const listItem = document.createElement('li');
-                    listItem.textContent = ` ⁘ ${episode.name}`;
+                    listItem.textContent = ` ${episode.name}`;
+                    listItem.textContent = ` S1.E${episode.number} • ${episode.name}`;
                     listItem.addEventListener('click', () => {
                         // Remove the 'playing' class from all items
                         const episodeItems = document.querySelectorAll('.episode-list li');
