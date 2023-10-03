@@ -12,6 +12,18 @@
     "trailer": "https://www.youtube.com/watch?v=aS2Ybs4d2Lc"
 
 },{   
+    "id" : 15,
+    "name": "PLUTO",
+    "imdb": 9.0,
+    "date": "2022",
+    "sposter": "img/sposter/pluto.jpg",
+    "bposter": "img/bposter/pluto.png",
+    "synopsis": "Once a fellow war veteran, robotic Europol detective Gesicht is sent to investigate Montblanc's tragic demise. In his pursuit, Gesicht uncovers evidence of a mysterious entity known only as “Pluto.”",
+    "genre": "Psychological/Sci-Fi",
+    "type": "series",
+    "url": "src/pluto.html",
+    "trailer": "https://www.youtube.com/watch?v=9ez8lm9I26Y"
+},{   
     "id" : 2,
     "name": "Your Lie in April",
     "imdb": 8.6,
