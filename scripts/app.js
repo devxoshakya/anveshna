@@ -5,7 +5,7 @@ let search = document.getElementsByClassName('search')[0];
 let search_input = document.getElementById('search_input');
 
 left_btn.addEventListener('click', () => {
- })
+})
 right_btn.addEventListener('click', () => {
     cards.scrollLeft += 140;
 })
@@ -103,15 +103,12 @@ fetch(json_url).then(Response => Response.json())
                 `
                 cards.appendChild(card);
             });
-
         })
         movies.addEventListener('click', () => {
             cards.innerHTML = '';
-
             let movie_array = data.filter(ele => {
                 return ele.type === "movie";
             });
-
             movie_array.forEach((ele, i) => {
                 let { name, sposter, url } = ele;
                 let card = document.createElement('a');
@@ -119,32 +116,25 @@ fetch(json_url).then(Response => Response.json())
                 card.href = url;
                 card.innerHTML = `
                 <img src="${sposter}" alt="${name}" class="poster">
-                
                 `
                 cards.appendChild(card);
             });
-
-
         })
-
         // Check if the user agent indicates a desktop or laptop device
         const isDesktopOrLaptop = () => {
             const userAgent = navigator.userAgent;
             return /Mac|Windows|Linux/i.test(userAgent);
         };
-
         // Redirect based on the device type
         if (isDesktopOrLaptop()) {
             // Device is a desktop or laptop, load your website
              // Replace 'your-website.html' with your actual website page
         } else {
             // Device is not a desktop or laptop, redirect to a 404 page
-            window.location.href = '../404.html';
+            window.location.href = '../src/main/404.html';
         }
-
         if( navigator.userAgent.match(/(android|blackberry|ipad|iphone|ipod|iemobile|opera mobile|palmos|webos|googlebot-mobile)/i) )
             {
-            document.location.replace("404.html");
+            document.location.replace("../src/main/404.html");
             }
-
     });
