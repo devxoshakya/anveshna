@@ -151,4 +151,22 @@ fetch(json_url).then(Response => Response.json())
             }
         });
     });
-    
+// scripts/app.js
+
+// Function to show the loader
+function showLoader() {
+    document.querySelector('.loader-wrapper').style.display = 'flex';
+}
+
+// Function to hide the loader
+function hideLoader() {
+    document.querySelector('.loader-wrapper').style.display = 'none';
+}
+
+// Show the loader when the page starts loading
+showLoader();
+
+// Wait for 2.5 seconds and then hide the loader
+setTimeout(function () {
+    hideLoader();
+}, 2500);
