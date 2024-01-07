@@ -103,8 +103,8 @@ header nav .search_user {
 }
 
 header nav .search_user input {
-    padding: 3px 10px;
-    border-radius: 20px;
+    padding: 5px 25px;
+    border-radius: 25px;
     border: none;
     outline: none;
     background: rgb(255, 255, 255, .3);
@@ -117,8 +117,8 @@ header nav .search_user input::placeholder {
 }
 
 header nav .search_user img {
-    width: 23px;
-    height: 23px;
+    width: 25px;
+    height: 25px;
     border-radius: 50%;
 }
 

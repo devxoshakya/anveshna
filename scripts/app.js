@@ -138,3 +138,17 @@ fetch(json_url).then(Response => Response.json())
             document.location.replace("../src/main/404.html");
             }
     });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('keydown', function (event) {
+            // Check if the pressed key is the "/"
+            if (event.key === '/') {
+                // Prevent the "/" character from being entered in the search bar
+                event.preventDefault();
+    
+                // Focus on the search input
+                document.getElementById('search_input').focus();
+            }
+        });
+    });
+    
