@@ -23,6 +23,18 @@
     "type": "series",
     "url": "src/pluto.html",
     "trailer": "https://www.youtube.com/watch?v=9ez8lm9I26Y"
+},{
+    "id" : 16,
+    "name": "When Marnie Was There",
+    "imdb": 7.6,
+    "date": "2014",
+    "sposter": "img/sposter/marnie.jpg",
+    "bposter": "img/bposter/marnie_bg.jpg",
+    "synopsis": "A distressed girl is compelled to live in the countryside by her foster parents. There, she befriends Marnie, a mysterious girl, who helps her confront the truth about her identity.",
+    "genre": "Mystery/Thriller",
+    "type": "movie",
+    "url": "src/when-marnie-was-there.html",
+    "trailer": "https://www.youtube.com/watch?v=jjmrxqcQdYg"
 },{   
     "id" : 2,
     "name": "Your Lie in April",
