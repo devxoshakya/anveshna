@@ -135,7 +135,7 @@ fetch(json_url).then(Response => Response.json())
         }
         if( navigator.userAgent.match(/(android|blackberry|ipad|iphone|ipod|iemobile|opera mobile|palmos|webos|googlebot-mobile)/i) )
             {
-            document.location.replace("../src/main/404.html");
+            document.location.replace("/src/main/404.html");
             }
     });
 
