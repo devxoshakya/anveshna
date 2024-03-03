@@ -50,7 +50,7 @@
                             // Find the movie data with the matching ID
                             const movie = data.find(movie => movie.id === movieId);
 
-                            if (movie) {
+                            if (movie!=null) {
                                 document.getElementById("date").textContent = movie.date;
                                 document.getElementById("genre").textContent = movie.genre;
                                 document.getElementById("movie-title").textContent = movie.name;
