@@ -149,6 +149,11 @@ fetch(json_url).then(Response => Response.json())
                 // Focus on the search input
                 document.getElementById('search_input').focus();
             }
+
+            if (event.ctrlKey && event.altKey && event.key === 'x') {
+                // Redirect to the search.html page
+                window.location.href = '/testing-features/search.html';
+            }
         });
     });
 // scripts/app.js
@@ -170,3 +175,5 @@ showLoader();
 setTimeout(function () {
     hideLoader();
 }, 2500);
+
+

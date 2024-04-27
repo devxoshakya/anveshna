@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anime Search</title>
+<style>
+
+  /* Styling for the search bar */
+  .search-container {
+    margin-top: 50px;
+    text-align: center;
+  }
+  .search-input {
+    padding: 10px;
+    width: 200px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    outline: none;
+  }
+  .search-button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 10px;
+  }
+  .search-button:hover {
+    background-color: #0056b3;
+  }
+  /* Styling for the results */
+  .results-container {
+    margin-top: 20px;
+    text-align: center;
+  }
+  .result {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    cursor: pointer; /* Add cursor pointer for clickable effect */
+  }
+  .result img {
+    width: 100px;
+    height: auto;
+    border-radius: 5px;
+    margin-right: 20px;
+  }
+  .result-info {
+    text-align: left;
+    font-family: Arial, sans-serif;
+  }
+</style>
+</head>
+<body>
+  <div class="search-container">
+    <input type="text" id="searchInput" class="search-input" placeholder="Enter anime name...">
+    <button id="searchButton" class="search-button">Search</button>
+  </div>
+  <div class="results-container" id="resultsContainer">
+    <!-- Results will be displayed here -->
+  </div>
+  <script>
+    let typingTimer;
+    const doneTypingInterval = 500; // milliseconds
+    const resultsContainer = document.getElementById('resultsContainer');
+
+    function fetchAnimeResults(searchInput) {
+      fetch('https://api-amvstrm.nyt92.eu.org/api/v2/search', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          search: searchInput
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        resultsContainer.innerHTML = ''; // Clear previous results
+        if (data && data.results && data.results.length > 0) {
+          data.results.forEach(result => {
+            if (result.format !== 'MANGA' && (result.status === 'RELEASING' || result.status === 'FINISHED' ) && (result.title.english!==null || result.title.userPreferred!==null || result.seasonYear!==null || result.averageScore!==null || result.coverImage.large!==null)) {
+              // Create a div for each result and display relevant information
+              const resultDiv = document.createElement('div');
+              resultDiv.classList.add('result');
+              resultDiv.innerHTML = `
+                <img src="${result.coverImage.large}" alt="Cover Image">
+                <div class="result-info">
+                  <h3>${result.title.english}</h3>
+                  <p style="font-size: 50%;">${result.title.userPreferred}</p>
+                  <p>Year: ${result.seasonYear}   &#9733; ${result.averageScore / 10}</p>
+                </div>
+              `;
+              // Add click event listener to redirect to info page with anime ID
+              resultDiv.addEventListener('click', () => {
+                window.location.href = `info_page.html?id=${result.id}`;
+              });
+              resultsContainer.appendChild(resultDiv);
+            }
+          });
+        } else {
+          resultsContainer.innerHTML = '<p>No results found</p>';
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        resultsContainer.innerHTML = '<p>An error occurred. Please try again later.</p>';
+      });
+    }
+
+    document.getElementById('searchInput').addEventListener('keyup', () => {
+      clearTimeout(typingTimer);
+      typingTimer = setTimeout(() => {
+        const searchInput = document.getElementById('searchInput').value;
+        fetchAnimeResults(searchInput);
+      }, doneTypingInterval);
+    });
+
+    document.getElementById('searchButton').addEventListener('click', () => {
+      const searchInput = document.getElementById('searchInput').value;
+      fetchAnimeResults(searchInput);
+    });
+  </script>
+</body>
+</html>
