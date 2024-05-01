@@ -68,7 +68,7 @@ const Navbar = () => {
                             <button className='p-1 focus:outline-none text-white md:text-gray-600' onClick={toggleSearch}></button>
                             {!isSearchOpen && (
                                 <div className='relative md:w-65 '>
-                                    <input type="text" name="" className='w-full px-4 py-1 pl-12 rounded shadow outline-none md:block' placeholder='Search anime...' />
+                                    <input type="text" name="" className='w-full bg-[#222222] text-gray-400 px-4 py-1 pl-12 rounded shadow outline-none md:block' placeholder='Search anime...' />
                                 </div>
                             )}
                         </>
@@ -122,10 +122,10 @@ const Navbar = () => {
             </div>
             )}
             <div className="flex items-center gap-x-5 mr-8 sm:mr-2">
-                <button className='p-1 focus:outline-none text-white md:text-gray-600 ml-2' onClick={toggleSearch}><FaSearch/></button>
+                <button className='p-1 focus:outline-none text-gray-500 md:text-gray-600 ml-2' onClick={toggleSearch}><FaSearch/></button>
                 {!isMobile && isSearchOpen && (
                     <div className='relative md:w-65 '>
-                        <input type="text" name="" className='w-full px-4 py-1 pl-12 rounded shadow outline-none md:block' placeholder='Search anime...' />
+                        <input type="text" name="" className='w-full bg-[#222222] text-gray-400 px-4 py-1 pl-12 rounded shadow outline-none md:block' placeholder='Search anime...' />
                     </div>
                 )}
             </div>
