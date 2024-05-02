@@ -5,17 +5,22 @@
     {
       "src": "images/anveshna.png",
       "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "type": "image/x-icon",
+      "background_color" :"#000000"
     },
     {
       "src": "images/anveshna.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "192x192",
+      "background_color" :"#000000"
+
     },
     {
       "src": "images/anveshna.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "background_color" :"#000000"
+
     }
   ],
   "start_url": ".",
