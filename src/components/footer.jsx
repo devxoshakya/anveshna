@@ -14,7 +14,7 @@ const Footer = () => {
       ><span className='font-semibold'>hello world</span>, this is footer</h1> */}
       <img src={Logo} alt="Anveshna Logo" className="object-center h-12 md:h-8 pl-4 pb-0 pt-2 justify-center	" />
     </div>
-      <div className='flex w-full mb-0 border-b-2 border-slate-800	'>
+      <div className='flex w-full mb-0 border-b-2 border-gray-900'>
       <p className='pl-4 flex text-left md:text-center w-full lg:text-4x1 text-3x1 md:mb-3 mb-4  lg:leading-normal text-xs md:text-[10px] md:mr-4'>This website does not retain any files on its server. Rather, it solely provides links to media content hosted by third-party services.</p>
       </div>
       <div className='flex p-4 mb-0 pb-0 text-gray-400 text-[13px] md:flex-col items-center'  >

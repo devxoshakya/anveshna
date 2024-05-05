@@ -33,8 +33,8 @@ const Contact = () => {
     // Send the email
     emailjs.send(serviceID, templateID, {
       from_email: email,
-      subject: subject,
-      message: message,
+      name: subject,
+      message: `message from ${email}: \n subject - ${subject} \n  ${message}`,
     }).then(function (response) {
       console.log("Email sent successfully!");
       // Reset the form

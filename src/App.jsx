@@ -10,9 +10,9 @@ import Contact from './pages/contact';
 
 function App() {
   return (<Router>
-    <div className="p-0 m-0 flex flex-col">
+    <div className="p-0 m-0 flex flex-col bg-black">
       <Navbar />
-      <div style={{ minHeight: '40rem' }}>
+      <div style={{ minHeight: '40rem'}}>
       <Routes>
       <Route path='/about' element={<About />}/>
       <Route path='/privacy' element={<PolicyTerms />}/>
