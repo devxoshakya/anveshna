@@ -37,7 +37,7 @@ const Slideshow = ({ data }) => {
   };
 
   return (
-    <div className="relative h-[80vh] mt-16 md:h-[50vh]" {...handlers}>
+    <div className="relative h-[65vh] mt-16 md:h-[35vh]" {...handlers}>
       {data.map((item, index) => (
         <div
           key={index}
@@ -53,7 +53,7 @@ const Slideshow = ({ data }) => {
               <TbCardsFilled className="ml-2" />
               <span className='pl-1'>{item.totalEpisodes}</span>
               <FaStar className="ml-2" />
-              <span className='pl-1'>{item.rating}</span>
+              <span className='pl-1'>{item.rating/10}</span>
               <FaClock className="ml-2" />
               <span className='pl-1'>{item.duration} min</span>
             </p>

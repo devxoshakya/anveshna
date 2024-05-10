@@ -1,29 +1,36 @@
-import React from 'react'
-import Slideshow from '../components/home/slideshow'
-import { toContainElement } from '@testing-library/jest-dom/matchers';
-import { type } from '@testing-library/user-event/dist/type';
+import React, { useState, useEffect } from 'react';
+import Slideshow from '../components/home/slideshow';
+import { fetchTrendingAnime } from '../hooks/useAPI';
 
-const data = [
-    {
-      id: 1,
-      bannerImage: "https://s4.anilist.co/file/anilistcdn/media/anime/banner/163270-QshLCttd04s6.jpg",
-      title: 'Wind Breakers',
-      type: 'TV',
-      totalEpisodes: 12,
-      rating: 8.5,
-      duration: 24,
-    }
-  ];
+const Home = () => {
+  const [animeData, setAnimeData] = useState([]);
 
-const home = () => {
+  useEffect(() => {
+    fetchTrendingAnime()
+      .then(trendingAnime => {
+        const data = trendingAnime
+          .filter(anime => anime.bannerImage) // Filter out anime without a banner image
+          .map(anime => ({
+            id: anime.id,
+            bannerImage: anime.bannerImage,
+            title: anime.title.english || anime.title.userPreferred, // Use English title if available, otherwise fallback to userPreferred
+            type: anime.format,
+            totalEpisodes: anime.episodes,
+            rating: anime.averageScore,
+            duration: anime.duration,
+          }));
+        setAnimeData(data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }, []);
+
   return (
     <div className='text-white my-24'>
-      <Slideshow data={data}/>
-      {/* <Slideshow  data={data}/> */}
-      {/* <Slideshow  data={data}/> */}
-
+      <Slideshow data={animeData} />
     </div>
-  )
-}
+  );
+};
 
-export default home
+export default Home;
