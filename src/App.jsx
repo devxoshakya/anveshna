@@ -6,6 +6,8 @@ import Footer from './components/footer';
 import About from './pages/about';
 import PolicyTerms from './pages/privacy';
 import Contact from './pages/contact';
+import Home from './pages/home';
+// import { SkeletonCard, SkeletonSlide, SkeletonPlayer, Skeleton } from './components/skeletons/skeletons';
 
 
 function App() {
@@ -14,6 +16,8 @@ function App() {
       <Navbar />
       <div style={{ minHeight: '40rem'}}>
       <Routes>
+      <Route path='/' element={<Home />}/>
+      <Route path='/home' element={<Home />}/>
       <Route path='/about' element={<About />}/>
       <Route path='/privacy' element={<PolicyTerms />}/>
       <Route path='/contact' element={<Contact />}/>

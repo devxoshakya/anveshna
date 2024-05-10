@@ -1,8 +1,9 @@
 import React, { useState, useEffect} from 'react';
 import { FaSearch } from 'react-icons/fa';
-// import { SocialIcon } from 'react-social-icons';
 import { FaLinkedin, FaInstagram, FaTwitter, FaGithub } from 'react-icons/fa';
 import logo from '../images/icon.png'
+import { Link } from 'react-router-dom';
+
 
 
 
@@ -59,9 +60,11 @@ const Navbar = () => {
 
 
     return (
-        <nav className='bg-black px-4 backdrop-blur-sm hover:backdrop-blur-lg justify-between flex w-full fixed backdrop-brightness-100	'>
+        <nav className='bg-black px-4 backdrop-filter backdrop-blur-md justify-between flex w-full fixed  opacity-85	z-[9999]'>
             <div className='flex  h-16 items-center'>
-                <img src={logo} alt="Anveshna Logo" className="h-16 ml-7 sm:h-12  absolute visible-none" />
+            <Link to="/" style={{ display: "inline-block", lineHeight: 0 }}>
+                <img src={logo} to="/" onClick={() => window.scrollTo(0,0)} alt="Anveshna Logo" className="h-16 ml-7 sm:h-12 absolute bottom-0" />
+            </Link>
                 {
                     isMobile && !isSearchOpen && ( // Update this line
                         <>
@@ -75,15 +78,7 @@ const Navbar = () => {
                     )
                 }
             </div>
-            {/* {!isMobile && !isDesktop &&(
-            <div className='flex align-left border-solid-white pt-2 justify-between gap-x-3 ml:invisible mr-72'>
-                <SocialIcon url="https://twitter.com/devxoshakya" target="_blank" className='p-0 mr-0 ml-0 m-1' style={{ height: '40px', width: '40px' }} />
-                <SocialIcon url="https://instagram.com/devxoshakya" target="_blank" className='p-0 mr-0 ml-0 mt-1 ' style={{ height: '40px', width: '40px' }} />
-                <SocialIcon url="https://github.com/devxoshakya" target="_blank" className='p-0 mr-0 ml-0 mt-1' style={{ height: '40px', width: '40px' }} />
-                <SocialIcon url="https://linkedin.com/in/devxoshakya" target="_blank" className='p-0 mr-0 ml-0 mt-1' style={{ height: '40px', width: '40px' }} />
 
-            </div>
-            )} */}
             {!isMobile && !isDesktop &&(
             <div className='flex align-left border-solid-white pt-2 justify-between gap-x-3 ml:invisible mr-72 '>
             {[
