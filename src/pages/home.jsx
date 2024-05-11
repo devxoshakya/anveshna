@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Slideshow from '../components/home/slideshow';
 import { fetchTrendingAnime } from '../hooks/useAPI';
+import { useNavigate } from 'react-router-dom';
+
 
 const Home = () => {
+  
   const [animeData, setAnimeData] = useState([]);
 
   useEffect(() => {
@@ -27,7 +30,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className='text-white my-24'>
+    <div className='text-white my-16'>
       <Slideshow data={animeData} />
     </div>
   );

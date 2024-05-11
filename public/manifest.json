@@ -6,25 +6,21 @@
       "src": "images/anveshna.png",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon",
-      "background_color" :"#000000"
+      "background_color" :"#333333"
     },
     {
-      "src": "images/anveshna.png",
-      "type": "image/png",
+      "src": "/android-chrome-192x192.png",
       "sizes": "192x192",
-      "background_color" :"#000000"
-
-    },
-    {
-      "src": "images/anveshna.png",
-      "type": "image/png",
+      "type": "image/png"
+  },
+  {
+      "src": "/android-chrome-512x512.png",
       "sizes": "512x512",
-      "background_color" :"#000000"
-
-    }
+      "type": "image/png"
+  }
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#000000"
+  "theme_color": "#333333",
+  "background_color": "#333333"
 }
