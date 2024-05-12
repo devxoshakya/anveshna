@@ -62,7 +62,7 @@ const Navbar = () => {
     return (
         <nav className='bg-black px-4 backdrop-filter backdrop-blur-md justify-between flex w-full fixed  opacity-85	z-[9999]'>
             <div className='flex  h-16 items-center'>
-            <Link to="/" style={{ display: "inline-block", lineHeight: 0, }}>
+            <Link to="/home" style={{ display: "inline-block", lineHeight: 0, }}>
                 <img src={logo} to="/" onClick={() => window.scrollTo(0,0)} alt="Anveshna Logo" className="h-16 ml-7 sm:h-12 absolute bottom-0" />
             </Link>
                 {

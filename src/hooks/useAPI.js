@@ -248,3 +248,23 @@ fetchEpisodeStream('cowboy-bebop-episode-1')
   .catch(error => {
     console.error('Error:', error);
   });
+
+  const trendingAnimeCache2 = createCache('trendingAnime2');
+
+export async function fetchTrendingAnime2() {
+  const cacheKey = 'trendingAnime2';
+  const cachedData = trendingAnimeCache2.get(cacheKey);
+  if (cachedData) {
+    return cachedData;
+  }
+
+  try {
+    const response = await axios.get(`${API_URL}/v2/trending?p=2`);
+    const trendingAnime2 = response.data.results;
+    trendingAnimeCache2.set(cacheKey, trendingAnime2);
+    return trendingAnime2;
+  } catch (error) {
+    console.error('Error fetching trending anime:', error);
+    throw error;
+  }
+}
