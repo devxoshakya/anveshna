@@ -10,6 +10,7 @@ import Contact from './pages/contact';
 import Home from './pages/home';
 import GoogleGeminiEffectDemo from './pages/initial'; 
 import Search from './pages/search';
+import PageNotFound from './pages/404'
 
 function Main() {
   const location = useLocation();
@@ -33,6 +34,8 @@ function Main() {
           <Route path='/about' element={<About />} />
           <Route path='/privacy' element={<PolicyTerms />} />
           <Route path='/contact' element={<Contact />} />
+          <Route path="*" element={<PageNotFound />} />
+          <Route path="/watch/*" element={<PageNotFound />} />
         </Routes>
       </div>
       <Footer />

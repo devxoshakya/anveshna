@@ -268,3 +268,23 @@ export async function fetchTrendingAnime2() {
     throw error;
   }
 }
+
+const popularAnimeCache2 = createCache('popularAnime2');
+
+  export async function fetchPopularAnime2() {
+    const cacheKey = 'popularAnime2';
+    const cachedData = popularAnimeCache2.get(cacheKey);
+    if (cachedData) {
+      return cachedData;
+    }
+
+    try {
+      const response = await axios.get(`${API_URL}/v2/popular?p=2`);
+      const popularAnime2 = response.data.results;
+      popularAnimeCache2.set(cacheKey, popularAnime2);
+      return popularAnime2;
+    } catch (error) {
+      console.error('Error fetching popular anime:', error);
+      throw error;
+    }
+  }

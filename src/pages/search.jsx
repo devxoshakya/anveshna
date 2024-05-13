@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import CardGrid from '../components/cards/cardItem';
+import CardGrid from '../components/cards/cardSearch';
 import { fetchSearchedAnime } from '../hooks/useAPI';
-import { TypewriterEffectSmooth } from '../components/ui/writer.tsx';
 const Search = () => {
   const location = useLocation();
-  const [searchQuery, setSearchQuery] = useState('');
+  // const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const queryParams = new URLSearchParams(location.search);
   const query = queryParams.get('query');
@@ -14,21 +13,7 @@ const Search = () => {
     return formattedQuery.charAt(0).toUpperCase() + formattedQuery.slice(1);
   };
 
-  const words = [
-    {
-      text: "Search",
-    },
-    {
-      text: "Results",
-    },
-    {
-      text: "For",
-    },
-    {
-      text: formatQuery(query),
-      className: "text-blue-500 dark:text-blue-500",
-    },
-  ];
+  
 
   useEffect(() => {
     if (query) {
@@ -60,13 +45,19 @@ const Search = () => {
 
 
 
-  console.log('Search Results:', searchResults);
-
+  // Remove the line that logs the color property
+  // console.log('Search Results:', searchResults[0].color);
+  let searchColor;
+  if (searchResults.length > 0) {
+    searchColor = searchResults[0].color;
+  }
   return (
 
-    <div className='mt-16 w-[70%] p-4 '>
+    <div className='mt-16 w-full p-4 '>
+      <div>
+        <h1 className='text-white flex text-3xl md:my-4 my-8 mx-2 md:text-xl md:justify-center font-bold'>Search Results for  <span className='ml-1 font-semibold italic' style={{color: searchColor}}>   ' {formatQuery(query)} ' </span></h1>
+      </div>
       <div className='justify-center items-center flex'>
-      <TypewriterEffectSmooth words={words} className='text-[40px]'/>
     
       </div>
       <CardGrid animes={searchResults} />
