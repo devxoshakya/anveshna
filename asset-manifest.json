@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/anveshna/static/css/main.2eb69dee.css",
-    "main.js": "/anveshna/static/js/main.34485e68.js",
+    "main.js": "/anveshna/static/js/main.e963d394.js",
     "static/media/404-desktop.png": "/anveshna/static/media/404-desktop.daca3794bcff0877e452.png",
     "static/media/icon.png": "/anveshna/static/media/icon.a61b404f4e1e420c055b.png",
     "index.html": "/anveshna/index.html",
     "main.2eb69dee.css.map": "/anveshna/static/css/main.2eb69dee.css.map",
-    "main.34485e68.js.map": "/anveshna/static/js/main.34485e68.js.map"
+    "main.e963d394.js.map": "/anveshna/static/js/main.e963d394.js.map"
   },
   "entrypoints": [
     "static/css/main.2eb69dee.css",
-    "static/js/main.34485e68.js"
+    "static/js/main.e963d394.js"
   ]
 }
