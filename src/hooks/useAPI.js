@@ -190,7 +190,7 @@ export async function fetchSearchedAnime(query) {
 }
 
 // Example usage:
-fetchSearchedAnime('solo leveling')
+fetchSearchedAnime('')
   .then(searchedAnime => {
     console.log('Searched anime:', searchedAnime);
   })

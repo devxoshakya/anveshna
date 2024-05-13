@@ -65,9 +65,10 @@ const Home = () => {
   return (
     <div className='text-white my-16'>
       <Slideshow data={animeData} />
-      <div className=" mr-auto w-[70%] md:w-full p-4">
+      <div className=" mr-auto w-[70%] md:w-full  p-4">
         <CardGrid animes={animeData} />
-        <CardGrid animes={animeData2} />
+        <br></br>
+        <CardGrid animes={animeData2}/>
       </div>
     </div>
   );

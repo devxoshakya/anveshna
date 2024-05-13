@@ -9,6 +9,7 @@ import PolicyTerms from './pages/privacy';
 import Contact from './pages/contact';
 import Home from './pages/home';
 import GoogleGeminiEffectDemo from './pages/initial'; 
+import Search from './pages/search';
 
 function Main() {
   const location = useLocation();
@@ -27,6 +28,7 @@ function Main() {
       <Navbar />
       <div style={{ minHeight: '40rem' }}>
         <Routes>
+          <Route path='/search' element={<Search />} />
           <Route path='/home' element={<Home />} />
           <Route path='/about' element={<About />} />
           <Route path='/privacy' element={<PolicyTerms />} />
