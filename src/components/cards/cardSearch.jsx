@@ -72,7 +72,7 @@ const CardItemContent = ({ anime }) => {
         {anime.type}
       </div>
     );
-  }, [isHovered, anime.color, anime.type]);
+  }, [isHovered,anime.type]);
 
   const skeletonLoading = (
     <div className="animate-pulse">

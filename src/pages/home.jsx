@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Slideshow from '../components/home/slideshow';
-import { fetchTrendingAnime, fetchTrendingAnime2, fetchPopularAnime, fetchPopularAnime2 } from '../hooks/useAPI';
+import { fetchTrendingAnime, fetchTrendingAnime2, fetchPopularAnime} from '../hooks/useAPI';
 import CardGrid from '../components/cards/cardItem';
 
 const Home = () => {
