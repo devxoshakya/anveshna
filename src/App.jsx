@@ -11,6 +11,8 @@ import Home from './pages/home';
 import GoogleGeminiEffectDemo from './pages/initial'; 
 import Search from './pages/search';
 import PageNotFound from './pages/404'
+import Watcher from './pages/watch-test';
+import  Offline  from './pages/offline';
 
 function Main() {
   const location = useLocation();
@@ -29,7 +31,9 @@ function Main() {
       <Navbar />
       <div style={{ minHeight: '40rem' }}>
         <Routes>
+          <Route path='/watch-test' element={<Watcher />} />
           <Route path='/search' element={<Search />} />
+          <Route path='/offline' element={<Offline />} />
           <Route path='/home' element={<Home />} />
           <Route path='/about' element={<About />} />
           <Route path='/privacy' element={<PolicyTerms />} />

@@ -8,6 +8,13 @@ const GoogleGeminiEffectDemo = () => {
     target: ref,
     offset: ["start start", "end start"],
   });
+  let isMobile = false;
+  React.useEffect(() => {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile) {
+      window.location.href = '/home';
+    }
+  }, []);
 
   const pathLengthFirst = useTransform(scrollYProgress, [0, 0.8], [0.2, 1.2]);
   const pathLengthSecond = useTransform(scrollYProgress, [0, 0.8], [0.15, 1.2]);
@@ -16,21 +23,22 @@ const GoogleGeminiEffectDemo = () => {
   const pathLengthFifth = useTransform(scrollYProgress, [0, 0.8], [0, 1.2]);
 
   return (
+    
     <div
-        className="h-[400vh] bg-black w-full dark:border dark:border-white/[0.1] rounded-md relative pt-0 top-[-40px] overflow-clip"
-        ref={ref}
+      className="h-[400vh] bg-black w-full dark:border dark:border-white/[0.1] rounded-md relative pt-0 top-[-40px] overflow-clip"
+      ref={ref} 
+      style={{ visibility: isMobile ? 'none' : 'visible' }}
     >
-        <GoogleGeminiEffect
-            pathLengths={[
-                pathLengthFirst,
-                pathLengthSecond,
-                pathLengthThird,
-                pathLengthFourth,
-                pathLengthFifth,
-            ]}
-            title="Google Gemini Effect"
-        />
-       
+      <GoogleGeminiEffect
+        pathLengths={[
+          pathLengthFirst,
+          pathLengthSecond,
+          pathLengthThird,
+          pathLengthFourth,
+          pathLengthFifth,
+        ]}
+        title="Google Gemini Effect"
+      />
     </div>
   );
 }

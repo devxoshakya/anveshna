@@ -288,3 +288,132 @@ const popularAnimeCache2 = createCache('popularAnime2');
       throw error;
     }
   }
+
+  export async function fetchAndCompareAnime(topAiringAnimeId) {
+    console.time('fetchAndCompareAnime');
+    try {
+      // Search Anime using fetchSearchedAnime
+      const searchResults = await fetchSearchedAnime(topAiringAnimeId);
+      const top3Results = searchResults.slice(0, 3);
+  
+      // Fetch Anime Info using fetchAnimeDetails for top 3 search results
+      for (const result of top3Results) {
+        const fetchedInfo = await fetchAnimeDetails(result.id);
+        console.log('thisis',fetchedInfo);
+  
+        // Compare gogoId with original ID
+        if (fetchedInfo.id_provider.idGogo === topAiringAnimeId) {
+          console.timeEnd('fetchAndCompareAnime');
+          return result.id;
+        }
+      }
+      console.timeEnd('fetchAndCompareAnime');
+      return null; // No match found
+    } catch (error) {
+      console.error('An error occurred:', error);
+      return null;
+    }
+  }
+  
+  // Example usage
+  const topAiringAnimeId = 'kaijuu-8-gou';
+  
+  fetchAndCompareAnime(topAiringAnimeId)
+    .then(matchedId => {
+      if (matchedId) {
+        console.log('Matched ID:', matchedId);
+      } else {
+        console.log('No match found');
+      }
+    })
+    .catch(error => console.error('An error occurred:', error));
+
+
+
+// Function to fetch skip times for an anime episode
+async function fetchSkipTimes({ malId, episodeNumber, episodeLength = '0' }) {
+  const API_BASE_URL = 'https://api.aniskip.com/'; // Your API base URL
+  const types = ['ed', 'mixed-ed', 'mixed-op', 'op', 'recap'];
+  const url = new URL(`${API_BASE_URL}v2/skip-times/${malId}/${episodeNumber}`);
+  
+  url.searchParams.append('episodeLength', episodeLength.toString());
+  types.forEach(type => url.searchParams.append('types[]', type));
+
+  try {
+    const response = await fetch(url.toString());
+    if (!response.ok) {
+      throw new Error(`Error fetching skip times: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+// Sample function call
+const malId = '38524';
+const episodeNumber = '1';
+const episodeLength = '';
+
+fetchSkipTimes({ malId, episodeNumber, episodeLength }).then(data => {
+  console.log('Skip times:', data);
+});
+
+
+// Function to fetch embedded anime episodes servers
+async function fetchAnimeEmbeddedEpisodes(episodeId) {
+  const url = `${API_URL}/v2/stream/${episodeId}`;
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Error fetching embedded episodes servers: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    // Extract iframe links
+    const iframeLinks = data.iframe.map(server => server.iframe);
+    return iframeLinks;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+// Sample function call
+const episodeId = 'chainsaw-man-episode-1';
+fetchAnimeEmbeddedEpisodes(episodeId).then(data => {
+  console.log('Embedded episodes servers iframe links:', data);
+});
+
+
+// Function to fetch anime streaming links
+async function fetchAnimeStreamingLinks(episodeId) {
+  const url = `${API_URL}/v2/stream/${episodeId}`;
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Error fetching anime streaming links: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    // Extract HLS stream links
+    const streamLinks = {
+      main: data.stream.multi.main.url,
+      backup: data.stream.multi.backup.url
+    };
+    return streamLinks;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+// Sample function call
+fetchAnimeStreamingLinks(episodeId).then(data => {
+  console.log('Anime streaming links (HLS):', data);
+});
