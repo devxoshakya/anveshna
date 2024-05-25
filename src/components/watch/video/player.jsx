@@ -274,6 +274,11 @@ const Player = ({
     localStorage.setItem('autoNext', (!autoNext).toString());
   };
 
+  const toggleAutoPlay = () => {
+    setAutoPlay(!autoPlay);
+    localStorage.setItem('autoPlay', (!autoPlay).toString());
+  };
+
   const toggleAutoSkip = () => {
     setAutoSkip(!autoSkip);
     localStorage.setItem('autoSkip', (!autoSkip).toString());
@@ -300,6 +305,7 @@ const Player = ({
         src={{ src: src, type: 'application/x-mpegurl' }}
         crossOrigin
         playsInline
+        autoPlay={autoPlay}
         onLoadedMetadata={onLoadedMetadata}
         onProviderChange={onProviderChange}
         onTimeUpdate={onTimeUpdate}
@@ -329,6 +335,9 @@ const Player = ({
           borderRadius: 'var(--global-border-radius)',
         }}
       >
+        <Button className='flex gap-1'  onClick={toggleAutoPlay}>
+          {autoPlay ? <FaCheck className='mt-[2px]' /> : <RiCheckboxBlankFill className='mt-[2px]' />} Auto Play
+        </Button>
         <Button className='flex gap-1' $autoskip onClick={toggleAutoSkip}>
           {autoSkip ? <FaCheck className='mt-[2px]' /> : <RiCheckboxBlankFill className='mt-[2px]' />} Auto Skip
         </Button>
