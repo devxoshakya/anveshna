@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { FaPlay, FaStar, FaCalendarAlt } from 'react-icons/fa';
 import { TbCardsFilled } from 'react-icons/tb';
-import { fetchAnimeDetails } from '../../hooks/useAPI';
+import { gogonamesearch } from '../../hooks/useAPI';
 
 const CardItemContent = ({ anime }) => {
   const [loading, setLoading] = useState(true);
@@ -58,15 +58,15 @@ const CardItemContent = ({ anime }) => {
     }
   }, [anime.status]);
 
-
+  
   const [gogoId, setGogoId] = useState(null);
 
   const fetchAndStoreGogoId = async () => {
     try {
-      const animeDetails = await fetchAnimeDetails(anime.id);
+      const animeDetails = await gogonamesearch(anime.title_romaji || anime.title);
       if (animeDetails) {
-        setGogoId(animeDetails.id_provider.idGogo);
-        console.log('Stored Gogo ID:', animeDetails.idGogo);
+        setGogoId(animeDetails);
+        console.log('Stored Gogo ID:', animeDetails);
       }
     } catch (error) {
       console.error('Error fetching and storing Gogo ID:', error);

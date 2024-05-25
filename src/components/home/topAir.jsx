@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { TbCardsFilled } from 'react-icons/tb';
 import { FaCalendarAlt } from 'react-icons/fa';
+import { fetchAndCompareAnime } from '../../hooks/useAPI';
 
 const HomeSideBar = ({ animeData }) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [animeIds, setAnimeIds] = useState({});
+  const [loadingIds, setLoadingIds] = useState(new Set());
 
   useEffect(() => {
     const handleResize = () => {
@@ -15,25 +18,56 @@ const HomeSideBar = ({ animeData }) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
- //write a function to trunculate anime.title to 40 characters
-    const truncateTitle = (title, maxLength) => {
-        return title.length > maxLength ? title.substring(0, maxLength) + '...' : title;
-    };
+  // Function to truncate anime title to 40 characters
+  const truncateTitle = (title, maxLength) => {
+    return title.length > maxLength ? title.substring(0, maxLength) + '...' : title;
+  };
 
-//write a function to remove alphabet from sting only show integer
-    const removeAlphabet = (str) => {
-        return str.replace(/\D/g, '');
-    };
+  // Function to remove alphabet from string and only show integers
+  const removeAlphabet = (str) => {
+    return str.replace(/\D/g, '');
+  };
+
+  const fetchAndStoreId = async (anime) => {
+    try {
+      setLoadingIds((prev) => new Set(prev).add(anime.id));
+      const animeDetails = await fetchAndCompareAnime(anime.id);
+      if (animeDetails) {
+        setAnimeIds((prevIds) => ({
+          ...prevIds,
+          [anime.id]: animeDetails,
+        }));
+        console.log('Stored Gogo ID:', animeDetails);
+      }
+    } catch (error) {
+      console.error('Error fetching and storing Gogo ID:', error);
+    } finally {
+      setLoadingIds((prev) => {
+        const newSet = new Set(prev);
+        newSet.delete(anime.id);
+        return newSet;
+      });
+    }
+  };
+
+  useEffect(() => {
+    animeData.forEach((anime) => {
+      if (!animeIds[anime.id] && !loadingIds.has(anime.id)) {
+        fetchAndStoreId(anime);
+      }
+    });
+  }, [animeData, animeIds, loadingIds]);
 
   const displayedAnime = windowWidth <= 500 ? animeData.slice(0, 5) : animeData;
+  const filteredAnime = displayedAnime.filter((anime) => animeIds[anime.id]);
 
   return (
     <div className="max-w-md my-8 ml-2 mr-4 mt-[4.5rem] md:mt-0 md:ml-4 md:mb-0 gap-2 transition-all duration-200 ease-in-out">
-        <h1 className='text-2xl md:text-xl font-bold mb-4'>TOP AIRING</h1>
-      {displayedAnime.map((anime, index) => (
+      <h1 className='text-2xl md:text-xl font-bold mb-4'>TOP AIRING</h1>
+      {filteredAnime.map((anime, index) => (
         <Link
           key={anime.id}
-          to={`/watch/69420/${anime.id}`}
+          to={`/watch/${animeIds[anime.id]}/${anime.id}`}
           className="text-decoration-none text-inherit"
           title={`${anime.title}`}
           aria-label={`Watch ${anime.title}`}
@@ -78,20 +112,17 @@ const HomeSideBar = ({ animeData }) => {
                 </p>
               </div>
               <div className="text-sm text-[#666666A6] flex items-center">
-                 <>
-                 TV
-                 </>
-                  <>
-                    <FaCalendarAlt className="ml-2 mr-1" />
-                    2024
-                  </>
-        
-                {(
-                    <>
-                      <TbCardsFilled className="ml-2" />
-                      {removeAlphabet(anime.totalEpisodes)} / ?
-                    </>
-                  )}
+                <>
+                  TV
+                </>
+                <>
+                  <FaCalendarAlt className="ml-2 mr-1" />
+                  2024
+                </>
+                <>
+                  <TbCardsFilled className="ml-2" />
+                  {removeAlphabet(anime.totalEpisodes)} / ?
+                </>
               </div>
             </div>
           </div>

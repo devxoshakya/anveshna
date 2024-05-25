@@ -189,6 +189,38 @@ export async function fetchSearchedAnime(query) {
   }
 }
 
+const gogonameSearchCache = createCache('gogonameSearch');
+
+export async function gogonamesearch(query) {
+  const cacheKey = `gogonameSearch_${query}`;
+  const cachedData = gogonameSearchCache.get(cacheKey);
+  if (cachedData) {
+    return cachedData[0]?.id || null;
+  }
+
+  const formattedQuery = query.replace(/\s+/g, '-');
+  const requestUrl = `${API_URL}/v1/search?q=${formattedQuery}`;
+
+  try {
+    const response = await axios.get(requestUrl);
+    const searchResults = response.data.results;
+    if (searchResults.length === 0) {
+      return null;
+    }
+    const firstElementId = searchResults[0].id;
+    gogonameSearchCache.set(cacheKey, searchResults);
+    return firstElementId;
+  } catch (error) {
+    console.error('Error fetching gogoname search results:', error);
+    throw error;
+  }
+}
+
+gogonamesearch('cowboy bebop').then(id => {
+  console.log('Gogoanime ID:', id);
+}
+)
+
 // Example usage:
 fetchSearchedAnime('')
   .then(searchedAnime => {
