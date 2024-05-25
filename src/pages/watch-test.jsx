@@ -7,7 +7,7 @@ const Watcher = () => {
 
   const demoEpisodes = [
     {
-      episodeId: 'cowboy-bebop-episode-1',
+      episodeId: 'chainsaw-man-episode-9',
       banner : "https://cdn.myanimelist.net/images/anime/1000/110531.jpg",
       malId : '44511',
       animeTitle : 'Chainsaw Man'
