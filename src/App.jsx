@@ -13,6 +13,7 @@ import Search from './pages/search';
 import PageNotFound from './pages/404'
 import Watcher from './pages/watch-test';
 import  Offline  from './pages/offline';
+import Watch from './pages/watch';
 
 function Main() {
   const location = useLocation();
@@ -38,9 +39,11 @@ function Main() {
           <Route path='/about' element={<About />} />
           <Route path='/privacy' element={<PolicyTerms />} />
           <Route path='/contact' element={<Contact />} />
-          <Route path="*" element={<PageNotFound />} />
-          <Route path="/watch/*" element={<PageNotFound />} />
-        </Routes>
+          {/* <Route path="*" element={<PageNotFound />} /> */}
+          <Route
+              path='/watch/:animeId/:animeTitle/:episodeNumber'
+              element={<Watch />}
+            />        </Routes>
       </div>
       <Footer />
     </div>

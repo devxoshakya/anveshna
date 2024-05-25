@@ -1,12 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react';
+import  { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import './player.css';
-import Hls from 'hls.js';
 import {
   isHLSProvider,
   MediaPlayer,
   MediaProvider,
   Poster,
   Track,
+  type MediaProviderAdapter,
+  type MediaProviderChangeEvent,
+  type MediaPlayerInstance,
 } from '@vidstack/react';
 import styled from 'styled-components';
 import { fetchSkipTimes, fetchAnimeStreamingLinks } from '../../../hooks/useAPI';
@@ -15,21 +18,18 @@ import {
   defaultLayoutIcons,
   DefaultVideoLayout,
 } from '@vidstack/react/player/layouts/default';
-import {
-  TbPlayerTrackPrevFilled,
-  TbPlayerTrackNextFilled,
-} from 'react-icons/tb';
+import { TbPlayerTrackPrev, TbPlayerTrackNext } from 'react-icons/tb';
 import { FaCheck } from 'react-icons/fa6';
 import { RiCheckboxBlankFill } from 'react-icons/ri';
 
-const Button = styled.button`
+const Button = styled.button<{ $autoskip?: boolean }>`
   padding: 0.25rem;
   font-size: 0.8rem;
   border: none;
   margin-right: 0.25rem;
   border-radius: var(--global-border-radius);
   cursor: pointer;
-  background-color: black;
+  background-color: var(--global-div);
   color: var(--global-text);
   svg {
     margin-bottom: -0.1rem;
@@ -52,6 +52,34 @@ const Button = styled.button`
   `}
 `;
 
+type PlayerProps = {
+  episodeId: string;
+  banner?: string;
+  malId?: string;
+  updateDownloadLink: (link: string) => void;
+  onEpisodeEnd: () => Promise<void>;
+  onPrevEpisode: () => void;
+  onNextEpisode: () => void;
+  animeTitle?: string;
+};
+
+type StreamingSource = {
+  url: string;
+  quality: string;
+};
+
+type SkipTime = {
+  interval: {
+    startTime: number;
+    endTime: number;
+  };
+  skipType: string;
+};
+
+type FetchSkipTimesResponse = {
+  results: SkipTime[];
+};
+
 const Player = ({
   episodeId,
   banner,
@@ -61,50 +89,47 @@ const Player = ({
   onPrevEpisode,
   onNextEpisode,
   animeTitle,
-}) => {
-  const player = useRef(null);
-  const [src, setSrc] = useState('');
-  const [vttUrl, setVttUrl] = useState('');
-  const [currentTime, setCurrentTime] = useState(0);
-  const [autoPlay, setAutoPlay] = useState(false);
-  const [autoNext, setAutoNext] = useState(false);
-  const [autoSkip, setAutoSkip] = useState(false);
-  const [skipTimes, setSkipTimes] = useState([]);
-  const [totalDuration, setTotalDuration] = useState(0);
-  const [vttGenerated, setVttGenerated] = useState(false);
-
+}: PlayerProps) => {
+  const player = useRef<MediaPlayerInstance>(null);
+  const [src, setSrc] = useState<string>('');
+  const [vttUrl, setVttUrl] = useState<string>('');
+  const [currentTime, setCurrentTime] = useState<number>(0);
+  const [skipTimes, setSkipTimes] = useState<SkipTime[]>([]);
+  const [totalDuration, setTotalDuration] = useState<number>(0);
+  const [vttGenerated, setVttGenerated] = useState<boolean>(false);
   const episodeNumber = getEpisodeNumber(episodeId);
   const animeVideoTitle = animeTitle;
+  const [autoPlay, setAutoPlay] = useState<boolean>(false);
+  const [autoNext, setAutoNext] = useState<boolean>(false);
+  const [autoSkip, setAutoSkip] = useState<boolean>(false);
+
 
   useEffect(() => {
+
     const savedAutoPlay = localStorage.getItem('autoPlay') === 'true';
     const savedAutoNext = localStorage.getItem('autoNext') === 'true';
     const savedAutoSkip = localStorage.getItem('autoSkip') === 'true';
 
     setAutoPlay(savedAutoPlay);
     setAutoNext(savedAutoNext);
-    setAutoSkip(savedAutoSkip);
+    setAutoSkip(savedAutoSkip); 
 
-    const allPlaybackInfo = JSON.parse(localStorage.getItem('all_episode_times') || '{}');
-    if (allPlaybackInfo[episodeId]) {
-      const { currentTime } = allPlaybackInfo[episodeId];
-      setCurrentTime(parseFloat(currentTime));
-    }
+    setCurrentTime(parseFloat(localStorage.getItem('currentTime') || '0'));
 
     fetchAndSetAnimeSource();
     fetchAndProcessSkipTimes();
     return () => {
-      if (vttUrl) {
-        URL.revokeObjectURL(vttUrl);
-      }
+      if (vttUrl) URL.revokeObjectURL(vttUrl);
     };
-  }, [episodeId, malId, updateDownloadLink, vttUrl]);
+  }, [episodeId, malId, updateDownloadLink]);
 
   useEffect(() => {
     if (autoPlay && player.current) {
       player.current
         .play()
-        .catch((e) => console.log('Playback failed to start automatically:', e));
+        .catch((e) =>
+          console.log('Playback failed to start automatically:', e),
+        );
     }
   }, [autoPlay, src]);
 
@@ -114,7 +139,10 @@ const Player = ({
     }
   }, [currentTime]);
 
-  function onProviderChange(provider, _nativeEvent) {
+  function onProviderChange(
+    provider: MediaProviderAdapter | null,
+    _nativeEvent: MediaProviderChangeEvent,
+  ) {
     if (isHLSProvider(provider)) {
       provider.config = {};
     }
@@ -135,9 +163,14 @@ const Player = ({
         currentTime,
         playbackPercentage,
       };
-      const allPlaybackInfo = JSON.parse(localStorage.getItem('all_episode_times') || '{}');
+      const allPlaybackInfo = JSON.parse(
+        localStorage.getItem('all_episode_times') || '{}',
+      );
       allPlaybackInfo[episodeId] = playbackInfo;
-      localStorage.setItem('all_episode_times', JSON.stringify(allPlaybackInfo));
+      localStorage.setItem(
+        'all_episode_times',
+        JSON.stringify(allPlaybackInfo),
+      );
 
       if (autoSkip && skipTimes.length) {
         const skipInterval = skipTimes.find(
@@ -151,31 +184,10 @@ const Player = ({
     }
   }
 
-  function onError(event) {
-    const { type, details, error } = event;
-    console.error('Error type:', type);
-    console.error('Error details:', details);
-    console.error('Error message:', error.message);
-
-    if (type === Hls.ErrorTypes.MEDIA_ERROR) {
-      console.log('Media error encountered, attempting to recover...');
-      if (player.current) {
-        const hls = player.current.hls;
-        if (details === Hls.ErrorDetails.BUFFER_STALLED_ERROR || details === Hls.ErrorDetails.BUFFER_NUDGE_ON_STALL) {
-          console.log('Buffer stalled error: trying to recover...');
-          player.current.currentTime += 0.1; // Nudge the buffer by 100ms
-        } else if (details === Hls.ErrorDetails.BUFFER_SEEK_OVER_HOLE) {
-          console.log('Seek over hole: attempting to recover...');
-          player.current.currentTime += 1; // Seek forward to bypass the gap
-        } else {
-          console.warn('Unhandled media error, attempting recovery...');
-          hls.recoverMediaError();
-        }
-      }
-    }
-  }
-
-  function generateWebVTTFromSkipTimes(skipTimes, totalDuration) {
+  function generateWebVTTFromSkipTimes(
+    skipTimes: FetchSkipTimesResponse,
+    totalDuration: number,
+  ): string {
     let vttString = 'WEBVTT\n\n';
     let previousEndTime = 0;
 
@@ -188,15 +200,18 @@ const Player = ({
       const skipType =
         skipTime.skipType.toUpperCase() === 'OP' ? 'Opening' : 'Outro';
 
+      // Insert default title chapter before this skip time if there's a gap
       if (previousEndTime < startTime) {
         vttString += `${formatTime(previousEndTime)} --> ${formatTime(startTime)}\n`;
         vttString += `${animeVideoTitle} - Episode ${episodeNumber}\n\n`;
       }
 
+      // Insert this skip time
       vttString += `${formatTime(startTime)} --> ${formatTime(endTime)}\n`;
       vttString += `${skipType}\n\n`;
       previousEndTime = endTime;
 
+      // Insert default title chapter after the last skip time
       if (index === sortedSkipTimes.length - 1 && endTime < totalDuration) {
         vttString += `${formatTime(endTime)} --> ${formatTime(totalDuration)}\n`;
         vttString += `${animeVideoTitle} - Episode ${episodeNumber}\n\n`;
@@ -210,7 +225,7 @@ const Player = ({
     if (malId && episodeId) {
       const episodeNumber = getEpisodeNumber(episodeId);
       try {
-        const response = await fetchSkipTimes({
+        const response: FetchSkipTimesResponse = await fetchSkipTimes({
           malId: malId.toString(),
           episodeNumber,
         });
@@ -239,35 +254,41 @@ const Player = ({
       const response = await fetchAnimeStreamingLinks(episodeId);
 
       // Check if the main source is available
-      const mainSource = response.main;
-      if (mainSource) {
+    const mainSource = response?.main;
+    if (mainSource) {
         setSrc(mainSource);
         updateDownloadLink(mainSource.download);
-      } else {
+    } else {
         // Fall back to the backup source
-        const backupSource = response.backup;
+        const backupSource = response?.backup;
         if (backupSource) {
-          setSrc(backupSource);
-          updateDownloadLink(backupSource.download);
+            setSrc(backupSource);
+            updateDownloadLink(backupSource.download);
         } else {
-          console.error('No streaming source found');
+            console.error('No streaming source found');
         }
-      }
+    }
     } catch (error) {
       console.error('Failed to fetch anime streaming links', error);
     }
   }
 
-  function formatTime(seconds) {
+
+  function formatTime(seconds: number): string {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = Math.floor(seconds % 60);
     return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
   }
 
-  function getEpisodeNumber(id) {
+  function getEpisodeNumber(id: string): string {
     const parts = id.split('-');
     return parts[parts.length - 1];
   }
+
+  const toggleAutoPlay = () => {
+    setAutoPlay(!autoPlay);
+    localStorage.setItem('autoPlay', (!autoPlay).toString());
+  };
 
   const toggleAutoNext = () => {
     setAutoNext(!autoNext);
@@ -293,17 +314,17 @@ const Player = ({
   };
 
   return (
-    <div style={{ animation: 'popInAnimation 0.25s ease-in-out' }}>
+    <div style={{ animation: 'popIn 0.25s ease-in-out' }}>
       <MediaPlayer
         className='player'
         title={`${animeVideoTitle} - Episode ${episodeNumber}`}
-        src={{ src: src, type: 'application/x-mpegurl' }}
-        crossOrigin
-        playsInline
+        src={src}
+        autoplay={autoPlay}
+        crossorigin
+        playsinline
         onLoadedMetadata={onLoadedMetadata}
         onProviderChange={onProviderChange}
         onTimeUpdate={onTimeUpdate}
-        onError={onError} // Add the onError handler here
         ref={player}
         aspectRatio='16/9'
         load='eager'
@@ -323,27 +344,29 @@ const Player = ({
         <DefaultVideoLayout icons={defaultLayoutIcons} />
       </MediaPlayer>
       <div
-        className='player-menu flex'
+        className='player-menu'
         style={{
           backgroundColor: 'var(--global-div-tr)',
           borderRadius: 'var(--global-border-radius)',
         }}
       >
-        <Button className='flex gap-1' $autoskip onClick={toggleAutoSkip}>
-          {autoSkip ? <FaCheck className='mt-[2px]' /> : <RiCheckboxBlankFill className='mt-[2px]' />} Auto Skip
+        <Button onClick={toggleAutoPlay}>
+          {autoPlay ? <FaCheck /> : <RiCheckboxBlankFill />} Autoplay
         </Button>
-        <Button className='flex gap-1' onClick={onPrevEpisode}>
-          <TbPlayerTrackPrevFilled className='mt-[2px]' /> Prev
+        <Button $autoskip onClick={toggleAutoSkip}>
+          {autoSkip ? <FaCheck /> : <RiCheckboxBlankFill />} Auto Skip
         </Button>
-        <Button className='flex gap-1' onClick={onNextEpisode}>
-          <TbPlayerTrackNextFilled className='mt-[2px]' /> Next
+        <Button onClick={onPrevEpisode}>
+          <TbPlayerTrackPrev /> Prev
         </Button>
-        <Button className='flex gap-1' onClick={toggleAutoNext}>
-          {autoNext ? <FaCheck className='mt-[2px]' /> : <RiCheckboxBlankFill className='mt-[2px]' />} Auto Next
+        <Button onClick={onNextEpisode}>
+          <TbPlayerTrackNext /> Next
+        </Button>
+        <Button onClick={toggleAutoNext}>
+          {autoNext ? <FaCheck /> : <RiCheckboxBlankFill />} Auto Next
         </Button>
       </div>
     </div>
   );
-};
-
+}
 export default Player;

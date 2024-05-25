@@ -331,7 +331,7 @@ const popularAnimeCache2 = createCache('popularAnime2');
 
 
 // Function to fetch skip times for an anime episode
-async function fetchSkipTimes({ malId, episodeNumber, episodeLength = '0' }) {
+export async function fetchSkipTimes({ malId, episodeNumber, episodeLength = '0' }) {
   const API_BASE_URL = 'https://api.aniskip.com/'; // Your API base URL
   const types = ['ed', 'mixed-ed', 'mixed-op', 'op', 'recap'];
   const url = new URL(`${API_BASE_URL}v2/skip-times/${malId}/${episodeNumber}`);
@@ -364,7 +364,7 @@ fetchSkipTimes({ malId, episodeNumber, episodeLength }).then(data => {
 
 
 // Function to fetch embedded anime episodes servers
-async function fetchAnimeEmbeddedEpisodes(episodeId) {
+export async function fetchAnimeEmbeddedEpisodes(episodeId) {
   const url = `${API_URL}/v2/stream/${episodeId}`;
 
   try {
@@ -391,7 +391,7 @@ fetchAnimeEmbeddedEpisodes(episodeId).then(data => {
 
 
 // Function to fetch anime streaming links
-async function fetchAnimeStreamingLinks(episodeId) {
+export async function fetchAnimeStreamingLinks(episodeId) {
   const url = `${API_URL}/v2/stream/${episodeId}`;
 
   try {

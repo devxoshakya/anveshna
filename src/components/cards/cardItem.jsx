@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { FaPlay, FaStar, FaCalendarAlt } from 'react-icons/fa';
 import { TbCardsFilled } from 'react-icons/tb';
+import { fetchAnimeDetails } from '../../hooks/useAPI';
 
 const CardItemContent = ({ anime }) => {
   const [loading, setLoading] = useState(true);
@@ -57,6 +58,23 @@ const CardItemContent = ({ anime }) => {
     }
   }, [anime.status]);
 
+  
+  const [gogoId, setGogoId] = useState(null);
+
+  const fetchAndStoreGogoId = async () => {
+    try {
+      const animeDetails = await fetchAnimeDetails(anime.id);
+      if (animeDetails) {
+        setGogoId(animeDetails.id_provider.idGogo);
+        console.log('Stored Gogo ID:', animeDetails.idGogo);
+      }
+    } catch (error) {
+      console.error('Error fetching and storing Gogo ID:', error);
+    }
+  };
+fetchAndStoreGogoId();
+
+
   const handleImageLoad = () => {
     setLoading(false);
   };
@@ -92,7 +110,7 @@ const CardItemContent = ({ anime }) => {
         skeletonLoading
       ) : (
         <Link
-          to={`/watch/${anime.id}`}
+          to={`/watch/${anime.id}/${gogoId}`}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           className="text-gray-800 hover:z-10 transition-transform duration-300 transform hover:scale-105"
