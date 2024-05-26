@@ -49,4 +49,7 @@
 
 .vds-poster {
   object-fit: cover;
+  border-radius: 0.3rem;
+  scale: 2.8;
+  margin-top: 20%;
 }

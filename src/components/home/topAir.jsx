@@ -67,7 +67,7 @@ const HomeSideBar = ({ animeData }) => {
       {filteredAnime.map((anime, index) => (
         <Link
           key={anime.id}
-          to={`/watch/${animeIds[anime.id]}/${anime.id}`}
+          to={`/watch/${animeIds[anime.id]}/${anime.id}/1`}
           className="text-decoration-none text-inherit"
           title={`${anime.title}`}
           aria-label={`Watch ${anime.title}`}

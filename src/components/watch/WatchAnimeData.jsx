@@ -57,7 +57,7 @@ const WatchAnimeData = ({ animeData }) => {
           <div className="rounded bg-[#0E0E0E] my-4 p-3 text-var(--global-text) flex  items-center md:flex-row md:items-start">
             <div className="flex flex-col items-center">
               <img 
-                src={animeData.image} 
+                src={animeData.coverImage?.large} 
                 alt="Anime Title" 
                 className="rounded max-h-60 w-40 mr-4 mb-2 md:max-h-48 md:w-32"
               />
@@ -90,10 +90,10 @@ const WatchAnimeData = ({ animeData }) => {
             </div>
             <div className="text-left text-sm mt-4 md:mt-0">
               <p className="text-2xl ml-2 font-bold text-var(--global-text) mb-2 md:text-xl md:mb-1">
-                {animeData.title.english ? animeData.title.english : animeData.title.romaji}
+              {animeData.title?.english || animeData.title?.romaji || ''}
               </p>
               <p className="italic mt-0 ml-2 text-var(--animeData.color) leading-none mb-2 md:leading-tight md:mb-1" style={{color: animeColor}}>
-                {animeData.title.romaji ? animeData.title.romaji : animeData.title.native}
+                {animeData.title?.romaji || animeData.title?.native || ''}
               </p>
               {!isScreenUnder500px() && animeData.description && (
                 <div>
@@ -108,35 +108,30 @@ const WatchAnimeData = ({ animeData }) => {
               <div className="grid ml-2 grid-cols-2 gap-4 md:grid-cols-1 md:gap-0 xl:grid-cols-[1.25fr_1fr]">
                 <div className="rounded pt-2.5 text-[#444444] flex flex-col items-start">
                   <div>
-                    {animeData.type ? (
-                      <p>Type: <strong>{animeData.type}</strong></p>
+                    {animeData.format ? (
+                      <p>Type: <strong>{animeData.format}</strong></p>
                     ) : (
                       <p>Type: <strong>Unknown</strong></p>
                     )}
-                    {animeData.releaseDate ? (
-                      <p>Year: <strong>{animeData.releaseDate}</strong></p>
+                    {animeData.year ? (
+                      <p>Year: <strong>{animeData.year}</strong></p>
                     ) : (
                       <p>Year: <strong>Unknown</strong></p>
                     )}
                     {animeData.status && (
                       <p>Status: <strong>{animeData.status === 'Completed' ? 'Finished' : animeData.status === 'Ongoing' ? 'Airing' : animeData.status}</strong></p>
                     )}
-                    {animeData.rating ? (
-                      <p>Rating: <strong>{animeData.rating}</strong></p>
+                    {animeData.decimalScore ? (
+                      <p>Rating: <strong>{animeData.decimalScore}</strong></p>
                     ) : (
                       <p>Rating: <strong>Unknown</strong></p>
-                    )}
-                    {animeData.studios && animeData.studios.length > 0 ? (
-                      <p>Studios: <strong>{animeData.studios.join(', ')}</strong></p>
-                    ) : (
-                      <p>Studios: <strong>Unknown</strong></p>
                     )}
                   </div>
                 </div>
                 <div className="mt-2.5 text-[#444444] md:mt-0">
                   <div>
-                    {animeData.totalEpisodes !== null ? (
-                      <p>Episodes: <strong>{animeData.totalEpisodes}</strong></p>
+                    {animeData.episodes !== null ? (
+                      <p>Episodes: <strong>{animeData.episodes}</strong></p>
                     ) : (
                       <p>Episodes: <strong>Unknown</strong></p>
                     )}
@@ -149,9 +144,6 @@ const WatchAnimeData = ({ animeData }) => {
                       <p>Season: <strong>{capitalizeFirstLetter(animeData.season)}</strong></p>
                     ) : (
                       <p>Season: <strong>Unknown</strong></p>
-                    )}
-                    {animeData.countryOfOrigin && (
-                      <p>Country: <strong>{animeData.countryOfOrigin}</strong></p>
                     )}
                     {animeData.genres && animeData.genres.length > 0 ? (
                       <p>Genres: <strong>{animeData.genres.join(', ')}</strong></p>

@@ -110,7 +110,7 @@ fetchAndStoreGogoId();
         skeletonLoading
       ) : (
         <Link
-          to={`/watch/${anime.id}/${gogoId}`}
+          to={`/watch/${anime.id}/${gogoId}/1`}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           className="text-gray-800 hover:z-10 transition-transform duration-300 transform hover:scale-105"

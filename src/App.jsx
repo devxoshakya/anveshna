@@ -34,7 +34,7 @@ function Main() {
         <Routes>
           <Route path='/watch-test' element={<Watcher />} />
           <Route path='/search' element={<Search />} />
-          <Route path='/offline' element={<Offline />} />
+          <Route path='/offline/:animeId/:animeTitle/:episodeNumber' element={<Offline />} />
           <Route path='/home' element={<Home />} />
           <Route path='/about' element={<About />} />
           <Route path='/privacy' element={<PolicyTerms />} />
