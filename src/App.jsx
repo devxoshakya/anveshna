@@ -14,6 +14,7 @@ import PageNotFound from './pages/404'
 import Watcher from './pages/watch-test';
 import  Offline  from './pages/offline';
 import Watch from './pages/watch';
+import Loader from './components/loader/loader';
 
 function Main() {
   const location = useLocation();
@@ -32,8 +33,10 @@ function Main() {
       <Navbar />
       <div style={{ minHeight: '40rem' }}>
         <Routes>
-          <Route path='/watch-test' element={<Watcher />} />
+          <Route path='/watch-test/:animeId/:animeTitle/:episodeNumber' element={<Watcher />} />
+          <Route path='/watch-test/:animeId' element={<Watcher />} />
           <Route path='/search' element={<Search />} />
+          <Route path='/loader' element={<Loader />} />
           <Route path='/offline/:animeId/:animeTitle/:episodeNumber' element={<Offline />} />
           <Route path='/home' element={<Home />} />
           <Route path='/about' element={<About />} />
@@ -42,6 +45,10 @@ function Main() {
           {/* <Route path="*" element={<PageNotFound />} /> */}
           <Route
               path='/watch/:animeId/:animeTitle/:episodeNumber'
+              element={<Watch />}
+            /> 
+          <Route
+              path='/watch/:animeId/'
               element={<Watch />}
             />        </Routes>
       </div>

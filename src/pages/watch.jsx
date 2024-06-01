@@ -252,6 +252,7 @@ const fetchEmbeddedUrl = async (episodeId) => {
 };
 //SAVE TO LOCAL STORAGE NAVIGATED/CLICKED EPISODES
 const updateWatchedEpisodes = (episode) => {
+  console.log(animeId, episode, "here us the episode")
   const watchedEpisodesJson = localStorage.getItem(LOCAL_STORAGE_KEYS.WATCHED_EPISODES + animeId);
   const watchedEpisodes = watchedEpisodesJson
       ? JSON.parse(watchedEpisodesJson)
@@ -261,6 +262,7 @@ const updateWatchedEpisodes = (episode) => {
       localStorage.setItem(LOCAL_STORAGE_KEYS.WATCHED_EPISODES + animeId, JSON.stringify(watchedEpisodes));
   }
 };
+
 // UPDATES CURRENT EPISODE INFORMATION, UPDATES WATCHED EPISODES AND NAVIGATES TO NEW URL
 const handleEpisodeSelect = useCallback(async (selectedEpisode) => {
   setIsEpisodeChanging(true);
@@ -277,7 +279,7 @@ const handleEpisodeSelect = useCallback(async (selectedEpisode) => {
       number: selectedEpisode.number,
   }));
   updateWatchedEpisodes(selectedEpisode);
-  navigate(`/watch/${animeId}/${encodeURI(animeTitle)}/${selectedEpisode.number}`, {
+  navigate(`/watch/${animeId}/${encodeURI(animeInfo.id_provider.idGogo)}/${selectedEpisode.number || 1}`, {
       replace: true,
   });
   await new Promise((resolve) => setTimeout(resolve, 100));

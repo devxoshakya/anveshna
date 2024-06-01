@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import CardGrid from '../components/cards/cardSearch';
 import { fetchSearchedAnime } from '../hooks/useAPI';
+import Loader from '../components/loader/loader';
 const Search = () => {
+  window.scrollTo(0, 0);
   const location = useLocation();
   // const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
@@ -13,7 +15,14 @@ const Search = () => {
     return formattedQuery.charAt(0).toUpperCase() + formattedQuery.slice(1);
   };
 
+  const [loader, setLoader] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setLoader(false);
+    }, 2150);
+  }, []);
   
+
 
   useEffect(() => {
     if (query) {
@@ -52,10 +61,11 @@ const Search = () => {
     searchColor = searchResults[0].color;
   }
   return (
-
-    <div className='mt-16 w-full p-4 '>
-      <div>
-        <h1 className='text-white flex text-3xl md:my-4 my-8 mx-2 md:text-xl md:justify-center font-bold'>Search Results for  <span className='ml-1 font-semibold italic' style={{color: searchColor}}>   ' {formatQuery(query)} ' </span></h1>
+    
+    <div className=' w-full p-4 '>
+      {loader && <Loader className="mt-0" />}
+      <div className='mt-16'>
+       { !loader && <h1 className='text-white flex text-3xl md:my-4 my-8 mx-2 md:text-xl md:justify-center font-bold'>Search Results for  <span className='ml-1 font-semibold italic' style={{color: searchColor}}>   ' {formatQuery(query)} ' </span></h1>}
       </div>
       <div className='justify-center items-center flex'>
     

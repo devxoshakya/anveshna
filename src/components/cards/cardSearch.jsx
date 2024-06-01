@@ -2,7 +2,6 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { FaPlay, FaStar, FaCalendarAlt } from 'react-icons/fa';
 import { TbCardsFilled } from 'react-icons/tb';
-import { gogonamesearch } from '../../hooks/useAPI';
 
 const CardItemContent = ({ anime }) => {
   const [loading, setLoading] = useState(true);
@@ -11,7 +10,7 @@ const CardItemContent = ({ anime }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 0);
+    },0);
 
     return () => clearTimeout(timer);
   }, [anime.id]);
@@ -59,21 +58,6 @@ const CardItemContent = ({ anime }) => {
   }, [anime.status]);
 
   
-  const [gogoId, setGogoId] = useState(null);
-
-  const fetchAndStoreGogoId = async () => {
-    try {
-      const animeDetails = await gogonamesearch(anime.title_romaji || anime.title);
-      if (animeDetails) {
-        setGogoId(animeDetails);
-        console.log('Stored Gogo ID:', animeDetails);
-      }
-    } catch (error) {
-      console.error('Error fetching and storing Gogo ID:', error);
-    }
-  };
-fetchAndStoreGogoId();
-
 
   const handleImageLoad = () => {
     setLoading(false);
@@ -110,7 +94,7 @@ fetchAndStoreGogoId();
         skeletonLoading
       ) : (
         <Link
-          to={`/watch/${anime.id}/${gogoId}/1`}
+          to={`/watch/${anime.id}`}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           className="text-gray-800 hover:z-10 transition-transform duration-300 transform hover:scale-105"

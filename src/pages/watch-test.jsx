@@ -1,64 +1,41 @@
 import React from 'react'
-import { useState } from 'react';
-import Player from '../components/watch/video/player';
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import {fetchAnimeDetails} from '../hooks/useAPI';
+
 
 
 const Watcher = () => {
 
-  const demoEpisodes = [
-    {
-      episodeId: 'chainsaw-man-episode-9',
-      banner : "https://cdn.myanimelist.net/images/anime/1000/110531.jpg",
-      malId : '44511',
-      animeTitle : 'Chainsaw Man'
-    }
-  ];
+  const { animeId } = useParams();
 
-  const [currentEpisode, setCurrentEpisode] = useState(demoEpisodes[0]);
+  console.log('Anime ID:', animeId);
 
-  const handleEpisodeEnd = async () => {
-    const nextEpisodeIndex = demoEpisodes.findIndex(
-      (ep) => ep.episodeId === currentEpisode.episodeId
-    ) + 1;
-    if (nextEpisodeIndex < demoEpisodes.length) {
-      setCurrentEpisode(demoEpisodes[nextEpisodeIndex]);
-    }
+  const navigate = useNavigate();
+
+  const fetchAnimeData = async (animeId) => {
+    // Fetch data from your API or service
+    const response = await fetch(`https://anveshna-backend.vercel.app/api/v2/info/${animeId}`);
+    const data = await response.json();
+    return data;
   };
 
-  const handlePrevEpisode = () => {
-    const prevEpisodeIndex = demoEpisodes.findIndex(
-      (ep) => ep.episodeId === currentEpisode.episodeId
-    ) - 1;
-    if (prevEpisodeIndex >= 0) {
-      setCurrentEpisode(demoEpisodes[prevEpisodeIndex]);
-    }
+  const handleNavigate = async (animeId) => {
+    const animeData = await fetchAnimeData(animeId);
+    const animeTitle = animeData.id_provider.idGogo;
+    const episodeNumber = 1; // Default episode number
+
+    navigate(`/watch-test/${animeId}/${animeTitle}/${episodeNumber}`);
   };
 
-  const handleNextEpisode = () => {
-    const nextEpisodeIndex = demoEpisodes.findIndex(
-      (ep) => ep.episodeId === currentEpisode.episodeId
-    ) + 1;
-    if (nextEpisodeIndex < demoEpisodes.length) {
-      setCurrentEpisode(demoEpisodes[nextEpisodeIndex]);
-    }
-  };
+  // Example usage (you might trigger this from a button click or similar event)
+  // Replace with actual animeId from your context
+  handleNavigate(animeId);
 
-  const updateDownloadLink = (link) => {
-    console.log('Download link:', link);
-  };
 
   return (
     <div className='mt-16'>
-      <Player
-        episodeId={currentEpisode.episodeId}
-        banner={currentEpisode.banner}
-        malId={currentEpisode.malId}
-        updateDownloadLink={updateDownloadLink}
-        onEpisodeEnd={handleEpisodeEnd}
-        onPrevEpisode={handlePrevEpisode}
-        onNextEpisode={handleNextEpisode}
-        animeTitle={currentEpisode.animeTitle}
-      />
+
     </div>
   )
 }

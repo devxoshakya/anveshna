@@ -5,6 +5,7 @@ import CardGrid from '../components/cards/cardItem';
 import HomeSideBar from '../components/home/topAir';
 
 const Home = () => {
+  window.scrollTo(0, 0);
   const [activeTab, setActiveTab] = useState('TRENDING');
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -46,7 +47,6 @@ const Home = () => {
     fetchPopularAnime()
       .then(popularAnime => {
         const data = popularAnime
-          .filter(anime => anime.bannerImage)
           .map(anime => ({
             id: anime.id,
             bannerImage: anime.bannerImage,

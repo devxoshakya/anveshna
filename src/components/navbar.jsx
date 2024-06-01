@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { FaLinkedin, FaInstagram, FaTwitter, FaGithub } from 'react-icons/fa';
 import logo from '../images/icon.png';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate,} from 'react-router-dom';
 
 const IsMobileView = () => {
+
+
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
     useEffect(() => {
@@ -51,6 +53,8 @@ const Navbar = () => {
 
     const isMobile = IsMobileView();
     const isDesktop = IsDesktopView();
+    const inputRef = useRef(null);
+
 
     const handleSearch = (e) => {
         if (e.key === 'Enter') {
@@ -58,10 +62,15 @@ const Navbar = () => {
             navigate(`/search?query=${query}`);
             setSearchQuery('');
         }
+    if (inputRef.current) {
+      inputRef.current.blur(); // Dismiss the keyboard
+    }
+    // Perform your search action here
+    console.log('Search submitted');
     };
 
     return (
-        <nav className='bg-black px-4 backdrop-filter backdrop-blur-md justify-between flex w-full fixed opacity-85 z-[9999]'>
+        <nav className='bg-black px-4 backdrop-filter backdrop-blur-md justify-between flex w-full fixed opacity-85 z-[9998]'>
             <div className='flex h-16 items-center'>
                 <Link to="/home" style={{ display: "inline-block", lineHeight: 0 }}>
                     <img

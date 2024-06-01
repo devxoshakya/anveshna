@@ -4,11 +4,15 @@ import { TbCardsFilled } from 'react-icons/tb';
 import { FaStar } from 'react-icons/fa';
 import { FaClock } from 'react-icons/fa6';
 import SkeletonLoader from '../skeletons/skeletons';
+import {useNavigate} from 'react-router-dom';
 
 // Import SkeletonLoader component
 const Slideshow = ({ data }) => {
 
+  const navigate = useNavigate();
+
   const handlePlayButtonClick = (id) => {
+    navigate(`/watch/${id}`);
   };
 
   const [currentIndex, setCurrentIndex] = useState(0);

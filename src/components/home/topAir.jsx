@@ -58,13 +58,13 @@ const HomeSideBar = ({ animeData }) => {
     });
   }, [animeData, animeIds, loadingIds]);
 
-  const displayedAnime = windowWidth <= 500 ? animeData.slice(0, 5) : animeData;
-  const filteredAnime = displayedAnime.filter((anime) => animeIds[anime.id]);
+  // const displayedAnime = windowWidth <= 500 ? animeData.slice(0, 5) : animeData;
+  // const filteredAnime = displayedAnime.filter((anime) => animeIds[anime.id]);
 
   return (
     <div className="max-w-md my-8 ml-2 mr-4 mt-[4.5rem] md:mt-0 md:ml-4 md:mb-0 gap-2 transition-all duration-200 ease-in-out">
       <h1 className='text-2xl md:text-xl font-bold mb-4'>TOP AIRING</h1>
-      {filteredAnime.map((anime, index) => (
+      {animeData.map((anime, index) => (
         <Link
           key={anime.id}
           to={`/watch/${animeIds[anime.id]}/${anime.id}/1`}
