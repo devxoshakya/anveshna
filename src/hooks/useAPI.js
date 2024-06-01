@@ -46,17 +46,6 @@ export async function fetchRecentEpisodesV1(type) {
   }
 }
 
-const type = 'all'; // You can change this to a specific type if needed
-
-fetchRecentEpisodesV1(type)
-  .then(recentEpisodes => {
-    console.log('Recent episodes:', recentEpisodes);
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
-
-// console.log('API_URL:', API_URL);
 
 
 
@@ -80,15 +69,6 @@ export async function fetchTrendingAnime() {
     throw error;
   }
 }
-
-// Example usage:
-fetchTrendingAnime()
-  .then(trendingAnime => {
-    // console.log('Trending anime:', trendingAnime);
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
 
 
 // Create cache instance for popular anime
@@ -132,14 +112,6 @@ export async function fetchTopAirAnime() {
   }
 }
 
-// Example usage:
-fetchPopularAnime()
-  .then(trendingAnime => {
-    console.log('Trending anime:', trendingAnime);
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
 
 
 // create function to fetch anime details by id 
@@ -216,20 +188,6 @@ export async function gogonamesearch(query) {
   }
 }
 
-gogonamesearch('cowboy bebop').then(id => {
-  console.log('Gogoanime ID:', id);
-}
-)
-
-// Example usage:
-fetchSearchedAnime('')
-  .then(searchedAnime => {
-    console.log('Searched anime:', searchedAnime);
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
-
 // create a function to fetch anime episodes by id
 const animeEpisodesCache = createCache('animeEpisodes');
 
@@ -272,14 +230,6 @@ export async function fetchEpisodeStream(id) {
   }
 }
 
-// Example usage:
-fetchEpisodeStream('cowboy-bebop-episode-1')
-  .then(episodeStream => {
-    console.log('Episode stream:', episodeStream);
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
 
   const trendingAnimeCache2 = createCache('trendingAnime2');
 
@@ -331,8 +281,6 @@ const popularAnimeCache2 = createCache('popularAnime2');
       // Fetch Anime Info using fetchAnimeDetails for top 3 search results
       for (const result of top3Results) {
         const fetchedInfo = await fetchAnimeDetails(result.id);
-        console.log('thisis',fetchedInfo);
-  
         // Compare gogoId with original ID
         if (fetchedInfo.id_provider.idGogo === topAiringAnimeId) {
           console.timeEnd('fetchAndCompareAnime');
@@ -346,19 +294,6 @@ const popularAnimeCache2 = createCache('popularAnime2');
       return null;
     }
   }
-  
-  // Example usage
-  const topAiringAnimeId = 'kaijuu-8-gou';
-  
-  fetchAndCompareAnime(topAiringAnimeId)
-    .then(matchedId => {
-      if (matchedId) {
-        console.log('Matched ID:', matchedId);
-      } else {
-        console.log('No match found');
-      }
-    })
-    .catch(error => console.error('An error occurred:', error));
 
 
 
@@ -385,15 +320,6 @@ export async function fetchSkipTimes({ malId, episodeNumber, episodeLength = '0'
   }
 }
 
-// Sample function call
-const malId = '38524';
-const episodeNumber = '1';
-const episodeLength = '';
-
-fetchSkipTimes({ malId, episodeNumber, episodeLength }).then(data => {
-  console.log('Skip times:', data);
-});
-
 
 // Function to fetch embedded anime episodes servers
 export async function fetchAnimeEmbeddedEpisodes(episodeId) {
@@ -414,12 +340,6 @@ export async function fetchAnimeEmbeddedEpisodes(episodeId) {
     return null;
   }
 }
-
-// Sample function call
-const episodeId = 'chainsaw-man-episode-1';
-fetchAnimeEmbeddedEpisodes(episodeId).then(data => {
-  console.log('Embedded episodes servers iframe links:', data);
-});
 
 
 // Function to fetch anime streaming links
@@ -444,11 +364,6 @@ export async function fetchAnimeStreamingLinks(episodeId) {
     return null;
   }
 }
-
-// Sample function call
-fetchAnimeStreamingLinks(episodeId).then(data => {
-  console.log('Anime streaming links (HLS):', data);
-});
 
 
 //use fetchAnimeDetails function to fetch anime relation by id only 5 entries

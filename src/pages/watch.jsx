@@ -7,9 +7,10 @@ import EpisodeList from '../components/watch/episodeList';
 import Player from '../components/watch/video/player';
 import EmbedPlayer from '../components/watch/video/embedPlayer';
 import WatchAnimeData from '../components/watch/WatchAnimeData';
-import AnimeDataList from '../components/watch/animeDataList';
 import SkeletonLoader from '../components/skeletons/skeletons';
 import { MediaSource } from '../components/watch/video/mediaSource';
+import Loader from '../components/loader/loader';
+
 
 const LOCAL_STORAGE_KEYS = {
     LAST_WATCHED_EPISODE: 'last-watched-',
@@ -220,6 +221,17 @@ const onNextEpisode = () => {
       handleEpisodeSelect(episodes[nextIndex]);
   }
 };
+
+//loader
+
+
+const [loader, setLoader] = useState(true);
+useEffect(() => {
+  setTimeout(() => {
+    setLoader(false);
+  }, 5550);
+}, []);
+
 
 //----------------------------------------------USEFFECTS----------------------------------------------
     //SETS DEFAULT SOURCE TYPE AND LANGUGAE TO DEFAULT AND SUB
@@ -515,6 +527,14 @@ useEffect(() => {
   };
 },[garbageId]);
 
+
+
+useEffect(() => {
+// Scroll to the top of the page
+  window.scrollTo(0, 0);
+}, []);
+
+
 useEffect(() => { 
   let isMounted = true;
   const fetchRecommendations = async () => {
@@ -563,19 +583,20 @@ useEffect(() => {
 
 return (
   <div className="container mx-auto p-4">
-    {animeInfo && animeInfo.status === 'NOT_YET_AIRED' ? (
+  {loader && <Loader className="mt-0 h-full w-full z-9999" />}
+    {!loader && animeInfo && animeInfo.status === 'NOT_YET_AIRED' ? (
       <div className="text-center">
         <strong>
           <h2 className="text-2xl mb-2">Time Remaining:</h2>
         </strong>
-        {animeInfo.nextAiringEpisode && countdown !== 'Airing now or aired' ? (
+        {!loader && animeInfo.nextAiringEpisode && countdown !== 'Airing now or aired' ? (
           <p className="flex justify-center items-center">
             <FaBell className="mr-2" /> {countdown}
           </p>
         ) : (
           <p>Unknown</p>
         )}
-        {animeInfo.trailer && (
+        {!loader && animeInfo.trailer && (
           <iframe
             className="mt-4 rounded"
             width="70%"
@@ -597,7 +618,7 @@ return (
     ) : (
       <div className="flex flex-1  md:flex-col gap-4">
         <div className="flex-1 min-w-[75%] md:min-w-full mt-14 relative">
-          {loading ? (
+          {!loader && loading ? (
             <SkeletonLoader />
           ) : sourceType === 'default' ? (
             <Player
@@ -620,7 +641,7 @@ return (
           )}
         </div>
         <div className="flex-1 mb-auto mt-14 md:mt-0 overflow-y-auto">
-          {loading ? (
+          {!loader && loading ? (
             <SkeletonLoader />
           ) : (
             <EpisodeList className=""
@@ -641,7 +662,7 @@ return (
     )}
     <div className="grid grid-cols-2 md:grid-cols-1 gap-4 mt-4">
       <div className="w-[150%] md:w-full">
-        {animeInfo && animeInfo.status !== 'Not yet aired' && (
+        {!loader && animeInfo && animeInfo.status !== 'Not yet aired' && (
           <MediaSource
             sourceType={sourceType}
             setSourceType={setSourceType}
@@ -653,10 +674,7 @@ return (
             nextEpisodenumber={nextEpisodenumber}
           />
         )}
-        {animeInfo && <WatchAnimeData animeData={animeInfo} />}
-      </div>
-      <div>
-        {animeInfo && <AnimeDataList animeData={{recommendations,relations}} />}
+        {!loader && animeInfo && <WatchAnimeData animeData={animeInfo} />}
       </div>
     </div>
   </div>
