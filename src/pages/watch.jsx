@@ -295,7 +295,6 @@ useEffect(() => {
           const isDub = language === 'dub';
           const animeData = await fetchAnimeEpisodes(animeTitle);
           if (isMounted && animeData && Array.isArray(animeData.episodes)) {
-            console.log("episodes:: " ,animeData.episodes);
               const transformedEpisodes = animeData.episodes
                   .filter((ep) => ep.id.includes('-episode-')) // Continue excluding entries without '-episode-'
                   .map((ep) => {
@@ -310,7 +309,6 @@ useEffect(() => {
                   };
                 });
                 setEpisodes((transformedEpisodes.reverse()));
-                console.log("episodePart:: " ,episodes);
               const navigateToEpisode = (() => {
                   if (languageChanged) {
                       const currentEpisodeNumber = episodeNumber || currentEpisode.number;

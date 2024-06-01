@@ -37,7 +37,6 @@ const HomeSideBar = ({ animeData }) => {
           ...prevIds,
           [anime.id]: animeDetails,
         }));
-        console.log('Stored Gogo ID:', animeDetails);
       }
     } catch (error) {
       console.error('Error fetching and storing Gogo ID:', error);

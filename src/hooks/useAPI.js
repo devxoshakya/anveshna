@@ -272,7 +272,6 @@ const popularAnimeCache2 = createCache('popularAnime2');
   }
 
   export async function fetchAndCompareAnime(topAiringAnimeId) {
-    console.time('fetchAndCompareAnime');
     try {
       // Search Anime using fetchSearchedAnime
       const searchResults = await fetchSearchedAnime(topAiringAnimeId);
@@ -283,11 +282,9 @@ const popularAnimeCache2 = createCache('popularAnime2');
         const fetchedInfo = await fetchAnimeDetails(result.id);
         // Compare gogoId with original ID
         if (fetchedInfo.id_provider.idGogo === topAiringAnimeId) {
-          console.timeEnd('fetchAndCompareAnime');
           return result.id;
         }
       }
-      console.timeEnd('fetchAndCompareAnime');
       return null; // No match found
     } catch (error) {
       console.error('An error occurred:', error);
