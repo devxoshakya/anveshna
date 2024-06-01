@@ -449,3 +449,35 @@ export async function fetchAnimeStreamingLinks(episodeId) {
 fetchAnimeStreamingLinks(episodeId).then(data => {
   console.log('Anime streaming links (HLS):', data);
 });
+
+
+//use fetchAnimeDetails function to fetch anime relation by id only 5 entries
+export async function fetchAnimeRelations(id) {
+  try {
+    const animeDetails = await fetchAnimeDetails(id);
+    return animeDetails.relation.slice(0, 5);
+  } catch (error) {
+    console.error('Error fetching anime relations:', error);
+    return null;
+  }
+}
+
+
+
+// Function to fetch anime recommendations by id
+export async function fetchAnimeRecommendations(id) {
+  const url = `${API_URL}/v2/recommendations/${id}`;
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Error fetching anime streaming links: ${response.statusText}`);
+    }
+    const data = await response.json();
+    return data.results.slice(0, 5);
+  }
+    catch (error) {
+    console.error('Error fetching anime recommendations:', error);
+    return null;
+  }
+}

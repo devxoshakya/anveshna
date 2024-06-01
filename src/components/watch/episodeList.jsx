@@ -268,7 +268,7 @@ const EpisodeList = ({
   }, [episodes]);
 
 return (
-    <ListContainer $maxHeight={maxListHeight} className='mt-64'>
+    <ListContainer $maxHeight={maxListHeight} className=''>
         <ControlsContainer>
             <SelectInterval onChange={handleIntervalChange}>
                 {intervalOptions.map(({ start, end }) => (

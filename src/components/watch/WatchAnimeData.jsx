@@ -122,7 +122,7 @@ const WatchAnimeData = ({ animeData }) => {
                       <p>Status: <strong>{animeData.status === 'Completed' ? 'Finished' : animeData.status === 'Ongoing' ? 'Airing' : animeData.status}</strong></p>
                     )}
                     {animeData.decimalScore ? (
-                      <p>Rating: <strong>{animeData.decimalScore}</strong></p>
+                      <p>Rating: <strong>{animeData.averageScore/10}</strong></p>
                     ) : (
                       <p>Rating: <strong>Unknown</strong></p>
                     )}

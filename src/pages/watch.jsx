@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FaBell } from 'react-icons/fa';
-import styled from 'styled-components';
 import Image404URL from '../images/404-mobile.png';
-import { fetchAnimeEmbeddedEpisodes, fetchAnimeEpisodes, fetchAnimeDetails } from '../hooks/useAPI';
+import { fetchAnimeEmbeddedEpisodes, fetchAnimeEpisodes, fetchAnimeDetails, fetchAnimeRecommendations, fetchAnimeRelations } from '../hooks/useAPI';
 import EpisodeList from '../components/watch/episodeList';
 import Player from '../components/watch/video/player';
 import EmbedPlayer from '../components/watch/video/embedPlayer';
@@ -12,118 +11,6 @@ import AnimeDataList from '../components/watch/animeDataList';
 import SkeletonLoader from '../components/skeletons/skeletons';
 import { MediaSource } from '../components/watch/video/mediaSource';
 
-
-const WatchContainer = styled.div ``;
-const WatchWrapper = styled.div `
-  font-size: 0.9rem;
-  gap: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: var(--global-primary-bg);
-  color: var(--global-text);
-
-  @media (min-width: 1000px) {
-    flex-direction: row;
-    align-items: flex-start;
-  }
-`;
-const DataWrapper = styled.div `
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: 1fr 1fr; // Aim for a 3:1 ratio
-  width: 100%; // Make sure this container can expand enough
-  @media (max-width: 1000px) {
-    grid-template-columns: auto;
-  }
-`;
-const SourceAndData = styled.div `
-  width: ${({ $videoPlayerWidth }) => $videoPlayerWidth};
-`;
-const RalationsTable = styled.div `
-  padding: 0;
-  margin-top: 1rem;
-  @media (max-width: 1000px) {
-    margin-top: 0rem;
-  }
-`;
-const VideoPlayerContainer = styled.div `
-  position: relative;
-  width: 100%;
-  border-radius: var(--global-border-radius);
-
-  @media (min-width: 1000px) {
-    flex: 1 1 auto;
-  }
-`;
-const EpisodeListContainer = styled.div `
-  width: 100%;
-  max-height: 100%;
-
-  @media (min-width: 1000px) {
-    flex: 1 1 500px;
-    max-height: 100%;
-  }
-
-  @media (max-width: 1000px) {
-    padding-left: 0rem;
-  }
-`;
-const NoEpsFoundDiv = styled.div `
-  text-align: center;
-  margin-top: 10rem;
-  margin-bottom: 10rem;
-  @media (max-width: 1000px) {
-    margin-top: 2.5rem;
-    margin-bottom: 6rem;
-  }
-`;
-const NoEpsImage = styled.div `
-  margin-bottom: 3rem;
-  max-width: 100%;
-
-  img {
-    border-radius: var(--global-border-radius);
-    max-width: 100%;
-    @media (max-width: 500px) {
-      max-width: 70%;
-    }
-  }
-`;
-const StyledHomeButton = styled.button `
-  color: white;
-  border-radius: var(--global-border-radius);
-  border: none;
-  background-color: var(--primary-accent);
-  margin-top: 0.5rem;
-  font-weight: bold;
-  padding: 1rem;
-  position: absolute;
-  transform: translate(-50%, -50%);
-  transition: transform 0.2s ease-in-out;
-  &:hover,
-  &:active,
-  &:focus {
-    transform: translate(-50%, -50%) scale(1.05);
-  }
-  &:active {
-    transform: translate(-50%, -50%) scale(0.95);
-  }
-`;
-const IframeTrailer = styled.iframe `
-  position: relative;
-  border-radius: var(--global-border-radius);
-  border: none;
-  top: 0;
-  left: 0;
-  width: 70%;
-  height: 100%;
-  text-items: center;
-  @media (max-width: 1000px) {
-    width: 100%;
-    height: 100%;
-  }
-`;
 const LOCAL_STORAGE_KEYS = {
     LAST_WATCHED_EPISODE: 'last-watched-',
     WATCHED_EPISODES: 'watched-episodes-',
@@ -181,6 +68,7 @@ const Watch = () => {
   }, [setVideoPlayerWidth, videoPlayerContainerRef]);
   const [maxEpisodeListHeight, setMaxEpisodeListHeight] = useState('100%');
   const { animeId, animeTitle, episodeNumber } = useParams();
+  const garbageId = animeId;
   const STORAGE_KEYS = {
       SOURCE_TYPE: `source-[${animeId}]`,
       LANGUAGE: `subOrDub-[${animeId}]`,
@@ -198,6 +86,8 @@ const Watch = () => {
       airDate: '',
   });
   const [animeInfo, setAnimeInfo] = useState(null);
+  const [relations, setRelations] = useState([]);
+  const [recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isEpisodeChanging, setIsEpisodeChanging] = useState(false);
   const [showNoEpisodesMessage, setShowNoEpisodesMessage] = useState(false);
@@ -219,7 +109,7 @@ const Watch = () => {
       const handleClick = () => {
           navigate('/home');
       };
-      return (<StyledHomeButton onClick={handleClick}>Go back Home</StyledHomeButton>);
+      return (<span className="bg-primary-accent text-white font-bold py-2 px-4 rounded hover:scale-105 transition transform duration-200" onClick={handleClick}>Go back Home</span>);
   };
 
   //FETCH VIDSTREAMING VIDEO
@@ -262,6 +152,25 @@ const updateWatchedEpisodes = (episode) => {
       localStorage.setItem(LOCAL_STORAGE_KEYS.WATCHED_EPISODES + animeId, JSON.stringify(watchedEpisodes));
   }
 };
+const fetchAnimeData = async (animeId) => {
+  // Fetch data from your API or service
+  const response = await fetch(`https://anveshna-backend.vercel.app/api/v2/info/${animeId}`);
+  const data = await response.json();
+  return data;
+};
+
+const handleNavigate = async () => {
+  const animeData = await fetchAnimeData(animeId);
+  const animeTitletry = animeData.id_provider.idGogo;
+
+  navigate(`/watch/${animeId}/${animeTitletry}/${episodeNumber || 1}`);
+};
+
+// Example usage (you might trigger this from a button click or similar event)
+// Replace with actual animeId from your context
+if (!animeTitle && !episodeNumber) {
+  handleNavigate(animeId);
+}
 
 // UPDATES CURRENT EPISODE INFORMATION, UPDATES WATCHED EPISODES AND NAVIGATES TO NEW URL
 const handleEpisodeSelect = useCallback(async (selectedEpisode) => {
@@ -279,7 +188,7 @@ const handleEpisodeSelect = useCallback(async (selectedEpisode) => {
       number: selectedEpisode.number,
   }));
   updateWatchedEpisodes(selectedEpisode);
-  navigate(`/watch/${animeId}/${encodeURI(animeInfo.id_provider.idGogo)}/${selectedEpisode.number || 1}`, {
+  navigate(`/watch/${animeId}/${encodeURI(animeTitle)}/${selectedEpisode.number || 1}`, {
       replace: true,
   });
   await new Promise((resolve) => setTimeout(resolve, 100));
@@ -582,6 +491,54 @@ useEffect(() => {
       isMounted = false;
   };
 }, [animeId]);
+
+useEffect(() => {
+  let isMounted = true;
+  const fetchRelations = async () => {
+      if (!garbageId) {
+          console.error('Anime ID is undefined.');
+          return;
+      }
+      try {
+          const data = await fetchAnimeRelations(garbageId);
+          if (isMounted) {
+              setRelations(data);
+          }
+      }
+      catch (error) {
+          console.error('Failed to fetch anime relations:', error);
+      }
+  };
+  fetchRelations();
+  return () => {
+      isMounted = false;
+  };
+},[garbageId]);
+
+useEffect(() => { 
+  let isMounted = true;
+  const fetchRecommendations = async () => {
+      if (!garbageId) {
+          console.error('Anime ID is undefined.');
+          return;
+      }
+      try {
+          const data = await fetchAnimeRecommendations(garbageId);
+          if (isMounted) {
+              setRecommendations(data);
+          }
+      }
+      catch (error) {
+          console.error('Failed to fetch anime recommendations:', error);
+      }
+  };
+  fetchRecommendations();
+  return () => {
+      isMounted = false;
+  };
+},[garbageId]);
+
+
 //SHOW NO EPISODES DIV IF NO RESPONSE AFTER 10 SECONDS
 useEffect(() => {
   const timeoutId = setTimeout(() => {
@@ -604,52 +561,106 @@ useEffect(() => {
 
 //----------------------------------------------RETURN----------------------------------------------
 
-
-return (<WatchContainer>
-  {animeInfo &&
-        animeInfo.status === 'NOT_YET_AIRED'? (<div style={{ textAlign: 'center' }}>
-      <strong>
-        <h2>Time Remaining:</h2>
-      </strong>
-      {animeInfo &&
-            animeInfo.nextAiringEpisode &&
-            countdown !== 'Airing now or aired' ? (<p>
-          <FaBell /> {countdown}
-        </p>) : (<p>Unknown</p>)}
-      {animeInfo.trailer && (<IframeTrailer src={`https://www.youtube.com/embed/${animeInfo.trailer.id}`} allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowFullScreen/>)}
-    </div>) : showNoEpisodesMessage ? (<NoEpsFoundDiv>
-      <h2>No episodes found {':('}</h2>
-      <NoEpsImage>
-        <img src={Image404URL} alt='404 Error'></img>
-      </NoEpsImage>
-      <GoToHomePageButton />
-    </NoEpsFoundDiv>) : (<WatchWrapper className='flex absolute md:flex-col'>
-      {!showNoEpisodesMessage && (<>
-          <VideoPlayerContainer className='' ref={videoPlayerContainerRef}>
-            {loading ? (<SkeletonLoader />) : sourceType === 'default' ? (<Player episodeId={currentEpisode.id} malId={animeInfo?.idMal} banner={selectedBackgroundImage} updateDownloadLink={updateDownloadLink} onEpisodeEnd={handleEpisodeEnd} onPrevEpisode={onPrevEpisode} onNextEpisode={onNextEpisode} animeTitle={animeInfo.title?.english || animeInfo.title?.romaji || ''}/>) : (<EmbedPlayer src={embeddedVideoUrl}/>)}
-          </VideoPlayerContainer>
-          <EpisodeListContainer style={{ maxHeight: maxEpisodeListHeight }}>
-            {loading ? (<SkeletonLoader />) : (<EpisodeList className="absolute" animeId={animeId} episodes={episodes} selectedEpisodeId={currentEpisode.id} onEpisodeSelect={(episodeId) => {
-                    const episode = episodes.find((e) => e.id === episodeId);
-                    if (episode) {
-                        handleEpisodeSelect(episode);
-                    }
-                }} maxListHeight={maxEpisodeListHeight}/>)}
-          </EpisodeListContainer>
-        </>)}
-    </WatchWrapper>)}
-  <DataWrapper>
-    <SourceAndData $videoPlayerWidth={videoPlayerWidth}>
-      {animeInfo && animeInfo.status !== 'Not yet aired' && (<MediaSource sourceType={sourceType} setSourceType={setSourceType} language={language} setLanguage={setLanguage} downloadLink={downloadLink} episodeId={currentEpisode.number.toString()} airingTime={animeInfo && animeInfo.status === 'RELEASING'
-            ? countdown
-            : undefined} nextEpisodenumber={nextEpisodenumber}/>)}
-      {animeInfo && <WatchAnimeData animeData={animeInfo}/>}
-    </SourceAndData>
-    <RalationsTable>
-      {animeInfo && <AnimeDataList animeData={animeInfo}/>}
-    </RalationsTable>
-  </DataWrapper>
-</WatchContainer>
-  );
+return (
+  <div className="container mx-auto p-4">
+    {animeInfo && animeInfo.status === 'NOT_YET_AIRED' ? (
+      <div className="text-center">
+        <strong>
+          <h2 className="text-2xl mb-2">Time Remaining:</h2>
+        </strong>
+        {animeInfo.nextAiringEpisode && countdown !== 'Airing now or aired' ? (
+          <p className="flex justify-center items-center">
+            <FaBell className="mr-2" /> {countdown}
+          </p>
+        ) : (
+          <p>Unknown</p>
+        )}
+        {animeInfo.trailer && (
+          <iframe
+            className="mt-4 rounded"
+            width="70%"
+            height="100%"
+            src={`https://www.youtube.com/embed/${animeInfo.trailer.id}`}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        )}
+      </div>
+    ) : showNoEpisodesMessage ? (
+      <div className="text-center my-40 md:my-10">
+        <h2 className="text-2xl mb-4">No episodes found :(</h2>
+        <div className="mb-12">
+          <img src={Image404URL} alt="404 Error" className="rounded mx-auto md:w-3/5" />
+        </div>
+        <button className="bg-primary-accent text-white font-bold py-2 px-4 rounded hover:scale-105 transition transform duration-200">Go To Home Page</button>
+      </div>
+    ) : (
+      <div className="flex flex-1  md:flex-col gap-4">
+        <div className="flex-1 min-w-[75%] md:min-w-full mt-14 relative">
+          {loading ? (
+            <SkeletonLoader />
+          ) : sourceType === 'default' ? (
+            <Player
+              episodeId={currentEpisode.id}
+              malId={animeInfo?.idMal}
+              banner={selectedBackgroundImage}
+              updateDownloadLink={updateDownloadLink}
+              onEpisodeEnd={handleEpisodeEnd}
+              onPrevEpisode={onPrevEpisode}
+              onNextEpisode={onNextEpisode}
+              animeTitle={animeInfo.title?.english || animeInfo.title?.romaji || ''}
+            />
+          ) : (
+            <iframe
+              src={embeddedVideoUrl}
+              className="w-full h-full border-0 rounded"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          )}
+        </div>
+        <div className="flex-1 mb-auto mt-14 md:mt-0 overflow-y-auto">
+          {loading ? (
+            <SkeletonLoader />
+          ) : (
+            <EpisodeList className=""
+              animeId={animeId}
+              episodes={episodes}
+              selectedEpisodeId={currentEpisode.id}
+              onEpisodeSelect={(episodeId) => {
+                const episode = episodes.find((e) => e.id === episodeId);
+                if (episode) {
+                  handleEpisodeSelect(episode);
+                }
+              }}
+              maxListHeight={maxEpisodeListHeight}
+            />
+          )}
+        </div>
+      </div>
+    )}
+    <div className="grid grid-cols-2 md:grid-cols-1 gap-4 mt-4">
+      <div className="w-[150%] md:w-full">
+        {animeInfo && animeInfo.status !== 'Not yet aired' && (
+          <MediaSource
+            sourceType={sourceType}
+            setSourceType={setSourceType}
+            language={language}
+            setLanguage={setLanguage}
+            downloadLink={downloadLink}
+            episodeId={currentEpisode.number.toString()}
+            airingTime={animeInfo && animeInfo.status === 'RELEASING' ? countdown : undefined}
+            nextEpisodenumber={nextEpisodenumber}
+          />
+        )}
+        {animeInfo && <WatchAnimeData animeData={animeInfo} />}
+      </div>
+      <div>
+        {animeInfo && <AnimeDataList animeData={{recommendations,relations}} />}
+      </div>
+    </div>
+  </div>
+);
 };
-export default Watch
+
+export default Watch;
