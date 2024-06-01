@@ -162,7 +162,7 @@ const fetchAnimeData = async (animeId) => {
 
 const handleNavigate = async () => {
   const animeData = await fetchAnimeData(animeId);
-  const animeTitletry = animeData.id_provider.idGogo;
+  const animeTitletry = animeData.id_provider.idGogo || '';
 
   navigate(`/watch/${animeId}/${animeTitletry}/${episodeNumber || 1}`);
 };
@@ -618,7 +618,7 @@ return (
     ) : (
       <div className="flex flex-1  md:flex-col gap-4">
         <div className="flex-1 min-w-[75%] md:min-w-full mt-14 relative">
-          {!loader && loading ? (
+          {loading ? (
             <SkeletonLoader />
           ) : sourceType === 'default' ? (
             <Player
@@ -641,7 +641,7 @@ return (
           )}
         </div>
         <div className="flex-1 mb-auto mt-14 md:mt-0 overflow-y-auto">
-          {!loader && loading ? (
+          { loading ? (
             <SkeletonLoader />
           ) : (
             <EpisodeList className=""
@@ -662,7 +662,7 @@ return (
     )}
     <div className="grid grid-cols-2 md:grid-cols-1 gap-4 mt-4">
       <div className="w-[150%] md:w-full">
-        {!loader && animeInfo && animeInfo.status !== 'Not yet aired' && (
+        { animeInfo && animeInfo.status !== 'Not yet aired' && (
           <MediaSource
             sourceType={sourceType}
             setSourceType={setSourceType}
