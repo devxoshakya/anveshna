@@ -1,61 +1,162 @@
-# Anveshna
+<h1 align="center">
+Anveshna.
+</h1>
 
-Anveshna is a streaming platform that allows you to watch your favorite anime shows and movies.
+<p align="center">
+  <a href="#"><img src="https://img.shields.io/badge/typescript-%23007acc.svg?style=for-the-badge&logo=typescript&logoColor=%23ffffff"/></a>
+  <a href="#"><img src="https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB"/></a>
+  <a href="#"><img src="https://img.shields.io/badge/styled--components-742b66.svg?style=for-the-badge&logo=styled-components&logoColor=#e682d5"/></a>
+</p>
 
-## Features
+<p align="center">
+  <a href="#"><img src="https://img.shields.io/badge/Node.js-339933.svg?style=for-the-badge&logo=node.js&logoColor=white"/></a>
+  <a href="#"><img src="https://img.shields.io/badge/Bun.js-febbd0.svg?style=for-the-badge&logo=bun&logoColor=f9f1e1"/></a>
+  <a href="#"><img src="https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white"/></a>
+</p>
 
-- Browse a vast collection of anime titles.
-- Search for specific anime shows or movies.
-- Stream anime episodes in high quality.
-- Create a watchlist to keep track of your favorite shows.
-- Get recommendations based on your viewing history.
-- Customize your profile and preferences.
+<p align="center">
+  <a href="https://www.anveshna.xyz" target="_blank">
+    <img src="https://raw.githubusercontent.com/devxoshakya/anveshna/main/src/images/icon.png" alt="Logo" width="200"/>
+  </a>
+</p>
 
-## Installation
 
-1. Clone the repository:
 
-    ```bash
-    git clone https://github.com/your-username/anveshna.git
-    ```
+<div align="center" >
 
-2. Install the dependencies:
+| Official Domains | Links                                      |
+| ---------------- | ------------------------------------------ |
+| Active              | [anveshna.xyz](https://www.anveshna.xyz)       |
 
-    ```bash
-    npm install
-    ```
+</div>
 
-3. Start the development server:
+## What is Anveshna. ?
 
-    ```bash
-    npm start
-    ```
+Welcome to **Anveshna.** - your ultimate anime destination! 🤯 Explore **[anveshna.xyz](https://www.anveshna.xyz)** and dive into the world of anime.
 
-## Usage
+Crafted with using **React**, our site rocks a slick and modern interface. Experience lightning-fast performance and smooth navigation as you explore a vast collection of HD anime titles.
 
-1. Open your web browser and navigate to `http://localhost:3000`.
-2. Sign up or log in to your Anveshna account.
-3. Browse the anime collection, search for specific titles, or explore recommendations.
-4. Click on an anime to view its details and start streaming.
-5. Add shows to your watchlist for easy access.
-6. Customize your profile settings and preferences.
+Enjoy your favorite shows with English subs or dubs, and here's the kicker - you can download individual episodes hassle-free, no sign-up required!
 
-## Contributing
+<!-- ## Features 🪴 -->
 
-Contributions are welcome! If you'd like to contribute to Anveshna, please follow these steps:
+<details>
+<summary>Features [View More]</summary>
 
-1. Fork the repository.
-2. Create a new branch: `git checkout -b feature/your-feature-name`.
-3. Make your changes and commit them: `git commit -m 'Add some feature'`.
-4. Push to the branch: `git push origin feature/your-feature-name`.
-5. Submit a pull request.
+### General
 
-## License
+- Latest Anime support
+- User-friendly interface
+- Mobile responsive
+- Fast page load
+- Dark theme
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
+### Watch Page
 
-## Contact
+- **Player**
+  - Autoplay next episode
+  - Skip op/ed button
+  - Theater mode
 
-If you have any questions or suggestions, feel free to reach out to us at [devxoshakya@gmail.com](mailto:devxoshakya@gmail.com).
 
-Happy streaming!
+</details>
+
+## Images
+
+<div style="text-align: left;">
+  <img src="https://raw.githubusercontent.com/devxoshakya/anveshna/main/src/images/home.png" alt="Home Page" style="max-width: 70%;" >
+  <details>
+  <summary>Screenshots [View More]</summary>
+  <br>
+  <img src="https://raw.githubusercontent.com/devxoshakya/anveshna/main/src/images/initial.png" alt="Splash Page" style="max-width: 70%;">
+  <img src="https://raw.githubusercontent.com/devxoshakya/anveshna/main/src/images/watch.png" alt="Watch Page" style="max-width: 70%;">
+  </details>
+</div>
+
+## Installation and Local Development 💻
+
+### 1. Clone this repository using
+
+```bash
+git clone https://github.com/devxoshakya/anveshna.git
+```
+
+```bash
+cd anveshna
+```
+
+### 2. Installation
+
+### Basic Pre-Requisites
+
+> [!TIP]
+> This platform is built on [Node.js](https://nodejs.org/) and utilizes [Bun](https://bun.sh/) to ensure the quickest response times achievable. While `npm` can also be used, the commands for npm would mirror those of Bun, simply substituting the specific commands accordingly.
+
+> Bun is now available on **Windows**, **Linux**, and **macOS**. Below are the installation commands for each operating system.
+
+### Install Bun
+
+- Linux & macOS
+
+```bash
+curl -fsSL https://bun.sh/install | bash
+```
+
+- Windows
+
+```powershell
+powershell -c "irm bun.sh/install.ps1 | iex"
+```
+
+### Verify installations
+
+- Check that both Node.js and Bun are correctly installed by running.
+
+```bash
+node -v
+bun -v
+```
+
+### Install Dependencies
+
+- You can use Bun to install dependencies quickly. If you prefer, `npm` can also be used with equivalent commands.
+
+```bash
+bun install
+```
+
+
+### 3. Run on development &/or production (npm also works)
+
+- Run on development mode
+
+```bash
+bun run dev
+```
+
+- Run on production mode
+
+```bash
+bun start
+```
+
+## Self-Hosting Notice
+
+**⚠️ RESTRICTED USE**
+
+> [!CAUTION]
+> Self-hosting this application is **strictly limited to personal use only**. Commercial utilization is **prohibited**, and the inclusion of advertisements on your self-hosted website may lead to serious consequences, including **potential site takedown measures**. Ensure compliance to avoid any legal or operational issues.
+
+## License 📝
+
+This project is governed by a Custom BY-NC License. What does this entail? Simply put, you are permitted to utilize, distribute, and modify the code for non-commercial purposes. However, it is imperative that due credit is accorded to our platform, [anveshna.xyz](https://www.anveshna.xyz). Any commercial utilization of this code is strictly prohibited. For comprehensive details, please refer to the [LICENSE](LICENSE) file. Should you have inquiries or require special permissions, do not hesitate to contact us.
+
+
+## Get in Touch! 📧
+
+Got questions, suggestions, or just wanna say hi? Drop us a line at <devxoshakya@gmail.com>.
+
+- Visit our website at **[Anveshna.xyz](https://www.anveshna.xyz)**
+
+- Follow us on **[Twitter](https://twitter.com/devxoshakya)**
+
