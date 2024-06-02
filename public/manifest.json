@@ -4,10 +4,11 @@
   "description": "Watch HD Anime for Free",
   "lang": "en",
   "background_color": "#080808",
+  "theme_color": "#333333",
   "display": "standalone",
-  "orientation": "standalone",
+  "orientation": "portrait",
   "scope": "/",
-  "start_url": "/",
+  "start_url": "/index.html",
   "screenshots": [
     {
       "src": "images/preview.png",
@@ -28,32 +29,32 @@
     {
       "src": "images/favicon-16x16.png",
       "sizes": "16x16",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "maskable any"
     },
     {
       "src": "images/favicon-32x32.png",
       "sizes": "32x32",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "maskable any"
     },
     {
       "src": "images/favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "type": "image/x-icon",
+      "purpose": "maskable any"
     },
     {
       "src": "images/apple-touch-icon.png",
       "sizes": "180x180",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "maskable any"
     },
     {
       "src": "images/image-144x144.png",
       "sizes": "144x144",
-      "type": "image/png"
-    },
-    {
-      "src": "images/android-chrome-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "maskable any"
     },
     {
       "src": "images/android-chrome-192x192.png",
@@ -68,7 +69,7 @@
       "purpose": "maskable any"
     },
     {
-      "src": "images/image-256x256.png",
+      "src": "images/image-384x384.png",
       "sizes": "384x384",
       "type": "image/png",
       "purpose": "maskable any"
@@ -78,12 +79,6 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable any"
-    },
-    {
-      "src": "images/android-chrome-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
     }
   ]
 }
