@@ -10,8 +10,6 @@ const Footer = () => {
   return (
     <footer className='bg-black text-white text-center mt-auto' > 
     <div className='md:flex md:justify-center items-center md:items-center sm:px-0 bg-black py-0 h-12 mt-4 '>
-      {/* <h1 className=' lg:text-4x1 text-3x1 md:mb-0 mb-6 lg:leading-normal md:w-2/5 '
-      ><span className='font-semibold'>hello world</span>, this is footer</h1> */}
       <img src={Logo} alt="Anveshna Logo" className="object-center h-12 md:h-8 pl-4 pb-0 pt-2 justify-center	" />
     </div>
       <div className='flex w-full mb-0 border-b-2 border-gray-900'>

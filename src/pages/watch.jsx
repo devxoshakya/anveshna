@@ -196,9 +196,15 @@ const handleEpisodeSelect = useCallback(async (selectedEpisode) => {
   setIsEpisodeChanging(false);
 }, [animeId, navigate]);
 //UPDATE DOWNLOAD LINK WHEN EPISODE ID CHANGES
-const updateDownloadLink = useCallback((link) => {
-  setDownloadLink(link);
-}, []);
+const updateDownloadLink = useCallback(async () => {
+  try {
+    const response = await fetch(`https://anveshna-backend.vercel.app/api/v1/download/${animeTitle}-episode-${episodeNumber}`);
+    const data = await response.json();
+    setDownloadLink(data.download);
+  } catch (error) {
+    console.error('Error fetching download link:', error);
+  }
+}, [animeTitle, episodeNumber]);
 //AUTOPLAY BUTTON TOGGLE PROPS
 const handleEpisodeEnd = async () => {
   const nextEpisodeIndex = currentEpisodeIndex + 1;
