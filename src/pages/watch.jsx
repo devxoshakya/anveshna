@@ -299,7 +299,8 @@ useEffect(() => {
           return;
       try {
           const isDub = language === 'dub';
-          const animeData = await fetchAnimeEpisodes(animeTitle);
+          const animeData = await fetchAnimeEpisodes(animeTitle,isDub);
+          console.log(isDub,"is dub");
           if (isMounted && animeData && Array.isArray(animeData.episodes)) {
               const transformedEpisodes = animeData.episodes
                   .filter((ep) => ep.id.includes('-episode-')) // Continue excluding entries without '-episode-'
@@ -355,6 +356,8 @@ useEffect(() => {
               setLoading(false);
       }
   };
+
+
   // Last visited cache to order continue watching
   const updateLastVisited = () => {
       if (!animeInfo || !animeId)
@@ -678,7 +681,7 @@ return (
             nextEpisodenumber={nextEpisodenumber}
           />
         )}
-        {!loader && animeInfo && <WatchAnimeData animeData={animeInfo} />}
+        {!loader && animeInfo && <WatchAnimeData animeData={animeId} />}
       </div>
     </div>
   </div>

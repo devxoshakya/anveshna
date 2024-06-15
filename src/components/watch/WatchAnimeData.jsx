@@ -1,13 +1,25 @@
 import React, { useState, useEffect } from 'react';
+import { fetchAnimeDetails } from '../../hooks/useAPI';
 
-const WatchAnimeData = ({ animeData }) => {
+
+const WatchAnimeData = ({ animeId }) => {
   const [isDescriptionExpanded, setDescriptionExpanded] = useState(false);
   const [showTrailer, setShowTrailer] = useState(false);
+  const [animeData, setAnimeData] = useState([]);
+  const animeInfo = animeId;
 
-  const getAnimeIdFromUrl = () => {
-    const pathParts = window.location.pathname.split('/');
-    return pathParts[2];
-  };
+  useEffect(() => {
+    fetchAnimeDetails(animeInfo)
+      .then(Anime => {
+        const data = Anime;
+        setAnimeData(data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }, []);
+  console.log(animeData,"this is it");
+
 
   const animeColor = animeData.color || '#999999';
 
@@ -15,7 +27,6 @@ const WatchAnimeData = ({ animeData }) => {
     setDescriptionExpanded(!isDescriptionExpanded);
   };
 
-  const animeId = getAnimeIdFromUrl();
 
   useEffect(() => {
     setDescriptionExpanded(false);

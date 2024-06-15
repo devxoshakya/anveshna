@@ -303,4 +303,4 @@ const sampleData = {
 };
 
 // Export the MediaSource component and sample data for testing
-export { MediaSource, sampleData };
+export { MediaSource };

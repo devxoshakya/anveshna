@@ -191,7 +191,7 @@ export async function gogonamesearch(query) {
 // create a function to fetch anime episodes by id
 const animeEpisodesCache = createCache('animeEpisodes');
 
-export async function fetchAnimeEpisodes(id) {
+export async function fetchAnimeEpisodes(id,dub) {
   const cacheKey = `animeEpisodes_${id}`;
   const cachedData = animeEpisodesCache.get(cacheKey);
   if (cachedData) {
@@ -199,15 +199,21 @@ export async function fetchAnimeEpisodes(id) {
   }
 
   try {
-    const response = await axios.get(`${API_URL}/v1/episode/${id}`);
+    let URL_API;
+    if(dub === 'dub'){
+      URL_API = `${API_URL}/v1/episode/${id}-dub`;
+    } else{
+      URL_API = `${API_URL}/v1/episode/${id}`;
+    }
+    const response = await axios.get(URL_API);
     const animeEpisodes = response.data;
     animeEpisodesCache.set(cacheKey, animeEpisodes);
     return animeEpisodes;
-  } catch (error) {
+    } catch (error) {
     console.error('Error fetching anime episodes:', error);
     throw error;
-  }
-}
+    }
+    }
 
 // create a function to fetch episode stream link by episode id
 const episodeStreamCache = createCache('episodeStream');
