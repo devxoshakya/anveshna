@@ -293,7 +293,6 @@ const popularAnimeCache2 = createCache('popularAnime2');
       }
       return null; // No match found
     } catch (error) {
-      console.error('An error occurred:', error);
       return null;
     }
   }
