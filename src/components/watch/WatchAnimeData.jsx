@@ -16,9 +16,9 @@ const WatchAnimeData = ({ animeId }) => {
       })
       .catch(error => {
         console.error('Error:', error);
+      
       });
   }, []);
-  console.log(animeData,"this is it");
 
 
   const animeColor = animeData.color || '#999999';

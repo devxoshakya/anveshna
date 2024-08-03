@@ -585,7 +585,8 @@ useEffect(() => {
   }
 }, [loading, episodes]);
 
-
+const finalAnimeId = useParams().animeId;
+console.log(finalAnimeId, "final anime id");
 //----------------------------------------------RETURN----------------------------------------------
 
 return (
@@ -681,7 +682,7 @@ return (
             nextEpisodenumber={nextEpisodenumber}
           />
         )}
-        {!loader && animeInfo && <WatchAnimeData animeData={animeId} />}
+        {!loader && animeInfo && <WatchAnimeData animeId={finalAnimeId} />}
       </div>
     </div>
   </div>
