@@ -229,7 +229,7 @@ export const EpisodeCard = () => {
           lastVisitedData[animeId]?.titleRomaji ||
           '';
 
-        const animeBanner = lastVisitedData[animeId]?.bannerImage || '';
+        const animeBanner = lastVisitedData[animeId]?.bannerImage || 'https://via.placeholder.com/300';
 
         const displayTitle = `${animeTitle}${
           episode.title ? ` - ${episode.title}` : ''
