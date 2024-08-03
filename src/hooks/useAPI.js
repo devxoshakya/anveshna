@@ -277,28 +277,6 @@ const popularAnimeCache2 = createCache('popularAnime2');
     }
   }
 
-  export async function fetchAndCompareAnime(topAiringAnimeId) {
-    try {
-      // Search Anime using fetchSearchedAnime
-      const searchResults = await fetchSearchedAnime(topAiringAnimeId);
-      const top3Results = searchResults.slice(0, 3);
-  
-      // Fetch Anime Info using fetchAnimeDetails for top 3 search results
-      for (const result of top3Results) {
-        const fetchedInfo = await fetchAnimeDetails(result.id);
-        // Compare gogoId with original ID
-        if (fetchedInfo.id_provider.idGogo === topAiringAnimeId) {
-          return result.id;
-        }
-      }
-      return null; // No match found
-    } catch (error) {
-      return null;
-    }
-  }
-
-
-
 // Function to fetch skip times for an anime episode
 export async function fetchSkipTimes({ malId, episodeNumber, episodeLength = '0' }) {
   const API_BASE_URL = 'https://api.aniskip.com/'; // Your API base URL

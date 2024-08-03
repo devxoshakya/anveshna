@@ -172,7 +172,7 @@ const CardItemContent = ({ anime }) => {
 };
 export default function CardGrid({animes}) {
     return (
-      <div className="grid grid-cols-5 md:grid-cols-3 lg:grid-cols-7 gap-8 md:gap-4">
+      <div className="grid grid-cols-7 md:grid-cols-3 lg:grid-cols-9 gap-8 md:gap-4">
         {Array.isArray(animes) && animes.length > 0 ? (
           animes.map((anime) => (
             <CardItemContent key={anime.id} anime={anime} />
