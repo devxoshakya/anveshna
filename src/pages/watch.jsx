@@ -368,6 +368,7 @@ useEffect(() => {
           timestamp: Date.now(),
           titleEnglish: animeInfo?.title?.english || '', // Assuming animeInfo contains the title in English
           titleRomaji: animeInfo?.title?.romaji || '', // Assuming animeInfo contains the title in Romaji
+          bannerImage: animeInfo?.bannerImage || '', // Assuming animeInfo contains the banner image
       };
       localStorage.setItem(LOCAL_STORAGE_KEYS.LAST_ANIME_VISITED, JSON.stringify(lastVisitedData));
   };
