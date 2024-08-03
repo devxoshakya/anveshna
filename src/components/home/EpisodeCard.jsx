@@ -229,6 +229,8 @@ export const EpisodeCard = () => {
           lastVisitedData[animeId]?.titleRomaji ||
           '';
 
+        const animeBanner = lastVisitedData[animeId]?.bannerImage || '';
+
         const displayTitle = `${animeTitle}${
           episode.title ? ` - ${episode.title}` : ''
         }`;
@@ -249,7 +251,7 @@ export const EpisodeCard = () => {
               style={{ textDecoration: 'none' }}
               title={`Continue Watching ${displayTitle}`}
             >
-              <img src={episode.image} alt={`Cover for ${animeTitle}`} />
+              <img src={animeBanner} alt={`Cover for ${animeTitle}`} />
               <PlayIcon aria-label="Play Episode">
                 <FaPlay />
               </PlayIcon>
@@ -296,7 +298,7 @@ export const EpisodeCard = () => {
   );
 
   return (
-    <Section aria-labelledby="continueWatchingTitle">
+    <Section className='mx-8 mt-4' aria-labelledby="continueWatchingTitle">
       {episodesToRender.length > 0 && (
         <ContinueWatchingTitle id="continueWatchingTitle">
           CONTINUE WATCHING
