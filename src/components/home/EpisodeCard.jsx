@@ -298,7 +298,7 @@ export const EpisodeCard = () => {
   );
 
   return (
-    <Section className='mx-8 mt-4' aria-labelledby="continueWatchingTitle">
+    <Section className='mx-8 mt-4 md:mt-2 md:mx-0' aria-labelledby="continueWatchingTitle">
       {episodesToRender.length > 0 && (
         <ContinueWatchingTitle id="continueWatchingTitle">
           CONTINUE WATCHING
