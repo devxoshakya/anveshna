@@ -24,9 +24,10 @@
     "react-social-icons": "^6.16.0",
     "react-swipeable": "^7.0.1",
     "react-toastify": "^10.0.5",
-    "styled-components": "^6.1.11",
-    "tailwind-merge": "^2.3.0",
-    "vercel": "^34.2.5"
+    "styled-components": "^6.1.12",
+    "swiper": "^11.1.9",
+    "tailwind-merge": "^2.4.0",
+    "vercel": "^35.2.3"
   },
   "scripts": {
     "predeploy": "npm run build",
@@ -54,6 +55,6 @@
     ]
   },
   "devDependencies": {
-    "tailwindcss": "^3.4.4"
+    "tailwindcss": "^3.4.7"
   }
 }
