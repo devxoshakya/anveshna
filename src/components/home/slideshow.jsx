@@ -94,14 +94,14 @@ const Slideshow = () => {
             >
               {truncateTitle(data[currentIndex].title, 45)}
             </h2>
-            <p className='flex items-center text-white md:w-[100%] md:scale-50'>
-              <span>{data[currentIndex].type}</span>
-              <TbCardsFilled className="ml-2" />
-              <span className='pl-1'>{data[currentIndex].totalEpisodes}</span>
-              <FaStar className="ml-2" />
-              <span className='pl-1'>{data[currentIndex].rating / 10}</span>
-              <FaClock className="ml-2" />
-              <span className='pl-1'>{data[currentIndex].duration} min</span>
+            <p className='flex items-center text-white md:w-[100%] md:scale-[0.001] md:invisible'>
+              <span className='md:invisible'>{data[currentIndex].type}</span>
+              <TbCardsFilled className="ml-2 md:invisible" />
+              <span className='pl-1 md:invisible'>{data[currentIndex].totalEpisodes}</span>
+              <FaStar className="ml-2 md:invisible" />
+              <span className='pl-1 md:invisible'>{data[currentIndex].rating / 10}</span>
+              <FaClock className="ml-2 md:invisible" />
+              <span className='pl-1 md:invisible'>{data[currentIndex].duration} min</span>
             </p>
           </div>
         </div>
