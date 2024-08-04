@@ -75,7 +75,7 @@ const Slideshow = () => {
   };
 
   return (
-    <div className="relative h-[90vh] mt-18 md:w-full md:h-auto">
+    <div className="relative h-[90vh] mt-18 md:w-full">
       {data.length === 0 ? (
         <SkeletonLoader />
       ) : (
