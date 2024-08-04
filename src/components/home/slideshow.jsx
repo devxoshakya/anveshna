@@ -36,27 +36,27 @@ const Slideshow = () => {
     {
       id: 113415,
       title: "Jujutsu Kaisen",
-      videoLink: "https://example.com/video2.webm",
+      videoLink:  "https://github.com/devxoshakya/anveshna/raw/main/src/videos/1.webm",
       type: "TV",
       totalEpisodes: 24,
-      rating: 90,
-      duration: 120,
+      rating: 86,
+      duration: 24,
     },{
-      id: 4,
-      title: "Anime Title 2",
-      videoLink: "https://example.com/video2.webm",
-      type: "Movie",
-      totalEpisodes: 1,
-      rating: 90,
-      duration: 120,
+      id: 16498,
+      title: "Attack On Titan",
+      videoLink:  "https://github.com/devxoshakya/anveshna/raw/main/src/videos/3.webm",
+      type: "TV",
+      totalEpisodes: 25,
+      rating: 91,
+      duration: 24,
     },{
-      id: 5,
-      title: "Anime Title 2",
-      videoLink: "https://example.com/video2.webm",
-      type: "Movie",
-      totalEpisodes: 1,
-      rating: 90,
-      duration: 120,
+      id: 30,
+      title: "Neon Genesis Evangelion",
+      videoLink:  "https://github.com/devxoshakya/anveshna/raw/main/src/videos/2.webm",
+      type: "TV",
+      totalEpisodes: 26,
+      rating: 85,
+      duration: 24,
     },
     
   ];
@@ -75,7 +75,7 @@ const Slideshow = () => {
   };
 
   return (
-    <div className="relative h-[90vh] mt-18 md:w-full">
+    <div className="relative h-[90vh] mt-18 md:h-[40vh]">
       {data.length === 0 ? (
         <SkeletonLoader />
       ) : (
@@ -87,7 +87,7 @@ const Slideshow = () => {
             loop
             muted
           />
-          <div className="absolute flex flex-col justify-end bottom-0 left-0 h-[100%] w-[80%] md:w-full p-16 bg-gradient-to-r from-black">
+          <div className="absolute flex flex-col justify-end bottom-0 left-0 h-[100%] w-[80%] md:w-[60%] p-16 bg-gradient-to-r from-black">
             <h2
               className="text-[44px] md:text-[24px] font-bold opacity-100"
               onClick={() => handlePlayButtonClick(data[currentIndex].id)}
