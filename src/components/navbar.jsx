@@ -7,6 +7,14 @@ import { Link, useNavigate,} from 'react-router-dom';
 const IsMobileView = () => {
 
 
+
+
+
+useEffect(() => {
+    // Scroll to the top of the page
+      window.scrollTo(0, 0);
+    }, []); 
+
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
     useEffect(() => {
@@ -23,6 +31,8 @@ const IsMobileView = () => {
 
     return windowWidth <= 768;
 };
+
+
 
 const IsDesktopView = () => {
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);

@@ -230,6 +230,7 @@ export const EpisodeCard = () => {
           '';
 
         const animeBanner = lastVisitedData[animeId]?.bannerImage || 'https://via.placeholder.com/1000x500';
+        const gogoId = lastVisitedData[animeId]?.gogoId || '';
 
         const displayTitle = `${animeTitle}${
           episode.title ? ` - ${episode.title}` : ''
@@ -247,7 +248,7 @@ export const EpisodeCard = () => {
         return (
           <StyledSwiperSlide key={episode.id}>
             <AnimeEpisodeCard
-              to={`/watch/${animeId}`}
+              to={`/watch/${animeId}/${gogoId}/${episode.number}`}
               style={{ textDecoration: 'none' }}
               title={`Continue Watching ${displayTitle}`}
             >
@@ -300,7 +301,7 @@ export const EpisodeCard = () => {
   return (
     <Section className='mx-8 mt-4 md:mt-2 md:mx-0' aria-labelledby="continueWatchingTitle">
       {episodesToRender.length > 0 && (
-        <ContinueWatchingTitle id="continueWatchingTitle">
+        <ContinueWatchingTitle className='font-semibold ' id="continueWatchingTitle">
           CONTINUE WATCHING
         </ContinueWatchingTitle>
       )}

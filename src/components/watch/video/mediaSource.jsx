@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import styled  from 'styled-components';
+import styled from 'styled-components';
 import { FaBell, FaDownload } from 'react-icons/fa';
-
+import { useParams } from 'react-router-dom';
 
 // Styled components with hardcoded dark theme colors
 const UpdatedContainer = styled.div`
@@ -150,14 +150,22 @@ const MediaSource = ({
   airingTime,
   nextEpisodenumber,
 }) => {
+  const { animeTitle: initialAnimeTitle } = useParams();
   const [sourceType, setSourceType] = useState(initialSourceType);
   const [language, setLanguage] = useState(initialLanguage);
+  const [animeTitle, setAnimeTitle] = useState(initialAnimeTitle);
 
   const handleButtonClick = (newSourceType, newLanguage) => {
     setSourceType(newSourceType);
     setLanguage(newLanguage);
     initialSetSourceType(newSourceType);
     initialSetLanguage(newLanguage);
+
+    if (newLanguage === 'dub') {
+      setAnimeTitle((prevTitle) => `${prevTitle}-dub`);
+    } else {
+      setAnimeTitle((prevTitle) => prevTitle.replace('-dub', ''));
+    }
   };
 
   return (

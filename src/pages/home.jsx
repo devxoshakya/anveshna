@@ -112,7 +112,7 @@ const Home = () => {
 
   return (
     <div className='text-white my-16'>
-      <Slideshow data={trendingData} />
+      <Slideshow />
       <EpisodeCard />
       <div className='flex md:flex-col'>
       <div className=" w-full mx-auto md:w-full p-4">
