@@ -12,11 +12,13 @@ const Slideshow = () => {
     navigate(`/watch/${id}`);
   };
 
+// 1 : jujutsu kaisen, 2: evangelion , 3: attack on titan , 4: demon slayer , 5: your name
+
   const data = [
     {
       id: 21519,
       title: "Your Name.",
-      videoLink: "../../videos/1.webm",
+      videoLink: "https://github.com/devxoshakya/anveshna/raw/main/src/videos/5.webm",
       type: "MOVIE",
       totalEpisodes: 1,
       rating: 85,
@@ -25,7 +27,7 @@ const Slideshow = () => {
     {
       id: 101922,
       title: "Demon Slayer: Kimetsu no Yaiba",
-      videoLink: "https://example.com/video2.webm",
+      videoLink: "https://github.com/devxoshakya/anveshna/raw/main/src/videos/4.webm",
       type: "TV",
       totalEpisodes: 26,
       rating: 83,
@@ -73,7 +75,7 @@ const Slideshow = () => {
   };
 
   return (
-    <div className="relative h-[65vh] mt-16 md:h-[35vh]">
+    <div className="relative h-[90vh] mt-18 md:w-full md:h-auto">
       {data.length === 0 ? (
         <SkeletonLoader />
       ) : (
