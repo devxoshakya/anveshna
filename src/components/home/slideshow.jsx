@@ -84,7 +84,7 @@ const Slideshow = () => {
       {data.length == 0 ? (
         <SkeletonLoader />
       ) : (
-        <div className="absolute md:mt-4 left-0 w-full h-full">
+        <div className="absolute left-0 w-full h-full">
           <video
             src={data[currentIndex].videoLink}
             className="w-full h-full object-cover"
@@ -92,9 +92,9 @@ const Slideshow = () => {
             loop
             muted
           />
-          <div className="absolute flex flex-col justify-end bottom-0 left-0 h-[100%] w-[80%] md:w-[40%] p-16 bg-gradient-to-r from-black">
+          <div className="absolute flex flex-col justify-end md:p-20 bottom-0 left-0 h-[100%] w-[80%] md:w-[40%] p-16 bg-gradient-to-r from-black">
             <h2
-              className="text-[44px] md:text-[24px] md:mt-8 font-bold opacity-100"
+              className="text-[44px] md:mt-4 md:ml-2  md:text-[24px] font-bold opacity-100"
               onClick={() => handlePlayButtonClick(data[currentIndex].id)}
             >
               {truncateTitle(data[currentIndex].title, 45)}
