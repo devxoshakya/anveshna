@@ -228,6 +228,10 @@ const onNextEpisode = () => {
   }
 };
 
+//get finalanimetitle from params
+const finalAnimeTitle = useParams().animeTitle;
+
+
 //loader
 
 
@@ -360,7 +364,6 @@ useEffect(() => {
 
 // get finalAnimeTitle
 
-const finalAnimeTitle = useParams().animeTitle;
 
   // Last visited cache to order continue watching
   const updateLastVisited = () => {
