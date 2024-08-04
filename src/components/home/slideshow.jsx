@@ -84,8 +84,8 @@ const Slideshow = () => {
   };
 
   return (
-    <div className="relative h-[90vh] mt-24 md:h-[25vh]">
-      {!videoLoaded ? (
+    <div className="relative h-[90vh] mt-20 md:h-[25vh]">
+      {videoLoaded ? (
         <SkeletonLoader />
       ) : (
         <div className="absolute top-0 left-0 w-full h-full">
