@@ -358,6 +358,10 @@ useEffect(() => {
   };
 
 
+// get finalAnimeTitle
+
+const finalAnimeTitle = useParams().animeTitle;
+
   // Last visited cache to order continue watching
   const updateLastVisited = () => {
       if (!animeInfo || !animeId)
@@ -369,7 +373,7 @@ useEffect(() => {
           titleEnglish: animeInfo?.title?.english || '', // Assuming animeInfo contains the title in English
           titleRomaji: animeInfo?.title?.romaji || '', // Assuming animeInfo contains the title in Romaji
           bannerImage: animeInfo?.bannerImage || '', // Assuming animeInfo contains the banner image
-          gogoId : animeTitle || '', 
+          gogoId : finalAnimeTitle || '', 
       };
       localStorage.setItem(LOCAL_STORAGE_KEYS.LAST_ANIME_VISITED, JSON.stringify(lastVisitedData));
   };
