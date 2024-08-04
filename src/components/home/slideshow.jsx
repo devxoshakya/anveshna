@@ -6,13 +6,22 @@ import SkeletonLoader from '../skeletons/skeletons';
 import { useNavigate } from 'react-router-dom';
 
 const Slideshow = () => {
+
+  const [videoLoaded, setVideoLoaded] = useState(false);
+  
   const navigate = useNavigate();
 
   const handlePlayButtonClick = (id) => {
     navigate(`/watch/${id}`);
   };
 
+  const handleVideoLoad = () => {
+    setVideoLoaded(true);
+  };
+
+
 // 1 : jujutsu kaisen, 2: evangelion , 3: attack on titan , 4: demon slayer , 5: your name
+
 
   const data = [
     {
@@ -75,8 +84,8 @@ const Slideshow = () => {
   };
 
   return (
-    <div className="relative h-[90vh] mt-18 md:h-[25vh]">
-      {data.length === 0 ? (
+    <div className="relative h-[90vh] mt-24 md:h-[25vh]">
+      {!videoLoaded ? (
         <SkeletonLoader />
       ) : (
         <div className="absolute top-0 left-0 w-full h-full">
@@ -86,6 +95,7 @@ const Slideshow = () => {
             autoPlay
             loop
             muted
+            onLoadedData={handleVideoLoad}
           />
           <div className="absolute flex flex-col justify-end bottom-0 left-0 h-[100%] w-[80%] md:w-[40%] p-16 bg-gradient-to-r from-black">
             <h2
