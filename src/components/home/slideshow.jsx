@@ -90,6 +90,7 @@ const Slideshow = () => {
           <div className="absolute flex flex-col justify-end bottom-0 left-0 h-[100%] w-[80%] md:w-full p-16 bg-gradient-to-r from-black">
             <h2
               className="text-[44px] md:text-[24px] font-bold opacity-100"
+              onClick={() => handlePlayButtonClick(data[currentIndex].id)}
             >
               {truncateTitle(data[currentIndex].title, 45)}
             </h2>
