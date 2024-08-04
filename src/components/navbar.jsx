@@ -149,7 +149,7 @@ const Navbar = () => {
                     ))}
                 </div>
             )}
-            <div className="flex items-center gap-x-5 mr-8 sm:mr-2">
+            <div className="flex items-center 2xl:mr-64 gap-x-5 mr-8 sm:mr-2">
                 <button
                     className='p-1 focus:outline-none text-gray-500 md:text-gray-600 ml-2'
                     onClick={toggleSearch}

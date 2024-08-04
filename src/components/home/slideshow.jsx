@@ -92,7 +92,7 @@ const Slideshow = () => {
             loop
             muted
           />
-          <div className="absolute flex flex-col justify-end md:p-20 bottom-0 left-0 h-[100%] w-[80%] md:w-[40%] p-16 bg-gradient-to-r from-black">
+          <div className="absolute flex flex-col justify-end md:p-0 bottom-0 left-0 h-[100%] w-[80%] md:w-[40%] p-16 bg-gradient-to-r from-black">
             <h2
               className="text-[44px] md:mt-4 md:ml-2  md:text-[24px] font-bold opacity-100"
               onClick={() => handlePlayButtonClick(data[currentIndex].id)}
