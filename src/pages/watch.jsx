@@ -5,11 +5,11 @@ import Image404URL from '../images/404-mobile.png';
 import { fetchAnimeEmbeddedEpisodes, fetchAnimeEpisodes, fetchAnimeDetails, fetchAnimeRecommendations, fetchAnimeRelations } from '../hooks/useAPI';
 import EpisodeList from '../components/watch/episodeList';
 import Player from '../components/watch/video/player';
-import EmbedPlayer from '../components/watch/video/embedPlayer';
 import WatchAnimeData from '../components/watch/WatchAnimeData';
 import SkeletonLoader from '../components/skeletons/skeletons';
 import { MediaSource } from '../components/watch/video/mediaSource';
 import Loader from '../components/loader/loader';
+import RelatedAnimeData from '../components/watch/RelatedAnimeData';
 
 
 const LOCAL_STORAGE_KEYS = {
@@ -692,6 +692,7 @@ return (
           />
         )}
         {!loader && animeInfo && <WatchAnimeData animeId={finalAnimeId} />}
+        {!loader && animeInfo && <RelatedAnimeData animeId={finalAnimeId} />}
       </div>
     </div>
   </div>
