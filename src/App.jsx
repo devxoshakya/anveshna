@@ -13,6 +13,7 @@ import Search from './pages/search';
 import PageNotFound from './pages/404'
 import Watch from './pages/watch';
 import Loader from './components/loader/loader';
+import { Analytics } from "@vercel/analytics/react"
 
 function Main() {
   const location = useLocation();
@@ -48,6 +49,7 @@ function Main() {
             />        </Routes>
       </div>
       <Footer />
+      <Analytics/>
     </div>
   );
 }
