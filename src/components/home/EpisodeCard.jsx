@@ -231,6 +231,11 @@ export const EpisodeCard = () => {
 
         const animeBanner = lastVisitedData[animeId]?.bannerImage || 'https://via.placeholder.com/1000x500';
         const gogoId = lastVisitedData[animeId]?.gogoId || '';
+        let episodeImage = animeBanner;
+        if(animeBanner === 'https://via.placeholder.com/1000x500'){
+          console.log('Anime Banner Image not found');
+          episodeImage = lastVisitedData[animeId]?.coverImage?.extraLarge || 'https://via.placeholder.com/1000x1000';
+        }
 
         const displayTitle = `${animeTitle}${
           episode.title ? ` - ${episode.title}` : ''
@@ -252,7 +257,7 @@ export const EpisodeCard = () => {
               style={{ textDecoration: 'none' }}
               title={`Continue Watching ${displayTitle}`}
             >
-              <img src={animeBanner} alt={`Cover for ${animeTitle}`} />
+              <img src={episodeImage} alt={`Cover for ${animeTitle}`} />
               <PlayIcon aria-label="Play Episode">
                 <FaPlay />
               </PlayIcon>

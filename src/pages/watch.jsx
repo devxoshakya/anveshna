@@ -377,6 +377,7 @@ useEffect(() => {
           titleRomaji: animeInfo?.title?.romaji || '', // Assuming animeInfo contains the title in Romaji
           bannerImage: animeInfo?.bannerImage || '', // Assuming animeInfo contains the banner image
           gogoId : finalAnimeTitle || '', 
+          coverImage: animeInfo?.coverImage?.large || '', // Assuming animeInfo contains the cover image
       };
       localStorage.setItem(LOCAL_STORAGE_KEYS.LAST_ANIME_VISITED, JSON.stringify(lastVisitedData));
   };
@@ -481,7 +482,7 @@ useEffect(() => {
   document.addEventListener('keydown', handleKeyDown);
   return () => document.removeEventListener('keydown', handleKeyDown);
 }, [episodes, currentEpisode, handleEpisodeSelect, lastKeypressTime]);
-//SET PAGE TITLE TO MIRURO + ANIME TITLE
+//SET PAGE TITLE TO ANVESHNA + ANIME TITLE
 useEffect(() => {
   if (animeInfo && animeInfo.title) {
       document.title =

@@ -146,8 +146,8 @@ const CardItemContent = ({ anime }) => {
               <div className="md:text-[12px] text-sm text-[#666666A6] font-semibold flex items-center">
                 {anime.relaseDate && (
                   <>
-                    <FaCalendarAlt className="mr-1" />
-                    {anime.relaseDate}
+                    <FaCalendarAlt className="mr-1 md:invisible" />
+                    {anime.relaseDate }
                   </>
                 )}
                 {(anime.totalEpisodes || anime.episodes) && (
