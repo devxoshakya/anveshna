@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { FaPlay, FaStar, FaCalendarAlt } from 'react-icons/fa';
+import { FaPlay, FaStar } from 'react-icons/fa';
 import { TbCardsFilled } from 'react-icons/tb';
 
 const CardItemContent = ({ anime }) => {
@@ -144,12 +144,6 @@ const CardItemContent = ({ anime }) => {
                 {truncateTitle(anime.title_romaji || 'NO TITLE', 24)}
               </div>
               <div className="md:text-[12px] text-sm text-[#666666A6] font-semibold flex items-center">
-                {anime.relaseDate && (
-                  <>
-                    <FaCalendarAlt className="mr-1 md:invisible" />
-                    {anime.relaseDate }
-                  </>
-                )}
                 {(anime.totalEpisodes || anime.episodes) && (
                   <>
                     <TbCardsFilled className="mx-1" />
