@@ -375,9 +375,8 @@ useEffect(() => {
           timestamp: Date.now(),
           titleEnglish: animeInfo?.title?.english || '', // Assuming animeInfo contains the title in English
           titleRomaji: animeInfo?.title?.romaji || '', // Assuming animeInfo contains the title in Romaji
-          bannerImage: animeInfo?.bannerImage || '', // Assuming animeInfo contains the banner image
+          bannerImage: animeInfo?.bannerImage || animeInfo?.coverImage?.large || '', // Assuming animeInfo contains the banner image
           gogoId : finalAnimeTitle || '', 
-          coverImage: animeInfo?.coverImage?.large || '', // Assuming animeInfo contains the cover image
       };
       localStorage.setItem(LOCAL_STORAGE_KEYS.LAST_ANIME_VISITED, JSON.stringify(lastVisitedData));
   };
@@ -396,6 +395,8 @@ useEffect(() => {
   language,
   languageChanged,
   currentEpisode.number,
+  animeInfo,
+  finalAnimeTitle
 ]);
 
 // FETCH EMBEDDED EPISODES IF VIDSTREAMING OR GOGO HAVE BEEN SELECTED
@@ -641,13 +642,11 @@ return (
           ) : sourceType === 'default' ? (
             <Player
               episodeId={currentEpisode.id}
-              malId={animeInfo?.idMal}
-              banner={selectedBackgroundImage}
               updateDownloadLink={updateDownloadLink}
               onEpisodeEnd={handleEpisodeEnd}
               onPrevEpisode={onPrevEpisode}
               onNextEpisode={onNextEpisode}
-              animeTitle={animeInfo.title?.english || animeInfo.title?.romaji || ''}
+              animeId={finalAnimeId}
             />
           ) : (
             <iframe

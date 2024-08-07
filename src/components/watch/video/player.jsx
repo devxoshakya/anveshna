@@ -21,6 +21,7 @@ import {
 } from 'react-icons/tb';
 import { FaCheck } from 'react-icons/fa6';
 import { RiCheckboxBlankFill } from 'react-icons/ri';
+import { fetchAnimeDetails } from '../../../hooks/useAPI';
 
 const Button = styled.button`
   padding: 0.25rem;
@@ -54,18 +55,17 @@ const Button = styled.button`
 
 const Player = ({
   episodeId,
-  banner,
-  malId,
   updateDownloadLink,
   onEpisodeEnd,
   onPrevEpisode,
   onNextEpisode,
-  animeTitle,
+  animeId
 }) => {
   const player = useRef(null);
   const [src, setSrc] = useState('');
   const [vttUrl, setVttUrl] = useState('');
   const [currentTime, setCurrentTime] = useState(0);
+  const [animeData, setAnimeData] = useState([]);
   const [autoPlay, setAutoPlay] = useState(false);
   const [autoNext, setAutoNext] = useState(false);
   const [autoSkip, setAutoSkip] = useState(false);
@@ -73,8 +73,29 @@ const Player = ({
   const [totalDuration, setTotalDuration] = useState(0);
   const [vttGenerated, setVttGenerated] = useState(false);
 
+
+
+  useEffect(() => {
+    fetchAnimeDetails(animeId)
+      .then(Anime => {
+        const data = Anime;
+        setAnimeData(data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      
+      });
+  }, []);
+  // set details used to get things like the banner image, skiptimes, etc
+  const banner = animeData?.bannerImage || animeData?.coverImage?.large;
+  const animeTitle = animeData?.title?.english || animeData?.title?.romaji || 'No Title';
+  const malId = animeData?.idMal;
+
+
   const episodeNumber = getEpisodeNumber(episodeId);
   const animeVideoTitle = animeTitle;
+
+
 
   useEffect(() => {
     const savedAutoPlay = localStorage.getItem('autoPlay') === 'true';
