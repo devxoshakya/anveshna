@@ -1,64 +1,191 @@
-import React from 'react';
-import Logo from '../images/icon.png'
-import { FaInstagram, FaGithub, FaTwitter, FaLinkedin } from 'react-icons/fa';
+import styled from 'styled-components';
+import { FaTwitter } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import { FaGithub } from "react-icons/fa";
+import { FaInstagram } from "react-icons/fa";
 
-const getCurrentYear = () => {
+
+
+const PageWrapper = styled.div`
+  margin-top: 2rem;
+  @media (max-width: 1000px) {
+    padding: 0 0.5rem;
+  }
+`;
+
+const FooterBaseContainer = styled.footer`
+  color: var(--global-text);
+  padding: ${({ $isSub }) => ($isSub ? '0' : '0.5rem 0')};
+  display: flex;
+  justify-content: space-between;
+  border-top: ${({ $isSub }) => ($isSub ? '0.125rem solid' : 'none')}
+    var(--global-secondary-bg);
+  flex-direction: column;
+
+  @media (max-width: 1000px) {
+    padding: ${({ $isSub }) => ($isSub ? '0 0 1rem 0' : '0.5rem 0')};
+  }
+
+  @media (min-width: 601px) {
+    flex-direction: row;
+  }
+
+  @media (max-width: 600px) {
+    padding: ${({ $isSub }) => ($isSub ? '0' : '0.5rem 0')};
+  }
+`;
+
+const StyledLinkList = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem 0;
+  margin-top: auto;
+`;
+
+const FooterLink = styled(Link)`
+  align-items: center;
+  padding: 0.5rem 0;
+  color: grey;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: color 0.1s ease-in-out;
+  bottom: 0;
+  align-self: auto;
+
+  @media (min-width: 601px) {
+    align-self: end;
+  }
+
+  &:hover,
+  &:active,
+  &:focus {
+    color: var(--global-button-text);
+  }
+`;
+
+const SocialIconsWrapper = styled.div`
+  padding-top: 1rem;
+  display: flex;
+  gap: 1rem;
+`;
+
+const FooterLogoImage = styled.img`
+  content: url('../images/icon.png');
+  max-width: 8rem;
+  height: auto;
+`;
+
+const Text = styled.div`
+  color: grey;
+  font-size: ${({ $isSub }) => ($isSub ? '0.75rem' : '0.65rem')};
+  margin: ${({ $isSub }) => ($isSub ? '1rem 0 0 0' : '1rem 0')};
+  max-width: 25rem;
+
+  strong {
+    color: var(--global-text);
+  }
+`;
+
+const ShareButton = styled.a`
+  display: inline-block;
+  color: grey;
+  transition: 0.2s ease-in-out;
+
+  svg {
+    font-size: 1.2rem;
+  }
+
+  &:hover,
+  &:active,
+  &:focus {
+    transform: scale(1.15);
+    color: var(--global-button-text);
+    text-decoration: underline;
+  }
+
+  @media (max-width: 600px) {
+    margin-bottom: 1rem;
+  }
+`;
+
+function getYear() {
   return new Date().getFullYear();
 }
 
-const Footer = () => {
+function NewFooter() {
   return (
-    <footer className='bg-black text-white text-center mt-auto' > 
-    <div className='md:flex md:justify-center items-center md:items-center sm:px-0 bg-black py-0 h-12 mt-4 '>
-      <img src={Logo} alt="Anveshna Logo" className="object-center h-12 md:h-8 pl-4 pb-0 pt-2 justify-center	" />
-    </div>
-      <div className='flex w-full mb-0 border-b-2 border-gray-900'>
-      <p className='pl-4 flex text-left md:text-center w-full lg:text-4x1 text-3x1 md:mb-3 mb-4  lg:leading-normal text-xs md:text-[10px] md:mr-4'>This website does not retain any files on its server. Rather, it solely provides links to media content hosted by third-party services.</p>
-      </div>
-      <div className='flex p-4 mb-0 pb-0 text-gray-400 text-[13px] md:flex-col items-center'  >
-        <div >&#169; {getCurrentYear()} Anveshna.  |  Website made by <a href="https://devxoshakya.xyz" className='font-semibold text-white'>Dev Shakya</a> </div>
-        <div className='felx ml-96 mr-64 md:mr-0 md:ml-0 md:py-2 items-center md:justify-start justify-center'>
-          <a href="/about" className='text-gray-400 hover:font-semibold ease-out duration-300 ...'>About</a> | <a href="/contact" className='text-gray-400 hover:font-semibold ease-in duration-300 ...'>Contact</a> | <a href="/privacy" className='text-gray-400 hover:font-semibold ease-out duration-300 ...'>Privacy Policy</a>
-        </div>
-        <div className='flex ml-auto mr-4 md:items-center	justify-center	md:p-1 md:m-0 md:w-full'>
-        {[
+    <PageWrapper>
+      <footer className='mx-4 mb-4'>
+        <FooterBaseContainer aria-label="Main Footer" $isSub={false}>
+          <Text as="p" $isSub={false}>
+            <FooterLogoImage alt="Footer Logo" /> <br />
+            This website does not retain any files on its server. Rather, it
+            solely provides links to media content hosted by third-party
+            services.
+          </Text>
+          <StyledLinkList aria-label="Footer Links">
+            <FooterLink to="/about" title="About Us">
+              About
+            </FooterLink>
+            <FooterLink
+              to="/contact"
+              target="_blank"
+              title="Contact Us"
+            >
+              Contact
+            </FooterLink>
+            <FooterLink to="/privacy" title="Privacy Policy and Terms of Service">
+              Privacy & ToS
+            </FooterLink>
+          </StyledLinkList>
+        </FooterBaseContainer>
+        <FooterBaseContainer aria-label="Sub Footer" $isSub={true}>
+          <Text as="p" $isSub={true}>
+            &copy; {getYear()}{' '}
+            <a
+              href="https://www.miruro.com"
+              rel="noopener noreferrer"
+              style={{ color: 'grey' }}
+            >
+              Anveshna.
+            </a>{' '}
+            | Website Made by <strong><a href='https://devxoshakya.xyz' rel='noopener noreferrer'>Dev Shakya</a></strong>
+          </Text>
+          <nav aria-label="Social Links">
+            <SocialIconsWrapper>
+              {[
                 {
-                  href: 'https://twitter.com/devxoshakya',
+                  href: 'https://www.reddit.com/r/miruro',
+                  Icon: FaInstagram,
+                  label: 'Reddit',
+                },
+                {
+                  href: 'https://discord.gg/dubRrtfpFn',
                   Icon: FaTwitter,
+                  label: 'Discord',
+                },
+                {
+                  href: 'https://twitter.com/miruro_official',
+                  Icon: FaGithub,
                   label: 'Twitter',
                 },
-                {
-                  href: 'https://instagram.com/devxoshakya',
-                  Icon: FaInstagram,
-                  label: 'Instagram',
-                },
-                {
-                  href: 'https://github.com/devxoshakya',
-                  Icon: FaGithub,
-                  label: 'GitHub',
-                },
-                {
-                  href: 'https://linkedin.com/in/devxoshakya',
-                  Icon: FaLinkedin,
-                  label: 'LinkedIn',
-                },
               ].map(({ href, Icon, label }) => (
-                <a
-                  key={label}
+                <ShareButton
+                  key={href}
                   href={href}
                   target="_blank"
-                  rel="noreferrer"
-                  className="p-1 mt-auto mb-5 focus:outline-none text-gray-600 md:text-gray-600 ml-2 scale-125 hover:text-white hover:scale-150 ease-out duration-300 ..."
+                  rel="noopener noreferrer"
+                  aria-label={`Miruro on ${label}`}
                 >
-                  <Icon />
-                </a>
-                
-            ))}
-        </div>
-      </div>
-
-    </footer>
-  )
+                  <Icon aria-hidden="true" />
+                </ShareButton>
+              ))}
+            </SocialIconsWrapper>
+          </nav>
+        </FooterBaseContainer>
+      </footer>
+    </PageWrapper>
+  );
 }
 
-export default Footer
+export default NewFooter;

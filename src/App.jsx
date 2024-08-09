@@ -30,6 +30,7 @@ function Main() {
   ) : (
     <div className="p-0 m-0 flex flex-col bg-black">
       <Navbar />
+      {/* <NavbarNew/> */}
       <div style={{ minHeight: '40rem' }}>
         <Routes>
           <Route path='/search' element={<Search />} />
@@ -48,6 +49,7 @@ function Main() {
               element={<Watch />}
             />        </Routes>
       </div>
+      {/* <NewFooter/> */}
       <Footer />
       <Analytics/>
     </div>

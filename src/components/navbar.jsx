@@ -1,176 +1,245 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { FaSearch } from 'react-icons/fa';
-import { FaLinkedin, FaInstagram, FaTwitter, FaGithub } from 'react-icons/fa';
-import logo from '../images/icon.png';
-import { Link, useNavigate,} from 'react-router-dom';
-
-const IsMobileView = () => {
-
-
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { FiX } from 'react-icons/fi';
+import { IoIosSearch } from 'react-icons/io';
+import { FaXTwitter } from "react-icons/fa6";
+import { FaGithub } from "react-icons/fa";
 
 
+const StyledNavbar = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  margin: 0;
+  padding: 1rem;
+  background-color: var(--global-primary-bg-tr);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 100;
+  transition: 0.1s ease-in-out;
 
-useEffect(() => {
-    // Scroll to the top of the page
-      window.scrollTo(0, 0);
-    }, []); 
+  @media (max-width: 500px) {
+    padding: 1rem 0.5rem;
+  }
+`;
 
-    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+const NavbarWrapper = styled.div`
+  max-width: 105rem;
+  margin: auto;
+`;
 
-    useEffect(() => {
-        const handleResize = () => {
-            setWindowWidth(window.innerWidth);
-        };
+const TopContainer = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: space-between;
+`;
 
-        window.addEventListener('resize', handleResize);
+const LogoImg = styled(Link)`
+  width: 7rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: var(--global-text);
+  cursor: pointer;
+  transition: color 0.2s ease-in-out, transform 0.2s ease-in-out;
 
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
+  &:hover {
+    color: black;
+    transform: scale(1.05);
+  }
 
-    return windowWidth <= 768;
-};
+  @media (max-width: 500px) {
+    max-width: 6rem;
+  }
+`;
 
+const InputContainer = styled.div`
+  display: flex;
+  flex: 1;
+  max-width: 35rem;
+  height: 2.5rem;
+  align-items: center;
+  padding: 0.6rem;
+  border-radius: var(--global-border-radius);
+  background-color: var(--global-div);
+  display: ${({ isVisible }) => (isVisible ? 'flex' : 'none')};
 
+  @media (max-width: 1000px) {
+    max-width: 30rem;
+  }
 
-const IsDesktopView = () => {
-    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  @media (max-width: 500px) {
+    max-width: 100%;
+    margin-top: 1rem;
+  }
+`;
 
-    useEffect(() => {
-        const handleResize = () => {
-            setWindowWidth(window.innerWidth);
-        };
+const RightContent = styled.div`
+  gap: 0.5rem;
+  display: flex;
+  align-items: center;
+  height: 2rem;
+`;
 
-        window.addEventListener('resize', handleResize);
+const Icon = styled.div`
+  padding: 0 0.25rem;
+  color: var(--global-text);
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  border-right: 0px solid var(--global-text);
+`;
 
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
+const SearchInput = styled.input`
+  background: transparent;
+  border: none;
+  color: var(--global-text);
+  font-size: 0.85rem;
+  width: 100%;
+  outline: none;
+`;
 
-    return windowWidth <= 1350;
-};
+const ClearButton = styled.button`
+  background: transparent;
+  border: none;
+  color: var(--global-text);
+  font-size: 1.2rem;
+  cursor: pointer;
+  opacity: ${({ query }) => (query ? 0.5 : 0)};
+  visibility: ${({ query }) => (query ? 'visible' : 'hidden')};
+  display: flex;
+  align-items: center;
 
-const Navbar = () => {
-    let [isSearchOpen, setIsSearchOpen] = useState(true);
-    const [searchQuery, setSearchQuery] = useState('');
-    const navigate = useNavigate();
+  &:hover {
+    color: var(--global-text);
+    opacity: 1;
+  }
+`;
 
-    const toggleSearch = () => {
-        setIsSearchOpen(!isSearchOpen);
+const StyledButton = styled.button`
+  background: transparent;
+  color: var(--global-text);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.6rem 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  border: solid 1px rgba(245, 245, 245, 0.1);
+
+  &:active {
+    transform: scale(0.9);
+  }
+
+  @media (max-width: 500px) {
+    margin: 0;
+  }
+`;
+
+export const Navbar = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isMobileView, setIsMobileView] = useState(window.innerWidth < 500);
+  const [isInputVisible, setIsInputVisible] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobileView(window.innerWidth < 500);
     };
 
-    const isMobile = IsMobileView();
-    const isDesktop = IsDesktopView();
-    const inputRef = useRef(null);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
-
-    const handleSearch = (e) => {
-        if (e.key === 'Enter') {
-            const query = searchQuery.replace(/ /g, '+');
-            navigate(`/search?query=${query}`);
-            setSearchQuery('');
-        }
-    if (inputRef.current) {
-      inputRef.current.blur(); // Dismiss the keyboard
+  useEffect(() => {
+    if (isMobileView) {
+      setIsInputVisible(false);
     }
-    // Perform your search action here
-    console.log('Search submitted');
-    };
+  }, [location.pathname, isMobileView]);
 
-    return (
-        <nav className='bg-black px-4 backdrop-filter backdrop-blur-md justify-between flex w-full fixed opacity-85 z-[9998]'>
-            <div className='flex h-16 items-center'>
-                <Link to="/home" style={{ display: "inline-block", lineHeight: 0 }}>
-                    <img
-                        src={logo}
-                        to="/"
-                        onClick={() => window.scrollTo(0, 0)}
-                        alt="Anveshna Logo"
-                        className="h-16 ml-7 sm:h-12 absolute bottom-0"
-                    />
-                </Link>
-                {isMobile && !isSearchOpen && (
-                    <>
-                        <button
-                            className='p-1 focus:outline-none text-white md:text-gray-600'
-                            onClick={toggleSearch}
-                        ></button>
-                        {!isSearchOpen && (
-                            <div className='relative md:w-65 mt-2 '>
-                                <input
-                                    type="text"
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    onKeyDown={handleSearch}
-                                    className='w-full bg-[#222222] text-gray-400 px-4 py-1 pl-12 rounded shadow outline-none md:block'
-                                    placeholder='Search anime...'
-                                />
-                            </div>
-                        )}
-                    </>
-                )}
-            </div>
+  const handleSearch = (e) => {
+    if (e.key === 'Enter') {
+      const formattedQuery = searchQuery.replace(/ /g, '+');
+      navigate(`/search?query=${formattedQuery}`);
+    }
+  };
+  
 
-            {!isMobile && !isDesktop && (
-                <div className='flex align-left border-solid-white pt-2 justify-between gap-x-3 ml:invisible mr-72 '>
-                    {[
-                        {
-                            href: 'https://twitter.com/devxoshakya',
-                            Icon: FaTwitter,
-                            label: 'Twitter',
-                        },
-                        {
-                            href: 'https://instagram.com/devxoshakya',
-                            Icon: FaInstagram,
-                            label: 'Instagram',
-                        },
-                        {
-                            href: 'https://github.com/devxoshakya',
-                            Icon: FaGithub,
-                            label: 'GitHub',
-                        },
-                        {
-                            href: 'https://linkedin.com/in/devxoshakya',
-                            Icon: FaLinkedin,
-                            label: 'LinkedIn',
-                        },
-                    ].map(({ href, Icon, label }) => (
-                        <a
-                            key={label}
-                            href={href}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="p-1 mt-auto mb-5 focus:outline-none text-white md:text-gray-600 ml-2 scale-125 hover:scale-150 ease-out duration-300 ..."
-                        >
-                            <Icon />
-                        </a>
-                    ))}
-                </div>
+  const handleClearSearch = () => {
+    setSearchQuery('');
+  };
+
+  return (
+    <StyledNavbar>
+      <NavbarWrapper>
+        <TopContainer>
+          <LogoImg title="MIRURO.tv" to="/home" onClick={() => window.scrollTo(0, 0)}>
+            <img src="../images/icon.png" alt="MIRURO.t" className='scale-125 ml-4'/>
+          </LogoImg>
+
+          {!isMobileView && (
+            <InputContainer isVisible={true}>
+              <Icon>
+                <IoIosSearch />
+              </Icon>
+              <SearchInput
+                type="text"
+                placeholder="Search Anime"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={handleSearch}
+              />
+              <ClearButton query={searchQuery} onClick={handleClearSearch}>
+                <FiX />
+              </ClearButton>
+            </InputContainer>
+          )}
+
+          <RightContent>
+            {isMobileView && (
+              <StyledButton onClick={() => setIsInputVisible((prev) => !prev)}>
+                <IoIosSearch />
+              </StyledButton>
             )}
-            <div className="flex items-center 2xl:mr-64 gap-x-5 mr-8 sm:mr-2">
-                <button
-                    className='p-1 focus:outline-none text-gray-500 md:text-gray-600 ml-2'
-                    onClick={toggleSearch}
-                >
-                    <FaSearch />
-                </button>
-                {!isMobile && isSearchOpen && (
-                    <div className='relative md:w-65 '>
-                        <input
-                            type="text"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            onKeyDown={handleSearch}
-                            className='w-full bg-[#222222] text-gray-400 px-4 py-1 pl-12 rounded shadow outline-none md:block'
-                            placeholder='Search anime...'
-                        />
-                    </div>
-                )}
-            </div>
-        </nav>
-    );
+            <StyledButton>
+              <a href='https://github.com/devxoshakya' target='_blank' rel='noreferrer'>
+              <FaGithub/>
+              </a>
+            </StyledButton>
+            <StyledButton>
+              <a href='https://twitter.com/devxoshakya' target='_blank' rel='noreferrer'>
+              <FaXTwitter />
+              </a>
+            </StyledButton>
+          </RightContent>
+        </TopContainer>
+
+        {isMobileView && isInputVisible && (
+          <InputContainer isVisible={isInputVisible}>
+            <Icon>
+              <IoIosSearch />
+            </Icon>
+            <SearchInput
+              type="text"
+              placeholder="Search Anime"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={handleSearch}
+            />
+            <ClearButton query={searchQuery} onClick={handleClearSearch}>
+              <FiX />
+            </ClearButton>
+          </InputContainer>
+        )}
+      </NavbarWrapper>
+    </StyledNavbar>
+  );
 };
 
 export default Navbar;
