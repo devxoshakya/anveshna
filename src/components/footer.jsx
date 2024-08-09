@@ -155,19 +155,19 @@ function NewFooter() {
             <SocialIconsWrapper>
               {[
                 {
-                  href: 'https://www.reddit.com/r/miruro',
+                  href: 'https://instagram.com/devxoshakya',
                   Icon: FaInstagram,
-                  label: 'Reddit',
+                  label: 'Instagram',
                 },
                 {
-                  href: 'https://discord.gg/dubRrtfpFn',
+                  href: 'https://x.com/devxoshakya',
                   Icon: FaTwitter,
-                  label: 'Discord',
+                  label: 'Twitter',
                 },
                 {
-                  href: 'https://twitter.com/miruro_official',
+                  href: 'https://github.com/devxoshakya',
                   Icon: FaGithub,
-                  label: 'Twitter',
+                  label: 'Github',
                 },
               ].map(({ href, Icon, label }) => (
                 <ShareButton
@@ -175,7 +175,7 @@ function NewFooter() {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={`Miruro on ${label}`}
+                  aria-label={`${label}`}
                 >
                   <Icon aria-hidden="true" />
                 </ShareButton>

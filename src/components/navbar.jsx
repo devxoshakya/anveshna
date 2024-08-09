@@ -16,7 +16,7 @@ const StyledNavbar = styled.div`
   margin: 0;
   padding: 1rem;
   background-color: var(--global-primary-bg-tr);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(10px);
   z-index: 100;
   transition: 0.1s ease-in-out;
