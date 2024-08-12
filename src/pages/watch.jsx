@@ -194,7 +194,7 @@ const handleEpisodeSelect = useCallback(async (selectedEpisode) => {
   });
   await new Promise((resolve) => setTimeout(resolve, 100));
   setIsEpisodeChanging(false);
-}, [animeId, navigate]);
+}, [animeId, navigate, updateWatchedEpisodes]);
 //UPDATE DOWNLOAD LINK WHEN EPISODE ID CHANGES
 const updateDownloadLink = useCallback(async () => {
   try {
