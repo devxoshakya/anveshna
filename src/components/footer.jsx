@@ -143,7 +143,7 @@ function NewFooter() {
           <Text as="p" $isSub={true}>
             &copy; {getYear()}{' '}
             <a
-              href="https://www.miruro.com"
+              href="https://www.anveshna.xyz"
               rel="noopener noreferrer"
               style={{ color: 'grey' }}
             >

@@ -179,8 +179,8 @@ export const Navbar = () => {
     <StyledNavbar>
       <NavbarWrapper>
         <TopContainer>
-          <LogoImg title="MIRURO.tv" to="/home" onClick={() => window.scrollTo(0, 0)}>
-            <img src="../images/icon.png" alt="MIRURO.t" className='scale-125 ml-4'/>
+          <LogoImg title="Anveshna." to="/home" onClick={() => window.scrollTo(0, 0)}>
+            <img src="../images/icon.png" alt="Anveshna." className='scale-125 ml-4'/>
           </LogoImg>
 
           {!isMobileView && (

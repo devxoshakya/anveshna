@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FaBell, FaDownload } from 'react-icons/fa';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 // Styled components with hardcoded dark theme colors
 const UpdatedContainer = styled.div`
@@ -139,7 +139,9 @@ const EpisodeInfoColumn = styled.div`
   }
 `;
 
-// MediaSource Component
+
+// Styled components...
+
 const MediaSource = ({
   sourceType: initialSourceType,
   setSourceType: initialSetSourceType,
@@ -150,7 +152,8 @@ const MediaSource = ({
   airingTime,
   nextEpisodenumber,
 }) => {
-  const { animeTitle: initialAnimeTitle } = useParams();
+  const { animeId, animeTitle: initialAnimeTitle, episodeNumber } = useParams();
+  const navigate = useNavigate();
   const [sourceType, setSourceType] = useState(initialSourceType);
   const [language, setLanguage] = useState(initialLanguage);
   const [animeTitle, setAnimeTitle] = useState(initialAnimeTitle);
@@ -161,11 +164,22 @@ const MediaSource = ({
     initialSetSourceType(newSourceType);
     initialSetLanguage(newLanguage);
 
+    let updatedAnimeTitle = animeTitle;
+
     if (newLanguage === 'dub') {
-      setAnimeTitle((prevTitle) => `${prevTitle}-dub`);
-    } else {
-      setAnimeTitle((prevTitle) => prevTitle.replace('-dub', ''));
+      if (!animeTitle.endsWith('-dub')) {
+        updatedAnimeTitle = `${animeTitle}-dub`;
+      }
+    } else if (newLanguage === 'sub') {
+      if (animeTitle.endsWith('-dub')) {
+        updatedAnimeTitle = animeTitle.replace('-dub', '');
+      }
     }
+
+    setAnimeTitle(updatedAnimeTitle);
+
+    // Update the URL
+    navigate(`/watch/${animeId}/${updatedAnimeTitle}/${episodeNumber}`);
   };
 
   return (
@@ -298,17 +312,6 @@ const MediaSource = ({
   );
 };
 
-// Sample data for testing
-const sampleData = {
-  sourceType: 'default',
-  setSourceType: (type) => console.log(`Set source type: ${type}`),
-  language: 'sub',
-  setLanguage: (lang) => console.log(`Set language: ${lang}`),
-  downloadLink: 'https://example.com/download',
-  episodeId: '1',
-  airingTime: '2 days',
-  nextEpisodenumber: '2',
-};
+// Sample data for testing...
 
-// Export the MediaSource component and sample data for testing
 export { MediaSource };
