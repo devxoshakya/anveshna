@@ -34,6 +34,11 @@ const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
   gap: 0.5rem;
+  @media (max-width: 400px) {
+    width: 100%;
+    gap: 0.25rem;
+    margin: auto;
+  }
 `;
 
 const ButtonBase = styled.button`
@@ -101,9 +106,9 @@ const DownloadLink = styled.a`
 
 const ResponsiveTableContainer = styled.div`
   background-color: rgba(20, 20, 20, 0.5);
-  padding: 0.75rem;
+  padding: 0.5rem;
   border-radius: 0.3rem;
-  @media (max-width: 500px) {
+  @media (max-width: 200px) {
     display: block;
   }
 `;
@@ -205,7 +210,7 @@ const MediaSource = ({
         {airingTime && (
           <>
             <p className='flex gap-1'>
-              Episode <strong>{nextEpisodenumber}</strong> will air in{' '}
+              <span className='block'>Next Ep in{' '}</span>
               <FaBell className='mt-1'/>
               <strong> {airingTime}</strong>.
             </p>
