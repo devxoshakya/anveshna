@@ -601,7 +601,7 @@ console.log(finalAnimeId, "final anime id");
 //----------------------------------------------RETURN----------------------------------------------
 
 return (
-  <div className="container mx-auto p-4">
+  <div className="container overflow-x-hidden mx-auto p-4">
   {loader && <Loader className="mt-0 h-full w-full z-9999" />}
     {!loader && animeInfo && animeInfo.status === 'NOT_YET_AIRED' ? (
       <div className="text-center">
