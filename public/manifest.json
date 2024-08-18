@@ -11,7 +11,7 @@
   "start_url": "/",
   "screenshots": [
     {
-      "src": "images/preview.png",
+      "src": "https://raw.githubusercontent.com/devxoshakya/anveshna/main/public/images/preview.png",
       "sizes": "960x540",
       "type": "image/png",
       "form_factor": "wide",
