@@ -26,7 +26,7 @@ export const GoogleGeminiEffect = ({
       </p>
       <p className="text-[20px] md:text-xl font-normal text-center text-neutral-400 mt-4 max-w-lg mx-auto">
         {description ||
-          `Where Every Moment is an Eternal Adventure`}
+          `Simple Anime Streaming Platform`}
       </p>
       <div className="w-full h-[890px] -top-60 md:-top-40  flex items-center justify-center bg-red-transparent absolute z-50">
       <Link to="/home">
