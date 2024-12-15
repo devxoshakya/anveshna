@@ -48,7 +48,7 @@ const GoogleGeminiEffectDemo = () => {
     // Function to scroll the whole page in 10 seconds
     const scrollPage = () => {
       const startTime = performance.now();
-      const duration = 10000; // 10 seconds
+      const duration = 2500; // 10 seconds
       const startPosition = window.scrollY;
       const endPosition = document.documentElement.scrollHeight - window.innerHeight;
 
