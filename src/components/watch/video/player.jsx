@@ -323,7 +323,8 @@ const Player = ({
       <MediaPlayer
         className='player'
         title={`${animeVideoTitle} - Episode ${episodeNumber}`}
-        src={{ src: src, type: 'application/x-mpegurl' }}
+        src={{ src: `https://goodproxy.goodproxy.workers.dev/fetch?url=${encodeURIComponent(src)}`, type: 'application/x-mpegurl' }}
+{/*         src={https://goodproxy.goodproxy.workers.dev/fetch?url=${encodeURIComponent(src)}} */}
         crossOrigin
         playsInline
         autoPlay={autoPlay}
