@@ -155,7 +155,7 @@ const updateWatchedEpisodes = (episode) => {
 };
 const fetchAnimeData = async (animeId) => {
   // Fetch data from your API or service
-  const response = await fetch(`https://anveshna-backend.vercel.app/api/v2/info/${animeId}`);
+  const response = await fetch(`https://anveshna-backend.onrender.com/api/v2/info/${animeId}`);
   const data = await response.json();
   return data;
 };
@@ -198,7 +198,7 @@ const handleEpisodeSelect = useCallback(async (selectedEpisode) => {
 //UPDATE DOWNLOAD LINK WHEN EPISODE ID CHANGES
 const updateDownloadLink = useCallback(async () => {
   try {
-    const response = await fetch(`https://anveshna-backend.vercel.app/api/v1/download/${animeTitle}-episode-${episodeNumber}`);
+    const response = await fetch(`https://anveshna-backend.onrender.com/api/v1/download/${animeTitle}-episode-${episodeNumber}`);
     const data = await response.json();
     setDownloadLink(data.download);
   } catch (error) {
