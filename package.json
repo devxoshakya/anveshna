@@ -1,6 +1,6 @@
 {
-  "name": "watari",
-  "version": "0.1.0",
+  "name": "anveshna",
+  "version": "3.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -9,9 +9,22 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-slot": "^1.1.2",
+    "@types/swiper": "^6.0.0",
+    "axios": "^1.8.4",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "embla-carousel-react": "^8.6.0",
+    "lucide-react": "^0.487.0",
+    "next": "15.2.4",
+    "next-themes": "^0.4.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "next": "15.2.4"
+    "react-icons": "^5.5.0",
+    "styled-components": "^6.1.0",
+    "swiper": "^11.0.7",
+    "tailwind-merge": "^3.1.0",
+    "tw-animate-css": "^1.2.5"
   },
   "devDependencies": {
     "typescript": "^5",
