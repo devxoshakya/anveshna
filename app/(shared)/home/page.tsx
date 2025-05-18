@@ -13,6 +13,9 @@ import {
   fetchUpcomingSeasons,
 } from "@/hooks/useApi";
 import { HomeCarousel } from "@/components/layout/home-slide";
+import CategoryNavigation from "@/components/home/category-nav";
+import WatchHistorySlider from "@/components/home/watch-history-slider";
+import PaginationComponent from "@/components/home/pagination-component";
 
 const HomePage = () => {
   // Set a default value that doesn't rely on window
@@ -101,12 +104,20 @@ const HomePage = () => {
   }, [itemsCount]); // Only depend on itemsCount
 
   return (
-    <div className="h-screen pt-16">
+    <div className="pt-16">
       <HomeCarousel
         data={trendingAnime}
         loading={loading.trending}
         error={error}
       />
+      <CategoryNavigation/>
+      <WatchHistorySlider/>
+      <PaginationComponent
+          totalPages={10}
+          initialPage={1}
+          tabs={["NEWEST", "POPULAR", "TOP RATED"]}
+          initialTab="TOP RATED"
+        />
     </div>
   );
 };
