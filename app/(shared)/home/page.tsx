@@ -16,6 +16,10 @@ import { HomeCarousel } from "@/components/layout/home-slide";
 import CategoryNavigation from "@/components/home/category-nav";
 import WatchHistorySlider from "@/components/home/watch-history-slider";
 import PaginationComponent from "@/components/home/pagination-component";
+import styled from "styled-components";
+import { CardGrid, StyledCardGrid } from "@/components/cards/CardGrid";
+import { SkeletonCard } from "@/components/skeletons/skeletons";
+import { HomeSideBar } from "@/components/home/HomeCardList";
 
 const HomePage = () => {
   // Set a default value that doesn't rely on window
@@ -35,6 +39,14 @@ const HomePage = () => {
     topAiring: true,
     upcoming: true,
   });
+
+
+  const Section = styled.section`
+  padding: 0rem;
+  border-radius: var(--global-border-radius);
+`;
+
+
 
   const filterAndTrimAnime = (animeList: any) =>
     animeList.results
@@ -103,6 +115,28 @@ const HomePage = () => {
     fetchData();
   }, [itemsCount]); // Only depend on itemsCount
 
+   const renderCardGrid = (
+    animeData: any[],
+    isLoading: boolean,
+    hasError: boolean,
+  ) => (
+    <Section>
+      {isLoading || hasError ? (
+        <StyledCardGrid>
+          {Array.from({ length: itemsCount }, (_, index) => (
+            <SkeletonCard key={index} />
+          ))}
+        </StyledCardGrid>
+      ) : (
+        <CardGrid
+          animeData={animeData}
+          hasNextPage={false}
+          onLoadMore={() => {}}
+        />
+      )}
+    </Section>
+  );
+
   return (
     <div className="pt-16">
       <HomeCarousel
@@ -118,6 +152,23 @@ const HomePage = () => {
           tabs={["NEWEST", "POPULAR", "TOP RATED"]}
           initialTab="TOP RATED"
         />
+        {renderCardGrid(
+                trendingAnime,
+                loading.trending,
+                false,
+              )}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <div
+            style={{
+              fontSize: '1.25rem',
+              fontWeight: 'bold',
+              padding: '0.75rem 0',
+            }}
+          >
+            TOP AIRING
+          </div>
+          <HomeSideBar animeData={topAiring} />
+          </div>
     </div>
   );
 };

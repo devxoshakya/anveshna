@@ -2,8 +2,8 @@ import React from 'react';
 import styled, { keyframes, css } from 'styled-components';
 
 const pulseAnimation = keyframes`
-  0%, 100% { background-color: var(--global-primary-skeleton); }
-  50% { background-color: var(--global-secondary-skeleton); }
+  0%, 100% { background-color: var(--foreground); }
+  50% { background-color: var(--foreground); }
 `;
 
 const popInAnimation = keyframes`
@@ -18,9 +18,9 @@ const playerPopInAnimation = keyframes`
 `;
 
 const SkeletonPulse = keyframes`
-  0%, 100% { background-color: var(--global-primary-skeleton); }
-  25%, 75% { background-color: var(--global-secondary-skeleton); }
-  50% { background-color: var(--global-primary-skeleton); }
+  0%, 100% { background-color: var(--foreground); }
+  25%, 75% { background-color: var(--foreground); }
+  50% { background-color: var(--foreground); }
 `;
 
 const animationMixin = css`
@@ -30,11 +30,11 @@ const animationMixin = css`
 `;
 
 const BaseSkeleton = styled.div`
-  background: var(--global-primary-skeleton);
-  border-radius: var(--global-border-radius);
+  background: #61450f;
+  border-radius: 8px;
 `;
 
-const SkeletonCards = styled(BaseSkeleton)`
+export const SkeletonCards = styled(BaseSkeleton)`
   width: 100%;
   height: 0;
   padding-top: calc(100% * 184 / 133);

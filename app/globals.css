@@ -94,6 +94,11 @@
   --primary-border: oklch(0.59 0.096 111.8);
   --destructive-foreground: oklch(0.97 0.018 0);
   --destructive-border: oklch(0.43 0.24 29.2);
+   --ongoing-dot-color: #aaff00;
+  --completed-indicator-color: #00aaff;
+  --cancelled-indicator-color: #ff0000;
+  --not-yet-aired-indicator-color: #ffa500;
+  --default-indicator-color: #808080;
 }
 
 .dark {
@@ -175,5 +180,45 @@
     width: 100vw;
     height: 100dvh;
     pointer-events: none;
+  }
+}
+
+@layer utilities {
+  .animate-slide-in-right {
+    animation: slide-in-right 300ms ease-in-out forwards;
+  }
+  
+  .animate-slide-in-left {
+    animation: slide-in-left 300ms ease-in-out forwards;
+  }
+  
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Shimmer animation for skeleton loading */
+  .bg-shimmer {
+    background: linear-gradient(
+      90deg,
+      rgba(255,255,255,0) 0%,
+      rgba(255,255,255,0.05) 50%,
+      rgba(255,255,255,0) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
   }
 }

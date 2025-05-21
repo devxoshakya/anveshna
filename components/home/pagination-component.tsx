@@ -67,11 +67,11 @@ export default function PaginationComponent({
   }
 
   return (
-    <div className="flex justify-between items-center w-full rounded-md">
+    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center w-full gap-4 p-4">
       <div
         ref={tabsContainerRef}
         className={cn(
-          "flex rounded-md sm:w-auto overflow-x-auto scrollbar-hide",
+          "flex rounded-md sm:w-auto overflow-x-auto hide-scrollbar",
           isScrollable && "after:content-[''] after:w-4 after:flex-shrink-0",
         )}
       >
@@ -81,8 +81,10 @@ export default function PaginationComponent({
             onClick={() => handleTabChange(tab)}
             data-state={activeTab === tab ? "active" : "inactive"}
             className={cn(
-              "px-6 py-3 text-sm font-medium whitespace-nowrap transition-colors",
-              activeTab === tab ? "bg-purple-200 text-purple-700" : "bg-gray-200 text-gray-700 hover:bg-gray-300",
+              "px-6 py-2 text-sm font-medium whitespace-nowrap transition-all duration-200 ease-in-out border-2 ",
+              activeTab === tab 
+                ? "bg-primary text-primary-foreground border-primary shadow-primary" 
+                : "bg-card text-card-foreground hover:bg-muted border-border"
             )}
           >
             {tab}
@@ -90,26 +92,28 @@ export default function PaginationComponent({
         ))}
       </div>
 
-      <div className="flex items-center rounded-md m-2 sm:m-0">
+      <div className="flex items-center gap-1 rounded-md m-2 sm:m-0">
         <Button
-          variant="ghost"
+          variant="outline"
           size="icon"
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className="text-gray-500 hover:text-gray-700 hover:bg-gray-300"
+          className="border-2 shadow-xs hover:bg-muted transition-all duration-200"
         >
           <ChevronLeft className="h-4 w-4" />
           <span className="sr-only">Previous page</span>
         </Button>
 
-        <div className="px-4 border-l border-r py-2 text-sm font-medium">{currentPage}</div>
+        <div className="px-4 py-2 text-sm font-medium border-2 rounded-md bg-card text-card-foreground shadow-xs">
+          {currentPage} / {totalPages}
+        </div>
 
         <Button
-          variant="ghost"
+          variant="outline"
           size="icon"
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="text-gray-500 hover:text-gray-700 hover:bg-gray-300"
+          className="border-2 shadow-xs hover:bg-muted transition-all duration-200"
         >
           <ChevronRight className="h-4 w-4" />
           <span className="sr-only">Next page</span>

@@ -115,7 +115,7 @@ export default function WatchHistorySlider() {
 
   return (
     <div className="w-full px-4 py-6">
-      <div className="mb-1 text-foreground/80 text-sm">Your Watchlist</div>
+      <div className="mb-1 text-muted-foreground text-sm font-medium">Your Watchlist</div>
       <h2 className="text-2xl font-bold text-foreground mb-4">
         Continue Watching
       </h2>
@@ -128,9 +128,10 @@ export default function WatchHistorySlider() {
         className="w-full"
       >
         {items.map((item) => (
-          <SwiperSlide key={item.id} className="!w-[280px] md:!w-[350px] h-auto">
-            <div className="relative rounded-md overflow-hidden group">
-              <div className="relative aspect-video bg-gray-100">
+          <SwiperSlide key={item.id} className="!w-[280px] md:!w-[330px] h-auto">
+            <div className="relative rounded-md overflow-hidden group border-2 border-border shadow-sm hover:shadow-primary transition-shadow duration-300"
+              style={{borderRadius: 'var(--radius-lg)'}}>
+              <div className="relative aspect-video bg-muted">
                 {/* Image with zoom effect */}
                 <div className="absolute inset-0 overflow-hidden">
                   <Image
@@ -146,9 +147,9 @@ export default function WatchHistorySlider() {
 
                 {/* Close button - visible only on hover */}
                 <button
-                  className="absolute opacity-55 top-2 right-2 bg-black/60 rounded-sm p-1 text-white 
-                    hover:bg-black/80 transition-all duration-200 
-                     group-hover:opacity-100 z-10"
+                  className="absolute top-2 right-2 bg-background/80 border border-border rounded-md p-1 text-foreground 
+                    hover:bg-primary hover:text-primary-foreground transition-all duration-200 
+                    opacity-0 group-hover:opacity-100 z-10"
                   onClick={() => handleRemoveItem(item.id)}
                 >
                   <X className="w-4 h-4" />
@@ -161,20 +162,20 @@ export default function WatchHistorySlider() {
                     "opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                   )}
                 >
-                  <div className="bg-white/80 rounded-full p-3 transform scale-90 
-                    group-hover:scale-100 transition-all duration-300 shadow-lg hover:bg-white/90">
-                    <Play className="w-8 h-8 fill-black text-black" />
+                  <div className="bg-background/80 border-2 border-primary rounded-full p-3 transform scale-90 
+                    group-hover:scale-100 transition-all duration-300 shadow-primary hover:bg-background">
+                    <Play className="w-8 h-8 fill-primary text-primary" />
                   </div>
                 </div>
 
                 {/* Episode indicator */}
-                <div className="absolute bottom-2 left-2 bg-black/70 px-1.5 py-0.5 text-white text-xs rounded">
+                <div className="absolute bottom-2 left-2 bg-background/80 border border-border px-1.5 py-0.5 text-foreground text-xs rounded-md">
                   EP {item.episode}
                 </div>
 
                 {/* Progress indicator */}
                 {item.currentTime && item.totalTime && (
-                  <div className="absolute bottom-2 right-2 bg-black/70 px-1.5 py-0.5 text-white text-xs rounded">
+                  <div className="absolute bottom-2 right-2 bg-background/80 border border-border px-1.5 py-0.5 text-foreground text-xs rounded-md">
                     <span className="font-bold">{item.currentTime}</span>
                     <span className="font-medium"> /{item.totalTime}</span>
                   </div>
@@ -182,9 +183,9 @@ export default function WatchHistorySlider() {
 
                 {/* Progress bar */}
                 {item.currentTime && item.totalTime && (
-                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-300/50">
+                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-background/30">
                     <div
-                      className="h-full bg-red-600/70"
+                      className="h-full bg-primary"
                       style={{
                         width: `${calculateProgress(item.currentTime, item.totalTime)}%`,
                       }}
@@ -193,8 +194,8 @@ export default function WatchHistorySlider() {
                 )}
               </div>
 
-              <div className="p-2 bg-accent">
-                <h3 className="text-sm font-medium text-foreground truncate">
+              <div className="p-2 bg-accent border-2 border-t-0 rounded-b-md">
+                <h3 className="text-sm font-medium text-accent-foreground truncate">
                   {item.title}
                 </h3>
               </div>
