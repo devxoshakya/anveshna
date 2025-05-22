@@ -114,7 +114,7 @@ export default function WatchHistorySlider() {
   };
 
   return (
-    <div className="w-full px-4 py-6">
+    <div className="w-full px-4">
       <div className="mb-1 text-muted-foreground text-sm font-medium">Your Watchlist</div>
       <h2 className="text-2xl font-bold text-foreground mb-4">
         Continue Watching

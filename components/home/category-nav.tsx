@@ -9,6 +9,11 @@ import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 
 const categories = [
+  "Action",
+  "Adventure",
+  "Cars",
+  "Comedy",
+  "Drama",
   "Fantasy",
   "Horror",
   "Mahou Shoujo",
@@ -20,17 +25,8 @@ const categories = [
   "Sci-Fi",
   "Slice of Life",
   "Sports",
-  "Fantasy",
-  "Horror",
-  "Mahou Shoujo",
-  "Mecha",
-  "Music",
-  "Mystery",
-  "Psychological",
-  "Romance",
-  "Sci-Fi",
-  "Slice of Life",
-  "Sports",
+  "Supernatural",
+  "Thriller",
   // Repeat removed to avoid redundancy
 ];
 
@@ -39,7 +35,6 @@ export default function CategoryNavigation() {
   const Router = useRouter();
 
   const handleCategoryClick = (category: string) => {
-
     setActiveCategory(category);
     // You can insert your filtering logic here
     console.log(`Category clicked: ${category}`);
@@ -47,7 +42,7 @@ export default function CategoryNavigation() {
   };
 
   return (
-    <div className="relative w-full max-w-full my-2">
+    <div className="relative w-full max-w-full mt-2">
       <Swiper
         modules={[FreeMode]}
         slidesPerView="auto"
@@ -61,7 +56,7 @@ export default function CategoryNavigation() {
               onClick={() => handleCategoryClick(category)}
               className={cn(
                 "whitespace-nowrap rounded-md px-6 py-1.5 text-sm font-medium transition-colors",
-                activeCategory === category 
+                activeCategory === category
                   ? "bg-primary text-primary-foreground"
                   : "hover:bg-muted-foreground/20 bg-muted dark:bg-gray-800"
               )}

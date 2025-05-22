@@ -177,3 +177,5 @@ export const CardItem: React.FC<{ anime: any }> = ({ anime }) => {
     </>
   );
 };
+
+CardItem.displayName = "CardItem";

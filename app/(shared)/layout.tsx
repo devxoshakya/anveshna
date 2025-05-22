@@ -21,7 +21,7 @@ export default function RootLayout({
     <div className="flex min-h-screen flex-col">
     <Navbar />
     <AppSidebar />
-    <main className="flex-1 md:ml-[70px] p-4 pt-4 overflow-auto">{children}</main>
+    <main className="flex-1 md:ml-[70px] px-2 md:p-4 pt-4 overflow-auto hide-scrollbar">{children}</main>
   </div>
      
   )

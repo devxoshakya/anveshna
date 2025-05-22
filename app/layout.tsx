@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${nunito.variable} ${ptSans.variable} antialiased relative`}
+        className={`${nunito.variable} ${ptSans.variable} antialiased relative hide-scrollbar`}
       >
         <StyledComponentsRegistry>
         <ThemeProvider

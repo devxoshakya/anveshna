@@ -1,18 +1,21 @@
-import { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import Link from 'next/link';
-import { TbCards } from 'react-icons/tb';
-import { FaStar, FaCalendarAlt } from 'react-icons/fa';
-import { StatusIndicator } from '@/components/shared/StatusIndicator';
+import { useEffect, useState } from "react";
+import styled from "styled-components";
+import Link from "next/link";
+import { TbCards } from "react-icons/tb";
+import { FaStar, FaCalendarAlt } from "react-icons/fa";
+import { StatusIndicator } from "@/components/shared/StatusIndicator";
+import { MdKeyboardArrowRight } from "react-icons/md";
+
 
 // Outer container with 1px border
 const SidebarStyled = styled.div`
   transition: 0.2s ease-in-out;
   margin: 0;
-  padding: 0;
+  padding: 1rem;
+  background-color: #efd09f;
   max-width: 24rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
+  border: 1px solid var(--muted-foreground);
+  border-radius: 8px;
   overflow: hidden;
   @media (max-width: 1000px) {
     max-width: unset;
@@ -27,13 +30,14 @@ const TitleContainer = styled.div`
   gap: 0.4rem;
   z-index: 10;
   position: relative;
-  text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.8);
 `;
 
 // Card with background image and gradient overlay
 const AnimeCard = styled.div`
   position: relative;
   height: 5.5rem;
+  border-radius: 8px;
+
   margin-bottom: 0.5rem;
   cursor: pointer;
   animation: slideUp 0.5s ease-in-out;
@@ -41,22 +45,25 @@ const AnimeCard = styled.div`
   overflow: hidden;
   background-color: var(--card);
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-  
+
   &:before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(to right, 
-      rgba(0, 0, 0, 0.85) 0%,
-      rgba(0, 0, 0, 0.6) 50%,
-      rgba(0, 0, 0, 0.3) 100%
+    background: linear-gradient(
+      to right,
+      #f2e3c6 0%,
+      #f6ebd5 30%,
+    
+      #fff9ee 100%
     );
+    opacity: 0.7;
     z-index: 2;
   }
-  
+
   &:hover {
     transform: translateX(0.35rem);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
@@ -76,7 +83,7 @@ const BackgroundImage = styled.div<{ $bgImage: string }>`
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url(${props => props.$bgImage || ''});
+  background-image: url(${(props) => props.$bgImage || ""});
   background-size: cover;
   background-position: center;
   z-index: 1;
@@ -90,6 +97,7 @@ const AnimeImageStyled = styled.img`
   object-fit: cover;
   left: 0;
   top: 0;
+  border-radius: 8px;
   z-index: 3;
 `;
 
@@ -97,17 +105,17 @@ const AnimeImageStyled = styled.img`
 const InfoStyled = styled.div`
   position: relative;
   z-index: 5;
-  margin-left: 5.5rem;
+  margin-left: 4.4rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  padding: 0.5rem 0;
+  padding: 1.1rem 0;
 `;
 
 // Title with better visibility
 const Title = styled.p`
-  color: white;
+  color: #603f0b;
   font-weight: bold;
   display: -webkit-box;
   -webkit-line-clamp: 1;
@@ -115,7 +123,6 @@ const Title = styled.p`
   overflow: hidden;
   font-size: 0.9rem;
   margin: 0;
-  text-shadow: 0px 0px 4px rgba(0, 0, 0, 1);
 `;
 
 // Single line details
@@ -124,15 +131,14 @@ const Details = styled.div`
   align-items: center;
   gap: 0.75rem;
   font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.9);
+  color: #603f0b;
   margin: 0;
   flex-wrap: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   padding: 0 0.5rem;
-  text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.8);
-  
+
   svg {
     margin-right: 0.25rem;
   }
@@ -155,63 +161,84 @@ interface AnimeData {
   rating?: number;
 }
 
-export const HomeSideBar: React.FC<{ animeData: AnimeData[] }> = ({
-  animeData,
+export const HomeSideBar: React.FC<{ animeData: AnimeData[], title: string }> = ({
+  animeData, title
 }) => {
-  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
+  const [windowWidth, setWindowWidth] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 1200
+  );
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-    
+    if (typeof window === "undefined") return;
+
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const displayedAnime = windowWidth <= 500 ? animeData.slice(0, 5) : animeData;
 
   return (
     <SidebarStyled>
+      <div className="flex items-center justify-start mb-2">
+        <MdKeyboardArrowRight className="h-6 w-6 mb-1 m-0" />
+        <h2 className="text-lg font-bold">{title}</h2>
+        </div>
       {displayedAnime.map((anime: AnimeData, index) => (
         <Link
           href={`/watch/${anime.id}`}
           key={anime.id}
-          style={{ textDecoration: 'none', color: 'inherit' }}
-          title={`${anime.title.userPreferred || anime.title.english || anime.title.romaji}`}
-          aria-label={`Watch ${anime.title.userPreferred || anime.title.english || anime.title.romaji}`}
+          style={{ textDecoration: "none", color: "inherit" }}
+          title={`${
+            anime.title.userPreferred ||
+            anime.title.english ||
+            anime.title.romaji
+          }`}
+          aria-label={`Watch ${
+            anime.title.userPreferred ||
+            anime.title.english ||
+            anime.title.romaji
+          }`}
         >
-          <AnimeCard
-            style={{ animationDelay: `${index * 0.1}s` }}
-          >
+          <AnimeCard style={{ animationDelay: `${index * 0.1}s` }}>
             {/* Background image with cover art */}
-            <BackgroundImage $bgImage={anime.coverImage || anime.image || ''} />
-            
+            <BackgroundImage $bgImage={anime.coverImage || anime.image || ""} />
+
             {/* Main poster image */}
             <AnimeImageStyled
-              src={anime.image || ''}
-              alt={anime.title.userPreferred || anime.title.english || anime.title.romaji || ''}
+              src={anime.image || ""}
+              alt={
+                anime.title.userPreferred ||
+                anime.title.english ||
+                anime.title.romaji ||
+                ""
+              }
             />
-            
+
             <InfoStyled>
               <TitleContainer>
-                <StatusIndicator status={anime.status || ''} />
-                <Title>{anime.title.english || anime.title.romaji || 'Unknown Title'}</Title>
+                <StatusIndicator status={anime.status || ""} />
+                <Title>
+                  {anime.title.english || anime.title.romaji || "Unknown Title"}
+                </Title>
               </TitleContainer>
-              
+
               <Details>
-                {anime.type && 
-                  <span className="flex items-center whitespace-nowrap">{anime.type}</span>
-                }
-                
+                {anime.type && (
+                  <span className="flex items-center whitespace-nowrap">
+                    {anime.type}
+                  </span>
+                )}
+
                 {anime.releaseDate && (
                   <span className="flex items-center whitespace-nowrap">
                     <FaCalendarAlt /> {anime.releaseDate}
                   </span>
                 )}
-                
+
                 {anime.currentEpisode !== null &&
                   anime.currentEpisode !== undefined &&
                   anime.totalEpisodes !== null &&
@@ -237,4 +264,4 @@ export const HomeSideBar: React.FC<{ animeData: AnimeData[] }> = ({
 };
 
 // Add display name for debugging
-HomeSideBar.displayName = 'HomeSideBar';
+HomeSideBar.displayName = "HomeSideBar";

@@ -3,11 +3,26 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Search } from "lucide-react";
-import { useState } from "react";
+import { useState, KeyboardEvent } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function LandingPage() {
   const [searchQuery, setSearchQuery] = useState("");
+  const router = useRouter();
+
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      const formattedQuery = searchQuery.trim().replace(/\s+/g, '+');
+      router.push(`/search?query=${formattedQuery}&sort=POPULARITY_DESC&type=ANIME`);
+    }
+  };
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
 
   return (
     <main className="flex min-h-screen flex-col items-center max-w-7xl mx-auto justify-center">
@@ -45,8 +60,14 @@ export default function LandingPage() {
                   className=" h-12 pr-12"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={handleKeyDown}
                 />
-                <Button size="icon" className=" h-12 w-12" aria-label="Search">
+                <Button 
+                  size="icon" 
+                  className=" h-12 w-12" 
+                  aria-label="Search"
+                  onClick={handleSearch}
+                >
                   <Search className="h-5 w-5" />
                 </Button>
               </div>

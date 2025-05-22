@@ -2,8 +2,8 @@ import React from 'react';
 import styled, { keyframes, css } from 'styled-components';
 
 const pulseAnimation = keyframes`
-  0%, 100% { background-color: var(--foreground); }
-  50% { background-color: var(--foreground); }
+  0%, 100% { background-color: #d8b886; }
+  50% { background-color: #d8b886; }
 `;
 
 const popInAnimation = keyframes`
@@ -18,9 +18,9 @@ const playerPopInAnimation = keyframes`
 `;
 
 const SkeletonPulse = keyframes`
-  0%, 100% { background-color: var(--foreground); }
-  25%, 75% { background-color: var(--foreground); }
-  50% { background-color: var(--foreground); }
+  0%, 100% { background-color: #d8b886; }
+  25%, 75% { background-color: #d8b886; }
+  50% { background-color: #d8b886; }
 `;
 
 const animationMixin = css`
