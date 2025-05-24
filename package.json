@@ -9,12 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@radix-ui/react-slot": "^1.1.2",
     "@types/swiper": "^6.0.0",
+    "@vidstack/react": "^1.12.13",
     "axios": "^1.8.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.6.0",
+    "hls.js": "^1.6.2",
     "lucide-react": "^0.487.0",
     "next": "15.2.4",
     "next-themes": "^0.4.6",
