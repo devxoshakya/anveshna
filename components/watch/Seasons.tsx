@@ -18,12 +18,12 @@ const SeasonCard = styled(Link)`
   background-size: cover;
   background-position: center;
   padding: 0.9rem;
-  height: 6rem;
-  width: 20rem;
+  height: 10rem;
+  width: 22rem;
   @media (max-width: 500px) {
-    height: 3rem;
-    width: 8rem;
-    padding: 1.3rem;
+    height: 4rem;
+    width: 9rem;
+    padding: 0rem;
   }
   position: relative;
   display: flex;

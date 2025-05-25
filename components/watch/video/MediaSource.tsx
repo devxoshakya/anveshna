@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import {
   FaMicrophone,
   FaClosedCaptioning,
@@ -10,8 +9,8 @@ import {
 
 // Props interface
 interface MediaSourceProps {
-  sourceType: string;
-  setSourceType: (sourceType: string) => void;
+  serverName: string;
+  setServerName: (serverName: string) => void;
   language: string;
   setLanguage: (language: string) => void;
   downloadLink: string;
@@ -20,170 +19,9 @@ interface MediaSourceProps {
   nextEpisodenumber?: string;
 }
 
-// Adjust the Container for responsive layout
-const UpdatedContainer = styled.div`
-  justify-content: center;
-  margin-top: 1rem;
-  gap: 1rem;
-  display: flex;
-  @media (max-width: 1000px) {
-    flex-direction: column;
-  }
-`;
-
-const Table = styled.table`
-  font-size: 0.9rem;
-  border-collapse: collapse;
-  font-weight: bold;
-  margin-left: auto;
-  margin-right: auto;
-`;
-
-const TableRow = styled.tr``;
-
-const TableCell = styled.td`
-  padding: 0.35rem;
-  @media (max-width: 500px) {
-    text-align: center;
-    font-size: 0.8rem;
-  }
-  svg {
-    margin-bottom: -0.1rem;
-    @media (max-width: 500px) {
-      margin-bottom: 0rem;
-    }
-  }
-`;
-
-const ButtonWrapper = styled.div`
-  width: 90px; // Or a specific pixel width, if preferred
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
-`;
-
-const ButtonBase = styled.button`
-  flex: 1; // Make the button expand to fill the wrapper
-  padding: 0.5rem;
-  border: none;
-  font-weight: bold;
-  border-radius: var(--global-border-radius);
-  cursor: pointer;
-  background-color: var(--global-div);
-  color: var(--global-text);
-  transition:
-    background-color 0.2s ease,
-    transform 0.2s ease-in-out;
-  text-align: center;
-
-  &:hover {
-    background-color: var(--primary-accent);
-    transform: scale(1.025);
-  }
-  &:active {
-    transform: scale(0.975);
-  }
-`;
-
-const Button = styled(ButtonBase)`
-  &.active {
-    background-color: var(--primary-accent);
-  }
-`;
-
-const DownloadLink = styled.a`
-  display: inline-flex; // Use inline-flex to easily center the icon
-  align-items: center; // Align the icon vertically center
-  margin-left: 0.5rem;
-  padding: 0.5rem;
-  gap: 0.25rem;
-  font-size: 0.9rem;
-  font-weight: bold;
-  border: none;
-  border-radius: var(--global-border-radius);
-  cursor: pointer;
-  background-color: var(--global-div);
-  color: var(--global-text);
-  text-align: center;
-  text-decoration: none;
-  transition:
-    background-color 0.3s ease,
-    transform 0.2s ease-in-out;
-
-  svg {
-    font-size: 0.85rem; // Adjust icon size
-  }
-
-  &:hover {
-    background-color: var(--primary-accent);
-    transform: scale(1.025);
-  }
-  &:active {
-    transform: scale(0.975);
-  }
-`;
-
-const ShareButton = styled(ButtonBase)`
-  display: inline-flex; // Align items in a row
-  align-items: center; // Center items vertically
-  margin-left: 0.5rem;
-  padding: 0.5rem;
-  gap: 0.25rem;
-  font-size: 0.9rem;
-  border: none;
-  border-radius: var(--global-border-radius);
-  cursor: pointer;
-  background-color: var(--global-div);
-  color: var(--global-text);
-  text-decoration: none;
-  svg {
-    font-size: 0.85rem; // Adjust icon size
-  }
-`;
-
-const ResponsiveTableContainer = styled.div`
-  background-color: var(--global-div-tr);
-  padding: 0.75rem;
-  border-radius: var(--global-border-radius);
-  @media (max-width: 500px) {
-    display: block;
-  }
-`;
-
-const EpisodeInfoColumn = styled.div`
-  flex-grow: 1;
-  display: block;
-  background-color: var(--global-div-tr);
-  border-radius: var(--global-border-radius);
-  padding: 0.75rem;
-  @media (max-width: 1000px) {
-    display: block;
-    margin-right: 0rem;
-  }
-  p {
-    font-size: 0.9rem;
-    margin: 0;
-  }
-  h4 {
-    margin: 0rem;
-    font-size: 1.15rem;
-    margin-bottom: 1rem;
-  }
-  @media (max-width: 500px) {
-    p {
-      font-size: 0.8rem;
-      margin: 0rem;
-    }
-    h4 {
-      font-size: 1rem;
-      margin-bottom: 0rem;
-    }
-  }
-`;
-
 export const MediaSource: React.FC<MediaSourceProps> = ({
-  sourceType,
-  setSourceType,
+  serverName,
+  setServerName,
   language,
   setLanguage,
   downloadLink,
@@ -202,157 +40,120 @@ export const MediaSource: React.FC<MediaSourceProps> = ({
   };
 
   return (
-    <UpdatedContainer>
-      <EpisodeInfoColumn>
+    <div className="flex justify-center mt-4 gap-4 max-lg:flex-col ">
+      {/* Episode Info Column */}
+      <div className="flex-grow  bg-card border-2 border-border rounded-lg p-3 max-lg:mr-0">
         {episodeId ? (
           <>
-            You're watching <strong>Episode {episodeId}</strong>
-            <DownloadLink
-              href={downloadLink}
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-              <FaDownload />
-            </DownloadLink>
-            <ShareButton onClick={handleShareClick}>
-              <FaShare />
-            </ShareButton>
-            {isCopied && <p>Copied to clipboard!</p>}
-            <br />
-            <br />
-            <p>If current servers don't work, please try other servers.</p>
-          </>
-        ) : (
-          'Loading episode information...'
-        )}
-        {airingTime && (
-          <>
-            <p>
-              Episode <strong>{nextEpisodenumber}</strong> will air in{' '}
-              <FaBell />
-              <strong> {airingTime}</strong>.
+            <h4 className="text-lg font-bold mb-4 max-sm:text-base max-sm:mb-0">
+              You're watching <strong>Episode {episodeId}</strong>
+              <a
+                href={downloadLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center ml-2 p-2 gap-1 text-sm font-bold border-none rounded-lg cursor-pointer bg-card text-card-foreground text-center no-underline transition-all duration-200 hover:bg-accent hover:scale-105 active:scale-95"
+              >
+                <FaDownload className="text-xs" />
+              </a>
+              <button
+                onClick={handleShareClick}
+                className="inline-flex items-center ml-2 p-2 gap-1 text-sm font-bold border-none rounded-lg cursor-pointer bg-card text-card-foreground no-underline transition-all duration-200 hover:bg-accent hover:scale-105 active:scale-95"
+              >
+                <FaShare className="text-xs" />
+              </button>
+            </h4>
+            {isCopied && <p className="text-sm m-0">Copied to clipboard!</p>}
+            
+            <p className="text-sm m-0 max-sm:text-xs">
+              If current servers don't work, please try other servers.
             </p>
           </>
+        ) : (
+          <p className="text-sm m-0 max-sm:text-xs">Loading episode information...</p>
         )}
-      </EpisodeInfoColumn>
-      <ResponsiveTableContainer>
-        <Table>
-          <tbody>
-            <TableRow>
-              <TableCell>
-                <FaClosedCaptioning /> Sub
-              </TableCell>
-              <TableCell>
-                <ButtonWrapper>
-                  <Button
-                    className={
-                      sourceType === 'default' && language === 'sub'
-                        ? 'active'
-                        : ''
-                    }
-                    onClick={() => {
-                      setSourceType('default');
-                      setLanguage('sub');
-                    }}
-                  >
-                    Default
-                  </Button>
-                </ButtonWrapper>
-              </TableCell>
-              <TableCell>
-                <ButtonWrapper>
-                  <Button
-                    className={
-                      sourceType === 'vidstreaming' && language === 'sub'
-                        ? 'active'
-                        : ''
-                    }
-                    onClick={() => {
-                      setSourceType('vidstreaming');
-                      setLanguage('sub');
-                    }}
-                  >
-                    Vidstream
-                  </Button>
-                </ButtonWrapper>
-              </TableCell>
-              <TableCell>
-                <ButtonWrapper>
-                  <Button
-                    className={
-                      sourceType === 'gogo' && language === 'sub'
-                        ? 'active'
-                        : ''
-                    }
-                    onClick={() => {
-                      setSourceType('gogo');
-                      setLanguage('sub');
-                    }}
-                  >
-                    Gogo
-                  </Button>
-                </ButtonWrapper>
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>
-                <FaMicrophone /> Dub
-              </TableCell>
-              <TableCell>
-                <ButtonWrapper>
-                  <Button
-                    className={
-                      sourceType === 'default' && language === 'dub'
-                        ? 'active'
-                        : ''
-                    }
-                    onClick={() => {
-                      setSourceType('default');
-                      setLanguage('dub');
-                    }}
-                  >
-                    Default
-                  </Button>
-                </ButtonWrapper>
-              </TableCell>
-              <TableCell>
-                <ButtonWrapper>
-                  <Button
-                    className={
-                      sourceType === 'vidstreaming' && language === 'dub'
-                        ? 'active'
-                        : ''
-                    }
-                    onClick={() => {
-                      setSourceType('vidstreaming');
-                      setLanguage('dub');
-                    }}
-                  >
-                    Vidstream
-                  </Button>
-                </ButtonWrapper>
-              </TableCell>
-              <TableCell>
-                <ButtonWrapper>
-                  <Button
-                    className={
-                      sourceType === 'gogo' && language === 'dub'
-                        ? 'active'
-                        : ''
-                    }
-                    onClick={() => {
-                      setSourceType('gogo');
-                      setLanguage('dub');
-                    }}
-                  >
-                    Gogo
-                  </Button>
-                </ButtonWrapper>
-              </TableCell>
-            </TableRow>
-          </tbody>
-        </Table>
-      </ResponsiveTableContainer>
-    </UpdatedContainer>
+        {airingTime && (
+          <p className="text-sm m-0 max-sm:text-xs">
+            Episode <strong>{nextEpisodenumber}</strong> will air in{' '}
+            <FaBell className="inline" />
+            <strong> {airingTime}</strong>.
+          </p>
+        )}
+      </div>
+
+      {/* Media Source Selection */}
+      <div className="bg-card border-2 border-border rounded-lg p-4 max-sm:block">
+        {/* Sub Row */}
+        <div className="flex items-center gap-2 mb-4 ">
+          <div className="flex items-center gap-2 min-w-16 ">
+            <FaClosedCaptioning className="max-sm:mb-0" />
+            <span className="font-bold">Sub</span>
+          </div>
+          <div className="flex gap-2">
+            <button
+              className={`px-4 py-2 border-none font-bold rounded-lg cursor-pointer transition-all duration-200 text-center hover:scale-105 active:scale-95 ${
+                serverName === 'vidcloud' && language === 'sub'
+                  ? 'bg-accent text-accent-foreground'
+                  : 'bg-card text-card-foreground hover:bg-accent'
+              }`}
+              onClick={() => {
+                setServerName('vidcloud');
+                setLanguage('sub');
+              }}
+            >
+              Vidcloud
+            </button>
+            <button
+              className={`px-4 py-2 border-none font-bold rounded-lg cursor-pointer transition-all duration-200 text-center hover:scale-105 active:scale-95 ${
+                serverName === 'vidstreaming' && language === 'sub'
+                  ? 'bg-accent text-accent-foreground'
+                  : 'bg-card text-card-foreground hover:bg-accent'
+              }`}
+              onClick={() => {
+                setServerName('vidstreaming');
+                setLanguage('sub');
+              }}
+            >
+              Vidstream
+            </button>
+          </div>
+        </div>
+
+        {/* Dub Row */}
+        <div className="flex items-center gap-4 ">
+          <div className="flex items-center gap-2 min-w-16 ">
+            <FaMicrophone className="max-sm:mb-0" />
+            <span className="font-bold">Dub</span>
+          </div>
+          <div className="flex gap-2">
+            <button
+              className={`px-4 py-2 border-none font-bold rounded-lg cursor-pointer transition-all duration-200 text-center hover:scale-105 active:scale-95 ${
+                serverName === 'vidcloud' && language === 'dub'
+                  ? 'bg-accent text-accent-foreground'
+                  : 'bg-card text-card-foreground hover:bg-accent'
+              }`}
+              onClick={() => {
+                setServerName('vidcloud');
+                setLanguage('dub');
+              }}
+            >
+              Vidcloud
+            </button>
+            <button
+              className={`px-4 py-2 border-none font-bold rounded-lg cursor-pointer transition-all duration-200 text-center hover:scale-105 active:scale-95 ${
+                serverName === 'vidstreaming' && language === 'dub'
+                  ? 'bg-accent text-accent-foreground'
+                  : 'bg-card text-card-foreground hover:bg-accent'
+              }`}
+              onClick={() => {
+                setServerName('vidstreaming');
+                setLanguage('dub');
+              }}
+            >
+              Vidstream
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };

@@ -5,7 +5,6 @@ import React, {
   useEffect,
   useRef,
 } from 'react';
-import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faPlay,
@@ -23,182 +22,6 @@ interface Props {
   maxListHeight: string;
 }
 
-// Styled components for the episode list
-const ListContainer = styled.div<{ $maxHeight: string }>`
-  background-color: var(--global-secondary-bg);
-  color: var(--global-text);
-  border-radius: var(--global-border-radius);
-  overflow: hidden;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  max-height: ${({ $maxHeight }) => $maxHeight};
-  @media (max-width: 1000px) {
-    max-height: 18rem;
-  }
-  @media (max-width: 500px) {
-    max-height: ${({ $maxHeight }) => $maxHeight};
-  }
-`;
-
-const EpisodeGrid = styled.div<{ $isRowLayout: boolean }>`
-  display: grid;
-  grid-template-columns: ${({ $isRowLayout }) =>
-    $isRowLayout ? '1fr' : 'repeat(auto-fill, minmax(4rem, 1fr))'};
-  gap: 0.29rem;
-  padding: 0.4rem;
-  overflow-y: auto;
-  flex-grow: 1;
-`;
-
-const EpisodeImage = styled.img`
-  max-width: 250px;
-  max-height: 150px;
-  height: auto;
-  margin-top: 0.5rem;
-  border-radius: var(--global-border-radius);
-  @media (max-width: 500px) {
-    max-width: 125px;
-    max-height: 80px;
-  }
-`;
-
-const ListItem = styled.button<{
-  $isSelected: boolean;
-  $isRowLayout: boolean;
-  $isWatched: boolean;
-}>`
-  transition:
-    padding 0.3s ease-in-out,
-    transform 0.3s ease-in-out;
-  animation: popIn 0.3s ease-in-out;
-  background-color: ${({ $isSelected, $isWatched }) =>
-    $isSelected
-      ? $isWatched
-        ? 'var(--primary-accent)' // Selected and watched
-        : 'var(--primary-accent-bg)' // Selected but not watched
-      : $isWatched
-        ? 'var(--primary-accent-bg); filter: brightness(0.8);' // Not selected but watched
-        : 'var(--global-tertiary-bg)'};
-
-  border: none;
-  border-radius: var(--global-border-radius);
-  color: ${({ $isSelected, $isWatched }) =>
-    $isSelected
-      ? $isWatched
-        ? 'var(--global-text)' // Selected and watched
-        : 'var(--global-text)' // Selected but not watched
-      : $isWatched
-        ? 'var(--primary-accent); filter: brightness(0.8);' // Not selected but watched
-        : 'grey'}; // Not selected and not watched
-
-  padding: ${({ $isRowLayout }) =>
-    $isRowLayout ? '0.6rem 0.5rem' : '0.4rem 0'};
-  text-align: ${({ $isRowLayout }) => ($isRowLayout ? 'left' : 'center')};
-  cursor: pointer;
-  justify-content: ${({ $isRowLayout }) =>
-    $isRowLayout ? 'space-between' : 'center'};
-  align-items: center;
-
-  &:hover,
-  &:active,
-  &:focus {
-    ${({ $isSelected, $isWatched }) =>
-      $isSelected
-        ? $isWatched
-          ? 'filter: brightness(1.1)' // Selected and watched
-          : 'filter: brightness(1.1)' // Selected but not watched
-        : $isWatched
-          ? 'filter: brightness(1.1)' // Not selected but watched
-          : 'background-color: var(--global-button-hover-bg); filter: brightness(1.05); color: #FFFFFF'};
-    padding-left: ${({ $isRowLayout }) => ($isRowLayout ? '1rem' : '')};
-  }
-`;
-
-const ControlsContainer = styled.div`
-  display: flex;
-  align-items: center;
-  background-color: var(--global-secondary-bg);
-  border-bottom: 1px solid var(--global-shadow);
-  padding: 0.25rem 0;
-`;
-
-const SelectInterval = styled.select`
-  padding: 0.5rem;
-  background-color: var(--global-secondary-bg);
-  color: var(--global-text);
-  border: none;
-  border-radius: var(--global-border-radius);
-`;
-
-const LayoutToggle = styled.button`
-  background-color: var(--global-secondary-bg);
-  border: 1px solid var(--global-shadow);
-  padding: 0.5rem;
-  margin-right: 0.5rem;
-  cursor: pointer;
-  color: var(--global-text);
-  border-radius: var(--global-border-radius);
-  transition:
-    background-color 0.15s,
-    color 0.15s;
-
-  &:hover,
-  &:active,
-  &:focus {
-    background-color: var(--global-button-hover-bg);
-  }
-`;
-
-const SearchContainer = styled.div`
-  display: flex;
-  align-items: center;
-  background-color: var(--global-secondary-bg);
-  border: 1px solid var(--global-shadow);
-  padding: 0.5rem;
-  gap: 0.25rem;
-  margin: 0 0.5rem;
-  border-radius: var(--global-border-radius);
-  transition:
-    background-color 0.15s,
-    color 0.15s;
-
-  &:hover,
-  &:active,
-  &:focus {
-    background-color: var(--global-button-hover-bg);
-  }
-`;
-
-const SearchInput = styled.input`
-  border: none;
-  background-color: transparent;
-  color: var(--global-text);
-  outline: none;
-  width: 100%;
-
-  &::placeholder {
-    color: var(--global-placeholder);
-  }
-`;
-
-const Icon = styled.div`
-  color: var(--global-text);
-  opacity: 0.5;
-  font-size: 0.8rem;
-  transition: opacity 0.2s;
-
-  @media (max-width: 768px) {
-    display: none; /* Hide on mobile */
-  }
-`;
-
-const EpisodeNumber = styled.span``;
-const EpisodeTitle = styled.span`
-  padding: 0.5rem;
-`;
-
-// The updated EpisodeList component
 export const EpisodeList: React.FC<Props> = ({
   animeId,
   episodes,
@@ -230,6 +53,7 @@ export const EpisodeList: React.FC<Props> = ({
 
   const [selectionInitiatedByUser, setSelectionInitiatedByUser] =
     useState(false);
+
   // Update local storage when watched episodes change
   useEffect(() => {
     if (animeId && watchedEpisodes.length > 0) {
@@ -239,6 +63,7 @@ export const EpisodeList: React.FC<Props> = ({
       );
     }
   }, [animeId, watchedEpisodes]);
+
   // Load watched episodes from local storage when animeId changes
   useEffect(() => {
     if (animeId) {
@@ -254,7 +79,6 @@ export const EpisodeList: React.FC<Props> = ({
     }
   }, [animeId]);
 
-  // Function to handle episode selection
   // Function to mark an episode as watched
   const markEpisodeAsWatched = useCallback(
     (id: string) => {
@@ -289,6 +113,7 @@ export const EpisodeList: React.FC<Props> = ({
     },
     [episodes, animeId],
   );
+
   const handleEpisodeSelect = useCallback(
     (id: string) => {
       setSelectionInitiatedByUser(true);
@@ -433,16 +258,28 @@ export const EpisodeList: React.FC<Props> = ({
           setSelectionInitiatedByUser(false);
         }
       }
-    }, 100); // A delay ensures the layout has stabilized, especially after dynamic content loading.
+    }, 100);
 
     return () => clearTimeout(timer);
   }, [selectedEpisodeId, episodes, displayMode, selectionInitiatedByUser]);
 
+  // Dynamic max height calculation
+  const dynamicMaxHeight = () => {
+    if (window.innerWidth <= 500) return maxListHeight;
+    if (window.innerWidth <= 1000) return '18rem';
+    return maxListHeight;
+  };
+
   // Render the EpisodeList component
   return (
-    <ListContainer $maxHeight={maxListHeight}>
-      <ControlsContainer>
-        <SelectInterval
+    <div 
+      className="bg-secondary text-foreground rounded-lg overflow-hidden flex-grow flex flex-col max-lg:max-h-72 max-sm:h-auto"
+      style={{ maxHeight: dynamicMaxHeight() }}
+    >
+      {/* Controls Container */}
+      <div className="flex items-center bg-secondary border-b-2 border-border py-1">
+        <select
+          className="p-2 bg-secondary text-foreground border-none rounded-lg"
           onChange={handleIntervalChange}
           value={`${interval[0]}-${interval[1]}`}
         >
@@ -451,87 +288,109 @@ export const EpisodeList: React.FC<Props> = ({
               Episodes {start + 1} - {end + 1}
             </option>
           ))}
-        </SelectInterval>
+        </select>
 
-        <SearchContainer>
-          <Icon>
+        <div className="flex items-center bg-secondary border-2 border-border p-2 gap-1 mx-2 rounded-lg transition-colors hover:bg-muted focus-within:bg-muted">
+          <div className="text-foreground opacity-50 text-xs transition-opacity max-md:hidden">
             <FontAwesomeIcon icon={faSearch} />
-          </Icon>
-          <SearchInput
-            type='text'
-            placeholder='Search episodes...'
+          </div>
+          <input
+            type="text"
+            placeholder="Search episodes..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            className="border-none bg-transparent text-foreground outline-none w-full placeholder:text-muted-foreground"
           />
-        </SearchContainer>
-        <LayoutToggle onClick={toggleLayoutPreference}>
+        </div>
+
+        <button
+          onClick={toggleLayoutPreference}
+          className="bg-secondary border-2 border-border p-2 mr-2 cursor-pointer text-foreground rounded-lg transition-colors hover:bg-muted focus:bg-muted active:bg-muted"
+        >
           {displayMode === 'list' && <FontAwesomeIcon icon={faThList} />}
           {displayMode === 'grid' && <FontAwesomeIcon icon={faTh} />}
           {displayMode === 'imageList' && <FontAwesomeIcon icon={faImage} />}
-        </LayoutToggle>
-      </ControlsContainer>
-      <EpisodeGrid
+        </button>
+      </div>
+
+      {/* Episode Grid */}
+      <div
         key={`episode-grid-${displayMode}`}
-        $isRowLayout={displayMode === 'list' || displayMode === 'imageList'}
+        className={`grid gap-1 p-2 overflow-y-auto flex-grow ${
+          displayMode === 'list' || displayMode === 'imageList'
+            ? 'grid-cols-1'
+            : 'grid-cols-[repeat(auto-fill,minmax(4rem,1fr))]'
+        }`}
         ref={episodeGridRef}
       >
         {displayedEpisodes.map((episode) => {
-          const $isSelected = episode.id === selectedEpisodeId;
-          const $isWatched = watchedEpisodes.some((e) => e.id === episode.id);
+          const isSelected = episode.id === selectedEpisodeId;
+          const isWatched = watchedEpisodes.some((e) => e.id === episode.id);
+          const isRowLayout = displayMode === 'list' || displayMode === 'imageList';
+
+          // Dynamic button classes based on state
+          const getButtonClasses = () => {
+            const baseClasses = "transition-all duration-300 border-none rounded-lg cursor-pointer animate-[popIn_0.3s_ease-in-out] hover:pl-4";
+            
+            if (isSelected) {
+              return `${baseClasses} ${
+                isWatched 
+                  ? 'bg-primary text-primary-foreground' 
+                  : 'bg-accent text-accent-foreground'
+              } hover:brightness-110`;
+            } else if (isWatched) {
+              return `${baseClasses} bg-accent text-accent-foreground brightness-80 hover:brightness-110`;
+            } else {
+              return `${baseClasses} bg-muted text-muted-foreground hover:bg-accent hover:text-accent-foreground hover:brightness-105`;
+            }
+          };
+
+          const paddingClasses = isRowLayout ? 'p-2' : 'p-1';
+          const textAlignClasses = isRowLayout ? 'text-left' : 'text-center';
+          const flexClasses = isRowLayout ? 'justify-between' : 'justify-center';
 
           return (
-            <ListItem
+            <button
               key={episode.id}
-              $isSelected={$isSelected}
-              $isRowLayout={
-                displayMode === 'list' || displayMode === 'imageList'
-              }
-              $isWatched={$isWatched}
+              className={`${getButtonClasses()} ${paddingClasses} ${textAlignClasses} ${flexClasses} items-center flex`}
               onClick={() => handleEpisodeSelect(episode.id)}
-              aria-selected={$isSelected}
-              ref={(el) => (episodeRefs.current[episode.id] = el)} // Reference to each episode's button
+              aria-selected={isSelected}
+              ref={(el) => {
+                episodeRefs.current[episode.id] = el;
+              }}
             >
               {displayMode === 'imageList' ? (
                 <>
                   <div>
-                    <EpisodeNumber>{episode.number}. </EpisodeNumber>
-                    <EpisodeTitle>{episode.title}</EpisodeTitle>
+                    <span>{episode.number}. </span>
+                    <span className="p-2">{episode.title}</span>
                   </div>
-                  <EpisodeImage
+                  <img
                     src={episode.image}
                     alt={`Episode ${episode.number} - ${episode.title}`}
+                    className="max-w-64 max-h-36 h-auto mt-2 rounded-lg max-sm:max-w-32 max-sm:max-h-20"
                   />
                 </>
               ) : displayMode === 'grid' ? (
-                <>
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      height: '100%',
-                    }}
-                  >
-                    {$isSelected ? (
-                      <FontAwesomeIcon icon={faPlay} />
-                    ) : (
-                      <EpisodeNumber>{episode.number}</EpisodeNumber>
-                    )}
-                  </div>
-                </>
+                <div className="flex flex-col justify-center items-center h-full">
+                  {isSelected ? (
+                    <FontAwesomeIcon icon={faPlay} />
+                  ) : (
+                    <span>{episode.number}</span>
+                  )}
+                </div>
               ) : (
-                // Render for 'list' layout
+                // List layout
                 <>
-                  <EpisodeNumber>{episode.number}. </EpisodeNumber>
-                  <EpisodeTitle>{episode.title}</EpisodeTitle>
-                  {$isSelected && <FontAwesomeIcon icon={faPlay} />}
+                  <span>{episode.number}. </span>
+                  <span className="p-2">{episode.title}</span>
+                  {isSelected && <FontAwesomeIcon icon={faPlay} />}
                 </>
               )}
-            </ListItem>
+            </button>
           );
         })}
-      </EpisodeGrid>
-    </ListContainer>
+      </div>
+    </div>
   );
 };

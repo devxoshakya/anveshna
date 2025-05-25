@@ -14,10 +14,10 @@ const BASE_URL = ensureUrlEndsWithSlash(
 const SKIP_TIMES = ensureUrlEndsWithSlash(
     process.env.NEXT_PUBLIC_SKIP_TIMES as string,
 );
-let PROXY_URL = process.env.VITE_PROXY_URL; // Default to an empty string if no proxy URL is provided
+let PROXY_URL = process.env.NEXT_PUBLIC_PROXY_URL; // Default to an empty string if no proxy URL is provided
 // Check if the proxy URL is provided and ensure it ends with a slash
 if (PROXY_URL) {
-    PROXY_URL = ensureUrlEndsWithSlash(process.env.VITE_PROXY_URL as string);
+    PROXY_URL = ensureUrlEndsWithSlash(process.env.NEXT_PUBLIC_PROXY_URL as string);
 }
 
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY as string;
@@ -384,10 +384,10 @@ export async function fetchAnimeEmbeddedEpisodes(episodeId: string) {
 }
 
 // Function to fetch anime streaming links
-export async function fetchAnimeStreamingLinks(episodeId: string, serverName: string) {
+export async function fetchAnimeStreamingLinks(episodeId: string, serverName: string = "vidcloud") {
     // serverName = ["vidcloud", "vidstreaming"]
     const url = `${BASE_URL}anime/zoro/watch/${episodeId}?server=${serverName}`;
-    const cacheKey = generateCacheKey('animeStreamingLinks', episodeId);
+    const cacheKey = generateCacheKey('animeStreamingLinks', episodeId, serverName);
 
     return fetchFromProxy(url, videoSourcesCache, cacheKey);
 }

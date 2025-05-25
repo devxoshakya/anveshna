@@ -1,5 +1,7 @@
+import { redirect } from 'next/navigation';
+
 const Watch = () => {
-  return <div></div>;
+  redirect('/home');
 };
 
 export default Watch;

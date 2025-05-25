@@ -4,6 +4,7 @@ import Link from "next/link";
 import { TbCards } from "react-icons/tb";
 import { FaStar } from "react-icons/fa";
 import { StatusIndicator } from "@/components/shared/StatusIndicator";
+import { HomeSideBar } from "../home/HomeCardList";
 
 const Sidebar = styled.div`
   display: flex;
@@ -103,113 +104,12 @@ export const AnimeDataList: React.FC<{ animeData: any }> = ({ animeData }) => {
 
   return (
     <Sidebar>
-      {filteredRelations.length > 0 && (
-        <SidebarContainer>
-          <>
-            <p className="Section-Title">RELATED</p>
-            {filteredRelations
-              .slice(0, window.innerWidth > 500 ? 5 : 3)
-              .map((relation: any, index: any) => (
-                <Link
-                  href={`/watch/${relation.id}`}
-                  key={relation.id}
-                  style={{ textDecoration: "none", color: "inherit" }}
-                  title={`${relation.title.userPreferred}`}
-                  aria-label={`Watch ${relation.title.userPreferred}`}
-                >
-                  <Card style={{ animationDelay: `${index * 0.1}s` }}>
-                    <AnimeImage
-                      src={relation.image}
-                      alt={relation.title.userPreferred}
-                      loading="lazy"
-                    />
-                    <Info>
-                      <TitleWithDot>
-                        <StatusIndicator status={relation.status} />
-                        <Title>
-                          {relation.title.english ??
-                            relation.title.romaji ??
-                            relation.title.userPreferred}
-                        </Title>
-                      </TitleWithDot>
-                      <Details
-                        aria-label={`Details about ${relation.title.userPreferred}`}
-                      >
-                        {/* Conditionally render each piece of detail only if it's not null or empty */}
-                        {relation.type && `${relation.type} `}
-                        {relation.episodes && (
-                          <>
-                            <TbCards aria-hidden="true" />{" "}
-                            {`${relation.episodes} `}
-                          </>
-                        )}
-                        {relation.rating && (
-                          <>
-                            <FaStar aria-hidden="true" />{" "}
-                            {`${relation.rating} `}
-                          </>
-                        )}
-                      </Details>
-                    </Info>
-                  </Card>
-                </Link>
-              ))}
-          </>
-        </SidebarContainer>
-      )}
-      {filteredRecommendations.length > 0 && (
-        <SidebarContainer>
-          <>
-            <p className="Section-Title">RECOMMENDED</p>
-            {filteredRecommendations
-              .slice(0, window.innerWidth > 500 ? 5 : 3)
-              .map((recommendation: any, index: any) => (
-                <Link
-                  href={`/watch/${recommendation.id}`}
-                  key={recommendation.id}
-                  style={{ textDecoration: "none", color: "inherit" }}
-                  title={`Watch ${recommendation.title.userPreferred}`}
-                >
-                  <Card style={{ animationDelay: `${index * 0.1}s` }}>
-                    <AnimeImage
-                      src={recommendation.image}
-                      alt={recommendation.title.userPreferred}
-                      loading="lazy"
-                    />
-                    <Info>
-                      <TitleWithDot>
-                        <StatusIndicator status={recommendation.status} />
-                        <Title>
-                          {recommendation.title.english ??
-                            recommendation.title.romaji ??
-                            recommendation.title.userPreferred}
-                        </Title>
-                      </TitleWithDot>
-                      <Details
-                        aria-label={`Details about ${recommendation.title.userPreferred}`}
-                      >
-                        {/* Similar conditional rendering for recommendation details */}
-                        {recommendation.type && `${recommendation.type} `}
-                        {recommendation.episodes && (
-                          <>
-                            <TbCards aria-hidden="true" />{" "}
-                            {`${recommendation.episodes} `}
-                          </>
-                        )}
-                        {recommendation.rating && (
-                          <>
-                            <FaStar aria-hidden="true" />{" "}
-                            {`${recommendation.rating} `}
-                          </>
-                        )}
-                      </Details>
-                    </Info>
-                  </Card>
-                </Link>
-              ))}
-          </>
-        </SidebarContainer>
-      )}
+      <HomeSideBar title="RELATED ANIME" animeData={filteredRelations} />
+      <div className="w-full h-8 md:h-10 border-1 rounded-md bg-[#efd09f]"></div>
+      <HomeSideBar
+        title={`RECOMMENDED ANIME`}
+        animeData={filteredRecommendations.slice(0, 5)}
+      />
     </Sidebar>
   );
 };
