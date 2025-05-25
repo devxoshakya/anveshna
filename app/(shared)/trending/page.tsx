@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { AnimeCard } from "@/components/cards/AnimeCard";
-import { AnimePinkCard } from "@/components/cards/AnimePinkCard";
 import { WindBreakerAnimeCard } from "@/components/cards/TrendingAnimeCard";
 import { fetchAdvancedSearch, fetchTrendingAnime } from "@/hooks/useApi";
 import { year as currentYear, getCurrentSeason } from "@/hooks/useTime";

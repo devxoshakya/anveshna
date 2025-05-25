@@ -1,7 +1,7 @@
 "use client";
 
 import { SearchFilters } from "@/components/layout/SearchFilter";
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback, Suspense } from "react";
 import styled from "styled-components";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
@@ -100,6 +100,8 @@ const Search = () => {
   const [hasNextPage, setHasNextPage] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
   const delayTimeout = useRef<NodeJS.Timeout | null>(null);
+
+  // ...existing code...
 
   const updateSearchParams = useCallback(() => {
     const params = new URLSearchParams();
@@ -290,4 +292,22 @@ const Search = () => {
   );
 };
 
-export default Search;
+// Loading component for Suspense fallback
+const SearchPageLoading = () => (
+  <Container>
+    <StyledCardGrid>
+      {Array.from({ length: 17 }).map((_, index) => (
+        <SkeletonCard key={index} />
+      ))}
+    </StyledCardGrid>
+  </Container>
+);
+
+// Main export with Suspense boundary
+export default function SearchPage() {
+  return (
+    <Suspense fallback={<SearchPageLoading />}>
+      <Search />
+    </Suspense>
+  );
+}
