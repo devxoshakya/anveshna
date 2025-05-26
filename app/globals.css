@@ -92,6 +92,7 @@
   --color-destructive-border: var(--destructive-border);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-primary-border: var(--primary-border);
+  --color-list-background: var(--list-background);
 }
 
 :root {
@@ -135,6 +136,10 @@
   --cancelled-indicator-color: #ff0000;
   --not-yet-aired-indicator-color: #ffa500;
   --default-indicator-color: #808080;
+  --list-background: #efd09f;
+  --gradient-start: #f2e3c6;
+  --gradient-mid: #f6ebd5;
+  --gradient-end: #fff9ee;
 }
 
 .dark {
@@ -149,7 +154,7 @@
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
+  --muted-foreground: oklch(.708 0 0);
   --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
@@ -169,6 +174,12 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  --list-background: #141414;
+  
+  --gradient-start: #000000;
+  --gradient-mid: #181616;
+  --gradient-end: #1a1310;
+
 }
 
 @layer base {

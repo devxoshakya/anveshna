@@ -9,6 +9,7 @@ import {
   type MediaProviderAdapter,
   type MediaProviderChangeEvent,
   type MediaPlayerInstance,
+  useMediaState,
 } from "@vidstack/react";
 import styled from "styled-components";
 import { fetchAnimeStreamingLinks } from "@/hooks/useApi";
@@ -20,6 +21,7 @@ import {
 import { TbPlayerTrackPrev, TbPlayerTrackNext } from "react-icons/tb";
 import { FaCheck } from "react-icons/fa6";
 import { RiCheckboxBlankFill } from "react-icons/ri";
+import { CustomLoader } from "./Loader";
 
 const Button = styled.button<{ $autoskip?: boolean }>`
   padding: 0.25rem;
@@ -92,6 +94,9 @@ export function Player({
   language = "sub",
 }: PlayerProps) {
   const player = useRef<MediaPlayerInstance>(null);
+   const waiting = useMediaState('waiting',player);
+  const canPlay = useMediaState('canPlay',player);
+  const seeking = useMediaState('seeking',player);
   const [src, setSrc] = useState<string>("");
   const [subtitles, setSubtitles] = useState<any>([]);
   const [vttUrl, setVttUrl] = useState<string>("");
@@ -104,6 +109,7 @@ export function Player({
   const [autoPlay, setAutoPlay] = useState<boolean>(true);
   const [autoNext, setAutoNext] = useState<boolean>(true);
   const [autoSkip, setAutoSkip] = useState<boolean>(false);
+  const [showLoader, setShowLoader] = useState<boolean>(true);
 
   useEffect(() => {
     setCurrentTime(parseFloat(localStorage.getItem("currentTime") || "0"));
@@ -372,15 +378,27 @@ export function Player({
     (subtitle: any) => subtitle.lang === "thumbnails"
   );
 
+  useEffect(() => {
+    if(canPlay) {
+      // If the player is ready to play, we can set the current time}
+      console.log("Player is ready to play", { canPlay, seeking, waiting });  
+      setShowLoader(false);
+    }else if (seeking || waiting) {
+      setShowLoader(true);
+    } else {
+      // If the player is not ready, we show the loader
+      console.log("Player is not ready to play", { canPlay, seeking, waiting });
+      setShowLoader(true);
+    }
+  },[canPlay, seeking, waiting]);
+
   return (
     <>
-      <div style={{ animation: "popIn 0.25s ease-in-out" }}>
+       <div style={{ animation: "popIn 0.25s ease-in-out" }} className="relative">
         <MediaPlayer
           className="player"
           title={`${animeVideoTitle} - Episode ${episodeNumber}`}
-          src={`https://hls-proxy-m3u8.vercel.app/m3u8-proxy?url=${encodeURIComponent(
-            src
-          )}`}
+          src={`https://hls-proxy-m3u8.vercel.app/m3u8-proxy?url=${encodeURIComponent(src)}`}
           autoPlay={autoPlay}
           crossOrigin
           playsInline
@@ -399,14 +417,12 @@ export function Player({
           <MediaProvider>
             <Poster className="vds-poster" src={banner} alt="" />
             {vttUrl && (
-              <>
-                <Track
-                  kind="chapters"
-                  src={vttUrl}
-                  default
-                  label="Skip Times"
-                />
-              </>
+              <Track
+                kind="chapters"
+                src={vttUrl}
+                default
+                label="Skip Times"
+              />
             )}
 
             {subtitles &&
@@ -421,6 +437,10 @@ export function Player({
                 />
               ))}
           </MediaProvider>
+          
+          {/* Custom Loading Overlay */}
+          {showLoader && <CustomLoader />}
+          
           <DefaultAudioLayout icons={defaultLayoutIcons} />
           <DefaultVideoLayout
             thumbnails={`https://hls.pacalabs.top/proxy?url=${encodeURIComponent(
@@ -430,10 +450,10 @@ export function Player({
           />
         </MediaPlayer>
       </div>
+      
       <div
         id="player-menu"
         className="flex items-center md:gap-2 px-1 md:px-2 overflow-x-auto rounded bg-accent no-scrollbar"
-        
       >
         <Button onClick={toggleAutoPlay} className="flex gap-1">
           {autoPlay ? (

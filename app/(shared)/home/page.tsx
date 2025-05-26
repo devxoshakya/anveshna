@@ -390,7 +390,7 @@ const renderCardGrid = (
           </div>
           <HomeSideBar title="TOP AIRING" animeData={state.topAiring} />
           <div
-           className="w-full h-8 md:h-10 border-1 rounded-md bg-[#efd09f]"
+           className="w-full h-8 md:h-10 border-1 rounded-md bg-list-background"
           >
           
           </div>

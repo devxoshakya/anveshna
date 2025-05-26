@@ -6,15 +6,15 @@ import { FaStar, FaCalendarAlt } from "react-icons/fa";
 import { StatusIndicator } from "@/components/shared/StatusIndicator";
 import { MdKeyboardArrowRight } from "react-icons/md";
 
-
 // Outer container with 1px border
 const SidebarStyled = styled.div`
   transition: 0.2s ease-in-out;
   margin: 0;
   padding: 1rem;
-  background-color: #efd09f;
+  background-color: var(--list-background);
   max-width: 24rem;
-  border: 1px solid var(--muted-foreground);
+  border-style: var(--tw-border-style);
+  border-width: 1px;
   border-radius: 8px;
   overflow: hidden;
   @media (max-width: 1000px) {
@@ -33,7 +33,7 @@ const TitleContainer = styled.div`
 `;
 
 // Card with background image and gradient overlay
-const AnimeCard = styled.div`
+const AnimeCard = styled.div<{ $color: string }>`
   position: relative;
   height: 5.5rem;
   border-radius: 8px;
@@ -55,10 +55,9 @@ const AnimeCard = styled.div`
     bottom: 0;
     background: linear-gradient(
       to right,
-      #f2e3c6 0%,
-      #f6ebd5 30%,
-    
-      #fff9ee 100%
+       var(--gradient-start) 0%,
+    var(--gradient-mid) 30%,
+    var(--gradient-end) 100%
     );
     opacity: 0.7;
     z-index: 2;
@@ -67,6 +66,7 @@ const AnimeCard = styled.div`
   &:hover {
     transform: translateX(0.35rem);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    color: ${(props) => props.$color || "var(--primary)"};
   }
 
   @media (max-width: 500px) {
@@ -115,7 +115,7 @@ const InfoStyled = styled.div`
 
 // Title with better visibility
 const Title = styled.p`
-  color: #603f0b;
+  
   font-weight: bold;
   display: -webkit-box;
   -webkit-line-clamp: 1;
@@ -123,6 +123,8 @@ const Title = styled.p`
   overflow: hidden;
   font-size: 0.9rem;
   margin: 0;
+  
+  
 `;
 
 // Single line details
@@ -131,7 +133,7 @@ const Details = styled.div`
   align-items: center;
   gap: 0.75rem;
   font-size: 0.75rem;
-  color: #603f0b;
+  color: var(--muted-foreground);
   margin: 0;
   flex-wrap: nowrap;
   overflow: hidden;
@@ -159,11 +161,13 @@ interface AnimeData {
   currentEpisode?: number;
   totalEpisodes?: number;
   rating?: number;
+  color?: string;
 }
 
-export const HomeSideBar: React.FC<{ animeData: AnimeData[], title: string }> = ({
-  animeData, title
-}) => {
+export const HomeSideBar: React.FC<{
+  animeData: AnimeData[];
+  title: string;
+}> = ({ animeData, title }) => {
   const [windowWidth, setWindowWidth] = useState(
     typeof window !== "undefined" ? window.innerWidth : 1200
   );
@@ -186,7 +190,7 @@ export const HomeSideBar: React.FC<{ animeData: AnimeData[], title: string }> = 
       <div className="flex items-center justify-start mb-2">
         <MdKeyboardArrowRight className="h-6 w-6 mb-1 m-0" />
         <h2 className="text-lg font-bold">{title}</h2>
-        </div>
+      </div>
       {displayedAnime.map((anime: AnimeData, index) => (
         <Link
           href={`/watch/${anime.id}`}
@@ -203,7 +207,7 @@ export const HomeSideBar: React.FC<{ animeData: AnimeData[], title: string }> = 
             anime.title.romaji
           }`}
         >
-          <AnimeCard style={{ animationDelay: `${index * 0.1}s` }}>
+          <AnimeCard $color={anime.color!} style={{ animationDelay: `${index * 0.1}s` }}>
             {/* Background image with cover art */}
             <BackgroundImage $bgImage={anime.coverImage || anime.image || ""} />
 

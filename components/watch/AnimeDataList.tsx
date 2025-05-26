@@ -105,7 +105,7 @@ export const AnimeDataList: React.FC<{ animeData: any }> = ({ animeData }) => {
   return (
     <Sidebar>
       <HomeSideBar title="RELATED ANIME" animeData={filteredRelations} />
-      <div className="w-full h-8 md:h-10 border-1 rounded-md bg-[#efd09f]"></div>
+      <div className="w-full h-8 md:h-10 border-1 rounded-md bg-list-background"></div>
       <HomeSideBar
         title={`RECOMMENDED ANIME`}
         animeData={filteredRecommendations.slice(0, 5)}
