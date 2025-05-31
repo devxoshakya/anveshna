@@ -16,7 +16,7 @@ Anveshna.
 
 <p align="center">
   <a href="https://www.anveshna.xyz" target="_blank">
-    <img src="https://raw.githubusercontent.com/devxoshakya/anveshna/main/src/images/icon.png" alt="Logo" width="200"/>
+    <img src="https://raw.githubusercontent.com/devxoshakya/anveshna/main/src/public/landing.svg" alt="Logo" width="200"/>
   </a>
 </p>
 
@@ -26,13 +26,13 @@ Anveshna.
 
 | Official Domains | Links                                      |
 | ---------------- | ------------------------------------------ |
-| Active              | [anveshna.xyz](https://www.anveshna.xyz)       |
+| Active              | [anveshna.devshakya.xyz](https://www.anveshna.devshakya.xyz)       |
 
 </div>
 
 ## What is Anveshna. ?
 
-Welcome to **Anveshna.** - your ultimate anime destination! 🤯 Explore **[anveshna.xyz](https://www.anveshna.xyz)** and dive into the world of anime.
+Welcome to **Anveshna.** - your ultimate anime destination! 🤯 Explore **[anveshna.devshakya.xyz](https://www.anveshna.devshakya.xyz)** and dive into the world of anime.
 
 Crafted with using **React**, our site rocks a slick and modern interface. Experience lightning-fast performance and smooth navigation as you explore a vast collection of HD anime titles.
 
