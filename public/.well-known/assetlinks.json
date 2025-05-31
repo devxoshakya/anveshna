@@ -1,8 +1,0 @@
-[{
-      "relation": ["delegate_permission/common.handle_all_urls"],
-      "target": {
-        "namespace": "android_app",
-        "package_name": "anveshna.devxoshakya",
-        "sha256_cert_fingerprints": ["AB:88:2A:FB:1B:11:35:8B:24:D0:F9:FB:DD:C4:1A:74:BB:D5:8A:A9:5A:D0:B8:FE:0D:39:84:F8:5B:D1:58:09"]
-      }
-    }]
