@@ -16,7 +16,7 @@ Anveshna.
 
 <p align="center">
   <a href="https://www.anveshna.xyz" target="_blank">
-    <img src="https://raw.githubusercontent.com/devxoshakya/anveshna/main/src/public/landing.svg" alt="Logo" width="200"/>
+    <img src="https://raw.githubusercontent.com/devxoshakya/anveshna/main/src/public/landing.png" alt="Logo" width="200"/>
   </a>
 </p>
 
