@@ -28,6 +28,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script defer src="https://cloud.umami.is/script.js" data-website-id="79f5ac77-a884-49cf-92a7-8d7bbeefe0c8"></script>
+      </head>
       <body
         className={`${nunito.variable} ${ptSans.variable} antialiased relative hide-scrollbar`}
       >
