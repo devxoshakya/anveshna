@@ -6,7 +6,7 @@ import { AppSidebar } from "@/components/layout/Sidebar"
 
 
 export const metadata: Metadata = {
-  title: "MIRJRO",
+  title: "Anveshna.",
   description: "Anime streaming platform",
 }
 

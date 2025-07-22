@@ -72,7 +72,7 @@ export function Navbar() {
               variant="secondary" 
               size="icon" 
               className="h-10 w-10 border-1 bg-muted"
-              onClick={() => router.push('/search?sort=POPULARITY_DESC&random=true')}
+              // onClick={() => router.push('/search?sort=POPULARITY_DESC&random=true')}
             >
               <Shuffle className="h-8 w-8" />
             </Button>

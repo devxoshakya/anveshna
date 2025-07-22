@@ -290,6 +290,7 @@ export function Player({
       
       const response = await fetchAnimeStreamingLinks(modifiedEpisodeId, serverName);
       if (!response || !response.sources || response.sources.length === 0) {
+        console.log(response);
         console.error("No streaming sources found for this episode");
         return;
       }

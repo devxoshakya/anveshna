@@ -1,6 +1,6 @@
 "use client"
 
-import { Home, Flame, Calendar, History, User2, Settings } from "lucide-react"
+import { Home, Flame, Search, History, User2, Settings } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
@@ -9,7 +9,7 @@ import { useIsMobile } from "@/hooks/use-mobile"
 const sidebarItems = [
   {
     title: "Home",
-    href: "/",
+    href: "/home",
     icon: Home,
   },
   {
@@ -17,11 +17,11 @@ const sidebarItems = [
     href: "/trending",
     icon: Flame,
   },
-  // {
-  //   title: "Schedule",
-  //   href: "/schedule",
-  //   icon: Calendar,
-  // },
+  {
+    title: "Search",
+    href: "/search?sort=POPULARITY_DESC&type=ANIME",
+    icon: Search,
+  },
   {
     title: "History",
     href: "/history",
@@ -41,6 +41,7 @@ const sidebarItems = [
 
 export function AppSidebar() {
   const pathname = usePathname()
+  const filteredPathname = pathname.split("?")[0] // Remove query parameters for matching
   const isMobile = useIsMobile()
 
   return (
@@ -49,14 +50,14 @@ export function AppSidebar() {
       <aside className="hidden md:block fixed top-16 left-0 bottom-0 w-[70px] border-r bg-background z-30 ">
         <div className="flex flex-col items-center py-4 h-full">
           {sidebarItems.map((item) => {
-            const isActive = pathname === item.href
+            const isActive = filteredPathname === item.href.split("?")[0] // Compare without query parameters
             return (
               <Link
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "flex flex-col items-center justify-center w-full py-4 text-muted-foreground hover:text-foreground",
-                  isActive && "text-primary",
+                  "flex flex-col items-center justify-center w-full py-3 my-1 text-muted-foreground hover:text-foreground",
+                  isActive && "border-r-3 border-muted-foreground bg-accent/60",
                 )}
               >
                 <item.icon className="h-5 w-5 mb-1" />

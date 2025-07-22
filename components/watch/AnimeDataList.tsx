@@ -1,9 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Link from "next/link";
-import { TbCards } from "react-icons/tb";
-import { FaStar } from "react-icons/fa";
-import { StatusIndicator } from "@/components/shared/StatusIndicator";
+
 import { HomeSideBar } from "../home/HomeCardList";
 
 const Sidebar = styled.div`
@@ -104,7 +101,10 @@ export const AnimeDataList: React.FC<{ animeData: any }> = ({ animeData }) => {
 
   return (
     <Sidebar>
-      <HomeSideBar title="RELATED ANIME" animeData={filteredRelations} />
+      <HomeSideBar
+        title="RELATED ANIME"
+        animeData={filteredRelations.slice(0, 5)}
+      />
       <div className="w-full h-8 md:h-10 border-1 rounded-md bg-list-background"></div>
       <HomeSideBar
         title={`RECOMMENDED ANIME`}

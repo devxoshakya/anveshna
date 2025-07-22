@@ -7,7 +7,7 @@ import {
   fetchAnimeEpisodes,
   fetchAnimeStreamingLinks,
 } from "@/hooks/useApi";
-import { Player } from "@/components/watch/video/Player";
+import { Player } from "@/components/watch/video/IFramePLayer";
 import { EpisodeList } from "@/components/watch/EpisodeList";
 import { MediaSource } from "@/components/watch/video/MediaSource";
 import { WatchAnimeData } from "@/components/watch/WatchAnimeData";
@@ -310,16 +310,16 @@ export default function WatchPage({ params }: PageProps) {
               {currentEpisode ? (
                 <Player
                   episodeId={currentEpisode.id}
-                  banner={animeInfo.cover}
-                  malId={animeInfo.malId}
-                  updateDownloadLink={updateDownloadLink}
+                  // banner={animeInfo.cover}
+                  // malId={animeInfo.malId}
+                  // updateDownloadLink={updateDownloadLink}
                   onEpisodeEnd={handleEpisodeEnd}
                   onPrevEpisode={goToPreviousEpisode}
                   onNextEpisode={goToNextEpisode}
                   animeTitle={animeTitle}
-                  episodeNumber={episodeNumber.toString()}
+                  // episodeNumber={episodeNumber.toString()}
                   serverName={serverName}
-                  language={language}
+                  category={language}
                 />
               ) : (
                 <div className="flex items-center justify-center h-full">
