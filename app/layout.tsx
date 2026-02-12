@@ -18,6 +18,7 @@ const ptSans = PT_Sans({
 
 export const metadata: Metadata = {
   title: "Anveshna.",
+  metadataBase : new URL('https://anveshna.devshakya.xyz') ,
   description: "A comprehensive anime streaming platform",
   openGraph: {
     title: "Anveshna.",
