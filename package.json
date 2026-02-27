@@ -29,6 +29,7 @@
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-icons": "^5.5.0",
+    "react-markdown": "^10.1.0",
     "react-select": "^5.10.2",
     "styled-components": "^6.3.9",
     "swiper": "^12.1.0",

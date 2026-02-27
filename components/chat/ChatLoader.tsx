@@ -31,10 +31,10 @@ export const ChatLoader = () => {
         transition={{ duration: 0.1 }}
       >
         <DitherShader
-          src="/watari.svg"
+          src="/pippo.png"
           gridSize={gridSize}
           ditherMode="bayer"
-          colorMode="grayscale"
+          colorMode="original"
           brightness={0.1}
           contrast={1.2}
           objectFit="contain"

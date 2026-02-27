@@ -3,7 +3,7 @@
 import React from "react";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { ArrowUp, Paperclip, Square, X, Globe, BrainCog, FolderCode } from "lucide-react";
+import { ArrowUp, Paperclip, Square, X, Globe, Brain, MessageCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 // Utility function for className merging
@@ -372,8 +372,10 @@ const CustomDivider: React.FC = () => (
 );
 
 // Main PromptInputBox Component
+type PromptMode = 'search' | 'recommendation' | 'chat';
+
 interface PromptInputBoxProps {
-  onSend?: (message: string, files?: File[]) => void;
+  onSend?: (message: string, files?: File[], mode?: PromptMode) => void;
   isLoading?: boolean;
   placeholder?: string;
   className?: string;
@@ -384,27 +386,27 @@ export const PromptInputBox = React.forwardRef((props: PromptInputBoxProps, ref:
   const [files, setFiles] = React.useState<File[]>([]);
   const [filePreviews, setFilePreviews] = React.useState<{ [key: string]: string }>({});
   const [selectedImage, setSelectedImage] = React.useState<string | null>(null);
-  const [showSearch, setShowSearch] = React.useState(false);
-  const [showThink, setShowThink] = React.useState(false);
-  const [showCanvas, setShowCanvas] = React.useState(false);
+  const [mode, setMode] = React.useState<PromptMode>('search'); // Default to search mode
   const uploadInputRef = React.useRef<HTMLInputElement>(null);
   const promptBoxRef = React.useRef<HTMLDivElement>(null);
 
-  const handleToggleChange = (value: string) => {
-    if (value === "search") {
-      setShowSearch((prev) => !prev);
-      setShowThink(false);
-    } else if (value === "think") {
-      setShowThink((prev) => !prev);
-      setShowSearch(false);
+  const handleModeChange = (newMode: PromptMode) => {
+    setMode(newMode);
+    // Clear files when switching away from search mode
+    if (newMode !== 'search' && files.length > 0) {
+      setFiles([]);
+      setFilePreviews({});
     }
   };
-
-  const handleCanvasToggle = () => setShowCanvas((prev) => !prev);
 
   const isImageFile = (file: File) => file.type.startsWith("image/");
 
   const processFile = (file: File) => {
+    // Only allow file uploads in search mode
+    if (mode !== 'search') {
+      console.log("File uploads are only available in Search mode");
+      return;
+    }
     if (!isImageFile(file)) {
       console.log("Only image files are allowed");
       return;
@@ -466,20 +468,23 @@ export const PromptInputBox = React.forwardRef((props: PromptInputBoxProps, ref:
   }, [handlePaste]);
 
   const handleSubmit = () => {
+    // In search mode, require files to be present
+    if (mode === 'search' && files.length === 0) {
+      return; // Don't submit without files in search mode
+    }
+    
     if (input.trim() || files.length > 0) {
-      let messagePrefix = "";
-      if (showSearch) messagePrefix = "[Search: ";
-      else if (showThink) messagePrefix = "[Think: ";
-      else if (showCanvas) messagePrefix = "[Canvas: ";
-      const formattedInput = messagePrefix ? `${messagePrefix}${input}]` : input;
-      onSend(formattedInput, files);
+      onSend(input, files, mode);
       setInput("");
       setFiles([]);
       setFilePreviews({});
     }
   };
 
-  const hasContent = input.trim() !== "" || files.length > 0;
+  // For search mode, require files. For other modes, require input or files
+  const hasContent = mode === 'search' 
+    ? files.length > 0 
+    : (input.trim() !== "" || files.length > 0);
 
   return (
     <>
@@ -498,6 +503,32 @@ export const PromptInputBox = React.forwardRef((props: PromptInputBoxProps, ref:
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
       >
+        {/* Warning message for search mode without image */}
+        {mode === 'search' && files.length === 0 && input.trim().length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="mb-2 p-2 rounded-lg bg-chart-2/10 border border-chart-2/30 flex items-start gap-2"
+          >
+            <div className="mt-0.5 text-chart-2">
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <p className="text-xs text-chart-2 flex-1">
+              <strong>Search mode requires an image.</strong> Please upload an anime screenshot to identify it, or switch to{' '}
+              <button
+                onClick={() => handleModeChange('chat')}
+                className="underline font-semibold hover:text-chart-5 transition-colors cursor-pointer"
+              >
+                Chat mode
+              </button>
+              {' '}for text conversations.
+            </p>
+          </motion.div>
+        )}
+        
         {files.length > 0 && (
           <div className="flex flex-wrap gap-2 p-0 pb-1 transition-all duration-300">
             {files.map((file, index) => (
@@ -530,23 +561,27 @@ export const PromptInputBox = React.forwardRef((props: PromptInputBoxProps, ref:
 
         <PromptInputTextarea
           placeholder={
-            showSearch
-              ? "Search the web..."
-              : showThink
-              ? "Think deeply..."
-              : showCanvas
-              ? "Create on canvas..."
-              : placeholder
+            mode === 'search'
+              ? "Upload an image to identify anime..."
+              : mode === 'recommendation'
+              ? "Ask for anime recommendations..."
+              : "Chat with Pippo AI..."
           }
           className="text-base"
         />
 
         <PromptInputActions className="flex items-center justify-between gap-2 p-0 pt-2">
           <div className="flex items-center gap-1">
-            <PromptInputAction tooltip="Upload image">
+            <PromptInputAction tooltip={mode === 'search' ? "Upload image" : "File upload only available in Search mode"}>
               <button
-                onClick={() => uploadInputRef.current?.click()}
-                className="flex h-8 w-8 text-muted-foreground cursor-pointer items-center justify-center rounded-full transition-colors hover:bg-accent hover:text-foreground"
+                onClick={() => mode === 'search' && uploadInputRef.current?.click()}
+                disabled={mode !== 'search'}
+                className={cn(
+                  "flex h-8 w-8 items-center justify-center rounded-full transition-colors",
+                  mode === 'search'
+                    ? "text-muted-foreground cursor-pointer hover:bg-accent hover:text-foreground"
+                    : "text-muted-foreground/30 cursor-not-allowed"
+                )}
               >
                 <Paperclip className="h-5 w-5 transition-colors" />
                 <input
@@ -558,6 +593,7 @@ export const PromptInputBox = React.forwardRef((props: PromptInputBoxProps, ref:
                     if (e.target) e.target.value = "";
                   }}
                   accept="image/*"
+                  disabled={mode !== 'search'}
                 />
               </button>
             </PromptInputAction>
@@ -565,25 +601,25 @@ export const PromptInputBox = React.forwardRef((props: PromptInputBoxProps, ref:
             <div className="flex items-center">
               <button
                 type="button"
-                onClick={() => handleToggleChange("search")}
+                onClick={() => handleModeChange('search')}
                 className={cn(
                   "rounded-full transition-all flex items-center gap-1 px-2 py-1 border h-8",
-                  showSearch
+                  mode === 'search'
                     ? "bg-chart-2/15 border-chart-2 text-chart-2"
                     : "bg-transparent border-transparent text-muted-foreground hover:text-foreground"
                 )}
               >
                 <div className="w-5 h-5 flex items-center justify-center shrink-0">
                   <motion.div
-                    animate={{ rotate: showSearch ? 360 : 0, scale: showSearch ? 1.1 : 1 }}
-                    whileHover={{ rotate: showSearch ? 360 : 15, scale: 1.1, transition: { type: "spring", stiffness: 300, damping: 10 } }}
+                    animate={{ rotate: mode === 'search' ? 360 : 0, scale: mode === 'search' ? 1.1 : 1 }}
+                    whileHover={{ rotate: mode === 'search' ? 360 : 15, scale: 1.1, transition: { type: "spring", stiffness: 300, damping: 10 } }}
                     transition={{ type: "spring", stiffness: 260, damping: 25 }}
                   >
-                    <Globe className={cn("w-4 h-4", showSearch ? "text-chart-2" : "text-inherit")} />
+                    <Globe className={cn("w-4 h-4", mode === 'search' ? "text-chart-2" : "text-inherit")} />
                   </motion.div>
                 </div>
                 <AnimatePresence>
-                  {showSearch && (
+                  {mode === 'search' && (
                     <motion.span
                       initial={{ width: 0, opacity: 0 }}
                       animate={{ width: "auto", opacity: 1 }}
@@ -601,25 +637,25 @@ export const PromptInputBox = React.forwardRef((props: PromptInputBoxProps, ref:
 
               <button
                 type="button"
-                onClick={() => handleToggleChange("think")}
+                onClick={() => handleModeChange('recommendation')}
                 className={cn(
                   "rounded-full transition-all flex items-center gap-1 px-2 py-1 border h-8",
-                  showThink
+                  mode === 'recommendation'
                     ? "bg-chart-1/15 border-chart-1 text-chart-1"
                     : "bg-transparent border-transparent text-muted-foreground hover:text-foreground"
                 )}
               >
                 <div className="w-5 h-5 flex items-center justify-center shrink-0">
                   <motion.div
-                    animate={{ rotate: showThink ? 360 : 0, scale: showThink ? 1.1 : 1 }}
-                    whileHover={{ rotate: showThink ? 360 : 15, scale: 1.1, transition: { type: "spring", stiffness: 300, damping: 10 } }}
+                    animate={{ rotate: mode === 'recommendation' ? 360 : 0, scale: mode === 'recommendation' ? 1.1 : 1 }}
+                    whileHover={{ rotate: mode === 'recommendation' ? 360 : 15, scale: 1.1, transition: { type: "spring", stiffness: 300, damping: 10 } }}
                     transition={{ type: "spring", stiffness: 260, damping: 25 }}
                   >
-                    <BrainCog className={cn("w-4 h-4", showThink ? "text-chart-1" : "text-inherit")} />
+                    <Brain className={cn("w-4 h-4", mode === 'recommendation' ? "text-chart-1" : "text-inherit")} />
                   </motion.div>
                 </div>
                 <AnimatePresence>
-                  {showThink && (
+                  {mode === 'recommendation' && (
                     <motion.span
                       initial={{ width: 0, opacity: 0 }}
                       animate={{ width: "auto", opacity: 1 }}
@@ -627,7 +663,7 @@ export const PromptInputBox = React.forwardRef((props: PromptInputBoxProps, ref:
                       transition={{ duration: 0.2 }}
                       className="text-xs overflow-hidden whitespace-nowrap text-chart-1 shrink-0"
                     >
-                      Think
+                      Recommendation
                     </motion.span>
                   )}
                 </AnimatePresence>
@@ -637,25 +673,25 @@ export const PromptInputBox = React.forwardRef((props: PromptInputBoxProps, ref:
 
               <button
                 type="button"
-                onClick={handleCanvasToggle}
+                onClick={() => handleModeChange('chat')}
                 className={cn(
                   "rounded-full transition-all flex items-center gap-1 px-2 py-1 border h-8",
-                  showCanvas
+                  mode === 'chat'
                     ? "bg-chart-5/15 border-chart-5 text-chart-5"
                     : "bg-transparent border-transparent text-muted-foreground hover:text-foreground"
                 )}
               >
                 <div className="w-5 h-5 flex items-center justify-center shrink-0">
                   <motion.div
-                    animate={{ rotate: showCanvas ? 360 : 0, scale: showCanvas ? 1.1 : 1 }}
-                    whileHover={{ rotate: showCanvas ? 360 : 15, scale: 1.1, transition: { type: "spring", stiffness: 300, damping: 10 } }}
+                    animate={{ rotate: mode === 'chat' ? 360 : 0, scale: mode === 'chat' ? 1.1 : 1 }}
+                    whileHover={{ rotate: mode === 'chat' ? 360 : 15, scale: 1.1, transition: { type: "spring", stiffness: 300, damping: 10 } }}
                     transition={{ type: "spring", stiffness: 260, damping: 25 }}
                   >
-                    <FolderCode className={cn("w-4 h-4", showCanvas ? "text-chart-5" : "text-inherit")} />
+                    <MessageCircle className={cn("w-4 h-4", mode === 'chat' ? "text-chart-5" : "text-inherit")} />
                   </motion.div>
                 </div>
                 <AnimatePresence>
-                  {showCanvas && (
+                  {mode === 'chat' && (
                     <motion.span
                       initial={{ width: 0, opacity: 0 }}
                       animate={{ width: "auto", opacity: 1 }}
@@ -663,7 +699,7 @@ export const PromptInputBox = React.forwardRef((props: PromptInputBoxProps, ref:
                       transition={{ duration: 0.2 }}
                       className="text-xs overflow-hidden whitespace-nowrap text-chart-5 shrink-0"
                     >
-                      Canvas
+                      Chat
                     </motion.span>
                   )}
                 </AnimatePresence>
