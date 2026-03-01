@@ -10,7 +10,9 @@ const SeasonCardContainer = styled.div`
   margin-top: 1rem;
   margin-bottom: 1rem;
   @media (max-width: 500px) {
-    justify-content: center;
+    flex-direction: row;
+    justify-content: stretch;
+    width: 100%;
   }
 `;
 
@@ -22,7 +24,7 @@ const SeasonCard = styled(Link)`
   width: 22rem;
   @media (max-width: 500px) {
     height: 4rem;
-    width: 9rem;
+    width: 100%;
     padding: 0rem;
   }
   position: relative;
