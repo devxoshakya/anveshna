@@ -1,6 +1,9 @@
 import ReactMarkdown from "react-markdown";
-import type { AnimeIdentificationResult } from "@/hooks/useAi";
+import type { AnimeIdentificationResult, AnimeRecommendationResult } from "@/hooks/useAi";
 import { ChatLoader } from "./ChatLoader";
+import { SearchResultCard } from "./SearchResultCard";
+import { CardGrid } from "@/components/cards/CardGrid";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export interface Message {
   id: string;
@@ -9,6 +12,7 @@ export interface Message {
   timestamp: Date;
   role: "user" | "assistant";
   animeData?: AnimeIdentificationResult;
+  recommendationData?: AnimeRecommendationResult;
   isStreaming?: boolean;
 }
 
@@ -18,11 +22,15 @@ interface ChatMessagesProps {
 }
 
 export const ChatMessages = ({ messages, isLoading }: ChatMessagesProps) => {
+  const isMobile = useIsMobile();
+  
   return (
     <div className="space-y-6 px-2">
       {messages.map((msg) => {
         const hasFiles = msg.files && msg.files.length > 0;
         const hasContent = msg.content && msg.content.trim().length > 0;
+        const hasAnimeData = msg.animeData && msg.role === "assistant";
+        const hasRecommendationData = msg.recommendationData && msg.role === "assistant";
         
         return (
           <div key={msg.id} className="w-full space-y-3">
@@ -43,8 +51,52 @@ export const ChatMessages = ({ messages, isLoading }: ChatMessagesProps) => {
               </div>
             )}
             
-            {/* Display message content only if there's text */}
-            {hasContent && (
+            {/* Display SearchResultCard for anime identification results */}
+            {hasAnimeData && msg.animeData && (
+              <div className="flex justify-start w-full">
+                <div className="max-w-[95%] w-full">
+                  <SearchResultCard result={msg.animeData} />
+                </div>
+              </div>
+            )}
+            
+            {/* Display Recommendations */}
+            {hasRecommendationData && msg.recommendationData && msg.recommendationData.recommendation && (
+              <div className="flex justify-start w-full">
+                <div className="max-w-[95%] w-full space-y-4">
+                  <div className="text-xl md:text-2xl font-bold text-foreground">
+                    Anime Recommendations.
+                  </div>
+                  <CardGrid 
+                    animeData={msg.recommendationData.recommendation
+                      .sort((a: any, b: any) => (b.rating || 0) - (a.rating || 0))
+                      .slice(0, isMobile ? 9 : 12)
+                      .map((rec: any) => ({
+                        id: rec.id,
+                        title: {
+                          romaji: rec.title?.romaji,
+                          english: rec.title?.english,
+                          native: rec.title?.native,
+                          userPreferred: rec.title?.userPreferred || rec.title?.romaji,
+                        },
+                        image: rec.image || rec.cover,
+                        cover: rec.cover || rec.image,
+                        color: rec.color,
+                        status: rec.status,
+                        releaseDate: rec.releaseDate || rec?.seasonYear?.toString() || rec?.startDate?.year?.toString(),
+                        totalEpisodes: rec.episodes,
+                        rating: rec.rating,
+                        type: rec.type,
+                      }))}
+                    hasNextPage={false}
+                    onLoadMore={() => {}}
+                  />
+                </div>
+              </div>
+            )}
+            
+            {/* Display message content only if there's text and no anime data and no recommendation data */}
+            {hasContent && !hasAnimeData && !hasRecommendationData && (
               <div className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"} w-full`}>
                 <div
                   className={`${msg.role === "user" ? "max-w-[70%] md:max-w-[55%]" : "max-w-[85%]"} rounded-2xl ${

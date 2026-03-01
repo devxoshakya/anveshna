@@ -18,6 +18,8 @@ export interface GenerateTextResponse {
 
 // Session Management
 const SESSION_STORAGE_KEY = 'ai-chat-session-id';
+const SESSION_TIMESTAMP_KEY = 'ai-chat-session-timestamp';
+const SESSION_EXPIRY_MS = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
 /**
  * Generate a unique session ID
@@ -28,16 +30,35 @@ const generateSessionId = (): string => {
 
 /**
  * Get or create a session ID from localStorage
+ * Automatically clears session if older than 24 hours
  */
 export const getSessionId = (): string => {
   if (typeof window === 'undefined') return generateSessionId();
   
-  let sessionId = localStorage.getItem(SESSION_STORAGE_KEY);
-  if (!sessionId) {
-    sessionId = generateSessionId();
-    localStorage.setItem(SESSION_STORAGE_KEY, sessionId);
+  const storedSessionId = localStorage.getItem(SESSION_STORAGE_KEY);
+  const storedTimestamp = localStorage.getItem(SESSION_TIMESTAMP_KEY);
+  
+  // Check if session exists and is still valid
+  if (storedSessionId && storedTimestamp) {
+    const timestamp = parseInt(storedTimestamp, 10);
+    const now = Date.now();
+    
+    // If session is less than 24 hours old, return it
+    if (now - timestamp < SESSION_EXPIRY_MS) {
+      return storedSessionId;
+    }
+    
+    // Session expired, clear it
+    console.log('[Session] Session expired after 24 hours, creating new session');
+    localStorage.removeItem(SESSION_STORAGE_KEY);
+    localStorage.removeItem(SESSION_TIMESTAMP_KEY);
   }
-  return sessionId;
+  
+  // Create new session
+  const newSessionId = generateSessionId();
+  localStorage.setItem(SESSION_STORAGE_KEY, newSessionId);
+  localStorage.setItem(SESSION_TIMESTAMP_KEY, Date.now().toString());
+  return newSessionId;
 };
 
 /**
@@ -46,6 +67,7 @@ export const getSessionId = (): string => {
 export const clearSessionId = (): void => {
   if (typeof window !== 'undefined') {
     localStorage.removeItem(SESSION_STORAGE_KEY);
+    localStorage.removeItem(SESSION_TIMESTAMP_KEY);
   }
 };
 
@@ -62,6 +84,32 @@ export interface AnimeIdentificationResult {
     confidence: 'High' | 'Medium' | 'Low';
   };
   media?: any;
+  error?: string;
+}
+
+export interface AnimeRecommendation {
+  id: number;
+  malId: number;
+  title: {
+    romaji: string;
+    english: string | null;
+    native: string;
+    userPreferred: string;
+  };
+  status: string;
+  episodes: number;
+  image: string;
+  imageHash: string;
+  cover: string;
+  coverHash: string;
+  rating: number;
+  type: string;
+}
+
+export interface AnimeRecommendationResult {
+  success: boolean;
+  id?: string;
+  recommendation?: AnimeRecommendation[];
   error?: string;
 }
 
@@ -369,6 +417,66 @@ export const useAnimeIdentification = () => {
     result,
     identifyAnime,
     identifyAnimeFromUrl,
+    reset,
+  };
+};
+
+/**
+ * Hook for anime recommendations
+ * Handles getting anime recommendations based on a prompt
+ */
+export const useAnimeRecommendation = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [result, setResult] = useState<AnimeRecommendationResult | null>(null);
+
+  const getRecommendations = useCallback(async (prompt: string): Promise<AnimeRecommendationResult> => {
+    setIsLoading(true);
+    setError(null);
+    setResult(null);
+
+    try {
+      const apiUrl = getApiUrl();
+      
+      const response = await fetch(`${apiUrl}/recommendation`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ prompt }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to get recommendations: ${response.statusText}`);
+      }
+
+      const data: AnimeRecommendationResult = await response.json();
+      
+      if (!data.success) {
+        throw new Error(data.error || 'Failed to get recommendations');
+      }
+
+      setResult(data);
+      return data;
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to get recommendations';
+      setError(errorMessage);
+      throw err;
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  const reset = useCallback(() => {
+    setResult(null);
+    setError(null);
+  }, []);
+
+  return {
+    isLoading,
+    error,
+    result,
+    getRecommendations,
     reset,
   };
 };

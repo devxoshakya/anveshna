@@ -528,6 +528,32 @@ export const PromptInputBox = React.forwardRef((props: PromptInputBoxProps, ref:
             </p>
           </motion.div>
         )}
+
+        {/* Info message for recommendation mode */}
+        {mode === 'recommendation' && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="mb-2 p-2 rounded-lg bg-chart-1/10 border border-chart-1/30 flex items-start gap-2"
+          >
+            <div className="mt-0.5 text-chart-1">
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <p className="text-xs text-chart-1 flex-1">
+              <strong>Recommendation mode:</strong> Enter an anime name to get similar recommendations. For detailed conversations about anime, switch to{' '}
+              <button
+                onClick={() => handleModeChange('chat')}
+                className="underline font-semibold hover:text-chart-5 transition-colors cursor-pointer"
+              >
+                Chat mode
+              </button>
+              .
+            </p>
+          </motion.div>
+        )}
         
         {files.length > 0 && (
           <div className="flex flex-wrap gap-2 p-0 pb-1 transition-all duration-300">

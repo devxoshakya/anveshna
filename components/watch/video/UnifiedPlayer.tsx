@@ -3,15 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 import "./PlayerStyles.css";
 import {
-  isHLSProvider,
   MediaPlayer,
-  MediaProvider,
-  Poster,
-  Track,
-  type MediaProviderAdapter,
-  type MediaProviderChangeEvent,
   type MediaPlayerInstance,
-  useMediaState,
+  useMediaStore,
 } from "@vidstack/react";
 import styled from "styled-components";
 import { fetchAnimeStreamingLinks, MEDIA_PROXY_URL } from "@/hooks/useApi";
@@ -139,9 +133,9 @@ export function UnifiedPlayer({
   defaultMode = "advanced",
 }: UnifiedPlayerProps) {
   const player = useRef<MediaPlayerInstance>(null);
-  const waiting = useMediaState('waiting', player);
-  const canPlay = useMediaState('canPlay', player);
-  const seeking = useMediaState('seeking', player);
+  const [waiting, setWaiting] = useState(false);
+  const [canPlay, setCanPlay] = useState(false);
+  const [seeking, setSeeking] = useState(false);
   
   // Player state
   const [playerMode, setPlayerMode] = useState<PlayerMode>("advanced"); // Start with advanced, will auto-switch if needed
@@ -190,16 +184,6 @@ export function UnifiedPlayer({
       player.current.currentTime = currentTime;
     }
   }, [currentTime, playerMode, hasValidHLSLink]);
-
-  // Advanced player functions
-  function onProviderChange(
-    provider: MediaProviderAdapter | null,
-    _nativeEvent: MediaProviderChangeEvent
-  ) {
-    if (isHLSProvider(provider)) {
-      provider.config = {};
-    }
-  }
 
   function onLoadedMetadata() {
     if (player.current) {
@@ -453,46 +437,37 @@ export function UnifiedPlayer({
             <MediaPlayer
               className="player"
               title={`${animeVideoTitle} - Episode ${episodeNumber}`}
-              src={`${MEDIA_PROXY_URL}fetch?url=${encodeURIComponent(src)}`}
+              src={{
+                src: `${MEDIA_PROXY_URL}fetch?url=${encodeURIComponent(src)}`,
+                type: 'application/x-mpegurl'
+              }}
               autoPlay={autoPlay}
               crossOrigin
               playsInline
               onLoadedMetadata={onLoadedMetadata}
-              onProviderChange={onProviderChange}
               onTimeUpdate={onTimeUpdate}
+              onWaiting={() => setWaiting(true)}
+              onCanPlay={() => { setCanPlay(true); setWaiting(false); }}
+              onSeeking={() => setSeeking(true)}
+              onSeeked={() => setSeeking(false)}
+              onError={(error) => {
+                console.error('Video player error:', error);
+                // Fallback to iframe if HLS fails
+                if (hasValidHLSLink) {
+                  setHasValidHLSLink(false);
+                  setPlayerMode("iframe");
+                }
+              }}
               ref={player}
               aspectRatio="16/9"
               load="eager"
               posterLoad="eager"
+              poster={banner}
               streamType="on-demand"
-              storage="storage-key"
+              storage={`player-${episodeId}`}
               keyTarget="player"
               onEnded={handlePlaybackEnded}
             >
-              <MediaProvider>
-                <Poster className="vds-poster" src={banner} alt="" />
-                {vttUrl && (
-                  <Track
-                    kind="chapters"
-                    src={vttUrl}
-                    default
-                    label="Skip Times"
-                  />
-                )}
-
-                {subtitles &&
-                  subtitles.map((subtitle: any, index: number) => (
-                    <Track
-                      key={String(index)}
-                      kind="subtitles"
-                      type="vtt"
-                      src={subtitle.file || subtitle.url}
-                      label={subtitle.label || subtitle.lang}
-                      {...(subtitle.default || subtitle.label === "English" ? { default: true } : {})}
-                    />
-                  ))}
-              </MediaProvider>
-              
               {showLoader && <CustomLoader />}
               
               <DefaultAudioLayout icons={defaultLayoutIcons} />
@@ -528,40 +503,40 @@ export function UnifiedPlayer({
       >
         {hasValidHLSLink && (
           <Button onClick={togglePlayerMode} $active={playerMode === "advanced"} className="flex gap-1">
-            <MdSwapHoriz className="mt-[2px]" />
+            <MdSwapHoriz className="mt-0.5" />
             {playerMode === "advanced" ? "HLS" : "Iframe"}
           </Button>
         )}
         
         {!hasValidHLSLink && (
           <Button disabled className="flex gap-1 opacity-50 cursor-not-allowed">
-            <FaExternalLinkAlt className="mt-[2px]" />
+            <FaExternalLinkAlt className="mt-0.5" />
             Iframe Only
           </Button>
         )}
         
         <Button onClick={toggleAutoPlay} className="flex gap-1">
-          {autoPlay ? <FaCheck className="mt-[2px]" /> : <RiCheckboxBlankFill className="mt-[2px]" />}
+          {autoPlay ? <FaCheck className="mt-0.5" /> : <RiCheckboxBlankFill className="mt-0.5" />}
           Autoplay
         </Button>
         
         {playerMode === "advanced" && hasValidHLSLink && (
           <Button $autoskip onClick={toggleAutoSkip} className="flex gap-1">
-            {autoSkip ? <FaCheck className="mt-[2px]" /> : <RiCheckboxBlankFill className="mt-[2px]" />}
+            {autoSkip ? <FaCheck className="mt-0.5" /> : <RiCheckboxBlankFill className="mt-0.5" />}
             Auto Skip
           </Button>
         )}
         
         <Button className="flex gap-1" onClick={onPrevEpisode}>
-          <TbPlayerTrackPrev className="mt-[2px]" /> Prev
+          <TbPlayerTrackPrev className="mt-0.5" /> Prev
         </Button>
         
         <Button onClick={onNextEpisode} className="flex gap-1">
-          <TbPlayerTrackNext className="mt-[2px]" /> Next
+          <TbPlayerTrackNext className="mt-0.5" /> Next
         </Button>
         
         <Button onClick={onEpisodeEnd} className="flex gap-1">
-          {autoNext ? <FaCheck className="mt-[2px]" /> : <RiCheckboxBlankFill className="mt-[2px]" />}
+          {autoNext ? <FaCheck className="mt-0.5" /> : <RiCheckboxBlankFill className="mt-0.5" />}
           Auto Next
         </Button>
       </div>

@@ -5,14 +5,7 @@ import React, {
   useEffect,
   useRef,
 } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faPlay,
-  faThList,
-  faTh,
-  faSearch,
-  faImage,
-} from '@fortawesome/free-solid-svg-icons';
+import { FaPlay, FaThList, FaTh, FaSearch, FaImage } from 'react-icons/fa';
 
 interface Props {
   animeId: string | undefined;
@@ -273,7 +266,7 @@ export const EpisodeList: React.FC<Props> = ({
   // Render the EpisodeList component
   return (
     <div 
-      className="bg-card text-foreground rounded-lg overflow-hidden flex-grow flex flex-col max-lg:max-h-72 max-sm:h-auto"
+      className="bg-card text-foreground rounded-lg overflow-hidden grow flex flex-col max-lg:max-h-72 max-sm:h-auto"
       style={{ maxHeight: dynamicMaxHeight() }}
     >
       {/* Controls Container */}
@@ -290,9 +283,9 @@ export const EpisodeList: React.FC<Props> = ({
           ))}
         </select>
 
-        <div className="flex items-center bg-secondary border-1 border-border px-1.5 py-2 gap-1 mx-2 rounded-lg transition-colors hover:bg-muted focus-within:bg-muted">
+        <div className="flex items-center bg-secondary border border-border px-1.5 py-2 gap-1 mx-2 rounded-lg transition-colors hover:bg-muted focus-within:bg-muted">
           <div className="text-foreground opacity-50 text-xs transition-opacity max-md:hidden">
-            <FontAwesomeIcon icon={faSearch} />
+            <FaSearch />
           </div>
           <input
             type="text"
@@ -305,18 +298,18 @@ export const EpisodeList: React.FC<Props> = ({
 
         <button
           onClick={toggleLayoutPreference}
-          className="bg-secondary border-1 border-border px-2 py-1.5 mr-2 cursor-pointer text-foreground rounded-sm transition-colors hover:bg-muted focus:bg-muted active:bg-muted"
+          className="bg-secondary border border-border px-2 py-1.5 mr-2 cursor-pointer text-foreground rounded-sm transition-colors hover:bg-muted focus:bg-muted active:bg-muted"
         >
-          {displayMode === 'list' && <FontAwesomeIcon icon={faThList} />}
-          {displayMode === 'grid' && <FontAwesomeIcon icon={faTh} />}
-          {displayMode === 'imageList' && <FontAwesomeIcon icon={faImage} />}
+          {displayMode === 'list' && <FaThList />}
+          {displayMode === 'grid' && <FaTh />}
+          {displayMode === 'imageList' && <FaImage />}
         </button>
       </div>
 
       {/* Episode Grid */}
       <div
         key={`episode-grid-${displayMode}`}
-        className={`grid gap-1 p-2 overflow-y-auto flex-grow ${
+        className={`grid gap-1 p-2 overflow-y-auto grow ${
           displayMode === 'list' || displayMode === 'imageList'
             ? 'grid-cols-1'
             : 'grid-cols-[repeat(auto-fill,minmax(4rem,1fr))]'
@@ -361,7 +354,7 @@ export const EpisodeList: React.FC<Props> = ({
             >
               {displayMode === 'imageList' ? (
                 <div className="flex items-center gap-3 w-full">
-                  <div className="relative flex-shrink-0">
+                  <div className="relative shrink-0">
                     <img
                       src={episode.image}
                       alt={`Episode ${episode.number} - ${episode.title}`}
@@ -378,7 +371,7 @@ export const EpisodeList: React.FC<Props> = ({
               ) : displayMode === 'grid' ? (
                 <div className="flex flex-col justify-center items-center h-full">
                   {isSelected ? (
-                    <FontAwesomeIcon icon={faPlay} />
+                    <FaPlay />
                   ) : (
                     <span>{episode.number}</span>
                   )}
@@ -386,7 +379,7 @@ export const EpisodeList: React.FC<Props> = ({
               ) : (
                 // List layout
                 <div className="flex justify-start gap-2 items-center w-full text-left px-1">
-                  <span >{isSelected ? <FontAwesomeIcon icon={faPlay} /> : (episode.number + ".")} </span>
+                  <span >{isSelected ? <FaPlay /> : (episode.number + ".")} </span>
                   <span className="p-0">{episode.title}</span>
                   
                 </div>

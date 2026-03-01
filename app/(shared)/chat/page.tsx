@@ -3,25 +3,26 @@ import { useState, useEffect, useRef } from "react";
 import { PromptInputBox } from "@/components/ui/ai-prompt-box";
 import { ChatPlaceholder } from "@/components/chat/ChatPlaceholder";
 import { ChatMessages, type Message } from "@/components/chat/ChatMessages";
-import { useAiChat, useAnimeIdentification } from "@/hooks/useAi";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { useAiChat, useAnimeIdentification, useAnimeRecommendation } from "@/hooks/useAi";
 
 const ChatPage = () => {
   const { 
     messages: aiMessages, 
     isLoading: isAiLoading, 
     sendMessage, 
-    error: aiError,
-    clearMessages,
     sessionId,
     streamingMessageId
   } = useAiChat();
-  const { identifyAnime, isLoading: isIdentifying, result: identificationResult, error: identifyError } = useAnimeIdentification();
+  const { identifyAnime, isLoading: isIdentifying } = useAnimeIdentification();
+  const { getRecommendations, isLoading: isGettingRecommendations } = useAnimeRecommendation();
   const [imageMessages, setImageMessages] = useState<Message[]>([]);
   const imageMessageCountRef = useRef(0);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  
+  // Track context from search/recommendation for chat mode
+  const lastContextRef = useRef<string | null>(null);
+  const useContextOnNextChatRef = useRef<boolean>(false);
 
   // Combine AI messages and image messages
   const messages: Message[] = [
@@ -78,20 +79,33 @@ const ChatPage = () => {
         const result = await identifyAnime(imageFile);
         
         if (result.success && result.result) {
-          const animeInfo = result.result;
-          const responseContent = `🎬 **${animeInfo.anime}**\n\n${animeInfo.overview}\n\n📺 **Episodes:** ${animeInfo.episodes}\n🎭 **Genres:** ${animeInfo.genres.join(", ")}\n⭐ **Confidence:** ${animeInfo.confidence}\n\n**Review:**\n${animeInfo.review}`;
-          
+          // animeData will be displayed by SearchResultCard component in ChatMessages
           const aiMessage: Message = {
             id: `${Date.now()}-ai`,
-            content: responseContent,
+            content: "", // Content will be handled by SearchResultCard
             timestamp: new Date(),
             role: "assistant",
             animeData: result,
           };
           setImageMessages((prev) => [...prev, aiMessage]);
+          
+          // Store context for potential chat mode switch
+          const animeInfo = result.result;
+          const contextInfo = `The user just searched for an anime using an image. The identified anime is: "${animeInfo.anime}" (AniList ID: ${result.id}). It has ${animeInfo.episodes} episodes and belongs to genres: ${animeInfo.genres.join(', ')}. Overview: ${animeInfo.overview}`;
+          lastContextRef.current = contextInfo;
+          useContextOnNextChatRef.current = true;
+        } else {
+          // Error handling
+          const aiMessage: Message = {
+            id: `${Date.now()}-ai`,
+            content: result.error || "Sorry, I couldn't identify this anime. Please try a different image.",
+            timestamp: new Date(),
+            role: "assistant",
+          };
+          setImageMessages((prev) => [...prev, aiMessage]);
         }
       } else if (mode === 'recommendation') {
-        // Recommendation mode - placeholder (still in works)
+        // Recommendation mode - get anime recommendations
         const userMessage: Message = {
           id: Date.now().toString(),
           content: message,
@@ -100,46 +114,67 @@ const ChatPage = () => {
         };
         setImageMessages((prev) => [...prev, userMessage]);
 
-        const aiMessage: Message = {
-          id: `${Date.now()}-ai`,
-          content: "🚧 The recommendation feature is currently under development. Stay tuned for personalized anime recommendations!",
-          timestamp: new Date(),
-          role: "assistant",
-        };
-        setImageMessages((prev) => [...prev, aiMessage]);
+        const result = await getRecommendations(message);
+        
+        if (result.success && result.recommendation && result.recommendation.length > 0) {
+          // Pass recommendation data to be rendered as cards
+          const aiMessage: Message = {
+            id: `${Date.now()}-ai`,
+            content: "", // Content will be handled by recommendation card grid
+            timestamp: new Date(),
+            role: "assistant",
+            recommendationData: result,
+          };
+          setImageMessages((prev) => [...prev, aiMessage]);
+          
+          // Store context for potential chat mode switch
+          const topRecommendations = result.recommendation
+            .sort((a: any, b: any) => (b.rating || 0) - (a.rating || 0))
+            .slice(0, 5)
+            .map((rec: any) => `"${rec.title.english || rec.title.romaji}" (Rating: ${rec.rating}/100, ${rec.episodes} episodes)`)
+            .join(', ');
+          const contextInfo = `The user just asked for anime recommendations based on: "${message}". The top recommended anime are: ${topRecommendations}. These recommendations are sorted by rating score.`;
+          lastContextRef.current = contextInfo;
+          useContextOnNextChatRef.current = true;
+        } else {
+          const aiMessage: Message = {
+            id: `${Date.now()}-ai`,
+            content: "Sorry, I couldn't find any recommendations. Please try a different anime title.",
+            timestamp: new Date(),
+            role: "assistant",
+          };
+          setImageMessages((prev) => [...prev, aiMessage]);
+        }
       } else if (mode === 'chat') {
         // Chat mode - use AI chat with streaming
-        await sendMessage(message);
+        let messageToSend = message;
+        
+        // If switching from search/recommendation mode, add context
+        if (useContextOnNextChatRef.current && lastContextRef.current) {
+          messageToSend = `[Context from previous interaction: ${lastContextRef.current}]\n\nUser's question: ${message}`;
+          // Clear the context flag after using it once
+          useContextOnNextChatRef.current = false;
+        }
+        
+        await sendMessage(messageToSend);
       }
     } catch (error) {
       console.error("Error processing message:", error);
+      // Display error as a chat message
+      const errorMessage: Message = {
+        id: `${Date.now()}-error`,
+        content: `❌ An error occurred: ${error instanceof Error ? error.message : 'Unknown error'}. Please try again.`,
+        timestamp: new Date(),
+        role: "assistant",
+      };
+      setImageMessages((prev) => [...prev, errorMessage]);
     }
   };
 
-  const handleNewChat = () => {
-    clearMessages(true); // true = create new session
-    setImageMessages([]); // clear image messages too
-  };
-
-  const isLoading = isAiLoading || isIdentifying;
+  const isLoading = isAiLoading || isIdentifying || isGettingRecommendations;
 
   return (
     <div className="flex flex-col mt-10 w-full h-[92vh] mx-0">
-      {/* Header with New Chat button */}
-      {messages.length > 0 && (
-        <div className="px-4 md:px-8 pb-2 flex justify-end">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleNewChat}
-            className="gap-2"
-          >
-            <Plus className="h-4 w-4" />
-            New Chat
-          </Button>
-        </div>
-      )}
-
       {/* Chat Messages Area */}
       <div 
         ref={chatContainerRef}

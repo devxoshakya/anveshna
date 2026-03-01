@@ -1,0 +1,456 @@
+{
+    "success": true,
+    "id": "1535",
+    "recommendation": [
+        {
+            "id": 20661,
+            "malId": 23283,
+            "title": {
+                "romaji": "Zankyou no Terror",
+                "english": "Terror in Resonance",
+                "native": "残響のテロル",
+                "userPreferred": "Zankyou no Terror"
+            },
+            "status": "Completed",
+            "episodes": 11,
+            "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx20661-aCR7QgzDfOSI.png",
+            "imageHash": "hash",
+            "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/20661-JwMKrCzeSTZ7.png",
+            "coverHash": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/20661-JwMKrCzeSTZ7.png",
+            "rating": 78,
+            "type": "TV"
+        },
+        {
+            "id": 33,
+            "malId": 33,
+            "title": {
+                "romaji": "Kenpuu Denki Berserk",
+                "english": "Berserk",
+                "native": "剣風伝奇ベルセルク",
+                "userPreferred": "Kenpuu Denki Berserk"
+            },
+            "status": "Completed",
+            "episodes": 25,
+            "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx33-PSwfE5B0gejI.jpg",
+            "imageHash": "hash",
+            "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/33-g7HwYRVm0ZkN.jpg",
+            "coverHash": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/33-g7HwYRVm0ZkN.jpg",
+            "rating": 84,
+            "type": "TV"
+        },
+        {
+            "id": 20623,
+            "malId": 22535,
+            "title": {
+                "romaji": "Kiseijuu: Sei no Kakuritsu",
+                "english": "Parasyte -the maxim-",
+                "native": "寄生獣 セイの格率",
+                "userPreferred": "Kiseijuu: Sei no Kakuritsu"
+            },
+            "status": "Completed",
+            "episodes": 24,
+            "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx20623-dUARfggnNDOe.jpg",
+            "imageHash": "hash",
+            "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/20623-xb9PPf8rGOsG.jpg",
+            "coverHash": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/20623-xb9PPf8rGOsG.jpg",
+            "rating": 81,
+            "type": "TV"
+        },
+        {
+            "id": 10620,
+            "malId": 10620,
+            "title": {
+                "romaji": "Mirai Nikki",
+                "english": "The Future Diary",
+                "native": "未来日記",
+                "userPreferred": "Mirai Nikki"
+            },
+            "status": "Completed",
+            "episodes": 26,
+            "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx10620-dUZeNej0W4QN.png",
+            "imageHash": "hash",
+            "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/10620-CsZ2FFSbGpqV.jpg",
+            "coverHash": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/10620-CsZ2FFSbGpqV.jpg",
+            "rating": 68,
+            "type": "TV"
+        },
+        {
+            "id": 101759,
+            "malId": 37779,
+            "title": {
+                "romaji": "Yakusoku no Neverland",
+                "english": "The Promised Neverland",
+                "native": "約束のネバーランド",
+                "userPreferred": "Yakusoku no Neverland"
+            },
+            "status": "Completed",
+            "episodes": 12,
+            "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx101759-8UR7r9MNVpz2.jpg",
+            "imageHash": "hash",
+            "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/101759-MhlCoeqnODso.jpg",
+            "coverHash": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/101759-MhlCoeqnODso.jpg",
+            "rating": 83,
+            "type": "TV"
+        },
+        {
+            "id": 19,
+            "malId": 19,
+            "title": {
+                "romaji": "MONSTER",
+                "english": "Monster",
+                "native": "MONSTER",
+                "userPreferred": "MONSTER"
+            },
+            "status": "Completed",
+            "episodes": 74,
+            "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx19-gtMC64182sm4.jpg",
+            "imageHash": "hash",
+            "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/19-kJhwsB0Z97tL.jpg",
+            "coverHash": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/19-kJhwsB0Z97tL.jpg",
+            "rating": 88,
+            "type": "TV"
+        },
+        {
+            "id": 1575,
+            "malId": 1575,
+            "title": {
+                "romaji": "Code Geass: Hangyaku no Lelouch",
+                "english": "Code Geass: Lelouch of the Rebellion",
+                "native": "コードギアス 反逆のルルーシュ",
+                "userPreferred": "Code Geass: Hangyaku no Lelouch"
+            },
+            "status": "Completed",
+            "episodes": 25,
+            "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx1575-hsmWM2ydNm1m.jpg",
+            "imageHash": "hash",
+            "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/1575.jpg",
+            "coverHash": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/1575.jpg",
+            "rating": 85,
+            "type": "TV"
+        },
+        {
+            "id": 2904,
+            "malId": 2904,
+            "title": {
+                "romaji": "Code Geass: Hangyaku no Lelouch R2",
+                "english": "Code Geass: Lelouch of the Rebellion R2",
+                "native": "コードギアス 反逆のルルーシュ R2",
+                "userPreferred": "Code Geass: Hangyaku no Lelouch R2"
+            },
+            "status": "Completed",
+            "episodes": 25,
+            "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx2904-Fet9Q33suC7G.jpg",
+            "imageHash": "hash",
+            "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/2904-X71fcvE83n3s.jpg",
+            "coverHash": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/2904-X71fcvE83n3s.jpg",
+            "rating": 87,
+            "type": "TV"
+        },
+        {
+            "id": 3002,
+            "malId": 3002,
+            "title": {
+                "romaji": "Gyakkyou Burai Kaiji: Ultimate Survivor",
+                "english": "Kaiji - Ultimate Survivor",
+                "native": "逆境無頼カイジ Ultimate Survivor",
+                "userPreferred": "Gyakkyou Burai Kaiji: Ultimate Survivor"
+            },
+            "status": "Completed",
+            "episodes": 26,
+            "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx3002-BExanPfxp888.jpg",
+            "imageHash": "hash",
+            "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/3002-HcG6WRNYf5BC.jpg",
+            "coverHash": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/3002-HcG6WRNYf5BC.jpg",
+            "rating": 82,
+            "type": "TV"
+        },
+        {
+            "id": 11703,
+            "malId": 11703,
+            "title": {
+                "romaji": "CØDE:BREAKER",
+                "english": "Code:Breaker",
+                "native": "CØDE:BREAKER",
+                "userPreferred": "CØDE:BREAKER"
+            },
+            "status": "Completed",
+            "episodes": 13,
+            "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx11703-PDxEAtWBd1mF.jpg",
+            "imageHash": "hash",
+            "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/11703-9WItP5MNS5CP.jpg",
+            "coverHash": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/11703-9WItP5MNS5CP.jpg",
+            "rating": 63,
+            "type": "TV"
+        },
+        {
+            "id": 101921,
+            "malId": 37999,
+            "title": {
+                "romaji": "Kaguya-sama wa Kokurasetai: Tensaitachi no Renai Zunousen",
+                "english": "Kaguya-sama: Love is War",
+                "native": "かぐや様は告らせたい～天才たちの恋愛頭脳戦～",
+                "userPreferred": "Kaguya-sama wa Kokurasetai: Tensaitachi no Renai Zunousen"
+            },
+            "status": "Completed",
+            "episodes": 12,
+            "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx101921-ufrjLzhSz7L1.jpg",
+            "imageHash": "hash",
+            "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/101921-GgvvFhlNhzlF.jpg",
+            "coverHash": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/101921-GgvvFhlNhzlF.jpg",
+            "rating": 83,
+            "type": "TV"
+        },
+        {
+            "id": 97922,
+            "malId": 34542,
+            "title": {
+                "romaji": "Inuyashiki",
+                "english": "INUYASHIKI LAST HERO",
+                "native": "いぬやしき",
+                "userPreferred": "Inuyashiki"
+            },
+            "status": "Completed",
+            "episodes": 11,
+            "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx97922-qrGn5fkQinDs.jpg",
+            "imageHash": "hash",
+            "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/97922-j6ba0Zmq8xOa.jpg",
+            "coverHash": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/97922-j6ba0Zmq8xOa.jpg",
+            "rating": 74,
+            "type": "TV"
+        },
+        {
+            "id": 20931,
+            "malId": 28223,
+            "title": {
+                "romaji": "Death Parade",
+                "english": "Death Parade",
+                "native": "デス・パレード",
+                "userPreferred": "Death Parade"
+            },
+            "status": "Completed",
+            "episodes": 12,
+            "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/nx20931-bktYqOcxPERi.jpg",
+            "imageHash": "hash",
+            "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/20931-xDhiTPZmtS3u.jpg",
+            "coverHash": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/20931-xDhiTPZmtS3u.jpg",
+            "rating": 80,
+            "type": "TV"
+        },
+        {
+            "id": 2562,
+            "malId": 2562,
+            "title": {
+                "romaji": "Shion no Ou: The Flowers of Hard Blood",
+                "english": null,
+                "native": "しおんの王 - The Flowers of Hard Blood",
+                "userPreferred": "Shion no Ou: The Flowers of Hard Blood"
+            },
+            "status": "Completed",
+            "episodes": 22,
+            "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/2562.jpg",
+            "imageHash": "hash",
+            "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/2562.jpg",
+            "coverHash": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/2562.jpg",
+            "rating": 72,
+            "type": "TV"
+        },
+        {
+            "id": 14075,
+            "malId": 14075,
+            "title": {
+                "romaji": "Zetsuen no Tempest",
+                "english": "Blast of Tempest",
+                "native": "絶園のテンペスト",
+                "userPreferred": "Zetsuen no Tempest"
+            },
+            "status": "Completed",
+            "episodes": 24,
+            "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx14075-EIJcGXq5hd9O.jpg",
+            "imageHash": "hash",
+            "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/14075-BIU2xRpLnpZr.jpg",
+            "coverHash": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/14075-BIU2xRpLnpZr.jpg",
+            "rating": 76,
+            "type": "TV"
+        },
+        {
+            "id": 13601,
+            "malId": 13601,
+            "title": {
+                "romaji": "PSYCHO-PASS",
+                "english": "PSYCHO-PASS",
+                "native": "PSYCHO-PASS サイコパス",
+                "userPreferred": "PSYCHO-PASS"
+            },
+            "status": "Completed",
+            "episodes": 22,
+            "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx13601-i42VFuHpqEOJ.jpg",
+            "imageHash": "hash",
+            "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/13601-YrCmS1oY4uBZ.jpg",
+            "coverHash": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/13601-YrCmS1oY4uBZ.jpg",
+            "rating": 81,
+            "type": "TV"
+        },
+        {
+            "id": 2025,
+            "malId": 2025,
+            "title": {
+                "romaji": "DARKER THAN BLACK: Kuro no Keiyakusha",
+                "english": "Darker than Black",
+                "native": "DARKER THAN BLACK -黒の契約者-",
+                "userPreferred": "DARKER THAN BLACK: Kuro no Keiyakusha"
+            },
+            "status": "Completed",
+            "episodes": 25,
+            "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/b2025-ZKVteVzUyFLH.png",
+            "imageHash": "hash",
+            "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/2025-Fx3ALDmrOulv.jpg",
+            "coverHash": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/2025-Fx3ALDmrOulv.jpg",
+            "rating": 77,
+            "type": "TV"
+        },
+        {
+            "id": 5040,
+            "malId": 5040,
+            "title": {
+                "romaji": "One Outs",
+                "english": "One Outs",
+                "native": "ワンナウツ",
+                "userPreferred": "One Outs"
+            },
+            "status": "Completed",
+            "episodes": 25,
+            "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx5040-OpWkR6shhDv1.jpg",
+            "imageHash": "hash",
+            "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/5040-Vpk8PmvE5o27.png",
+            "coverHash": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/5040-Vpk8PmvE5o27.png",
+            "rating": 81,
+            "type": "TV"
+        },
+        {
+            "id": 100332,
+            "malId": 36548,
+            "title": {
+                "romaji": "Kokkoku",
+                "english": "KOKKOKU",
+                "native": "刻刻",
+                "userPreferred": "Kokkoku"
+            },
+            "status": "Completed",
+            "episodes": 12,
+            "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx100332-5saXfqfB8nvF.jpg",
+            "imageHash": "hash",
+            "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/100332-YwLWtHAyqobZ.jpg",
+            "coverHash": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/100332-YwLWtHAyqobZ.jpg",
+            "rating": 66,
+            "type": "TV"
+        },
+        {
+            "id": 108307,
+            "malId": 39491,
+            "title": {
+                "romaji": "PSYCHO-PASS 3",
+                "english": "PSYCHO-PASS 3",
+                "native": "PSYCHO-PASS サイコパス3",
+                "userPreferred": "PSYCHO-PASS 3"
+            },
+            "status": "Completed",
+            "episodes": 8,
+            "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx108307-2vfdTNsxoS8H.jpg",
+            "imageHash": "hash",
+            "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/108307-A5gEsxq66Nn9.jpg",
+            "coverHash": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/108307-A5gEsxq66Nn9.jpg",
+            "rating": 73,
+            "type": "TV"
+        },
+        {
+            "id": 101349,
+            "malId": 37525,
+            "title": {
+                "romaji": "Babylon",
+                "english": "BABYLON",
+                "native": "バビロン",
+                "userPreferred": "Babylon"
+            },
+            "status": "Completed",
+            "episodes": 12,
+            "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx101349-AWy5SjUS8mYZ.jpg",
+            "imageHash": "hash",
+            "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/101349-5LUS8ZRP4ZiM.jpg",
+            "coverHash": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/101349-5LUS8ZRP4ZiM.jpg",
+            "rating": 64,
+            "type": "TV"
+        },
+        {
+            "id": 98659,
+            "malId": 35507,
+            "title": {
+                "romaji": "Youkoso Jitsuryoku Shijou Shugi no Kyoushitsu e",
+                "english": "Classroom of the Elite",
+                "native": "ようこそ実力至上主義の教室へ",
+                "userPreferred": "Youkoso Jitsuryoku Shijou Shugi no Kyoushitsu e"
+            },
+            "status": "Completed",
+            "episodes": 12,
+            "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx98659-WNyPLIZDpGGY.jpg",
+            "imageHash": "hash",
+            "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/98659-u46B5RCNl9il.jpg",
+            "coverHash": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/98659-u46B5RCNl9il.jpg",
+            "rating": 76,
+            "type": "TV"
+        },
+        {
+            "id": 21234,
+            "malId": 31043,
+            "title": {
+                "romaji": "Boku dake ga Inai Machi",
+                "english": "ERASED",
+                "native": "僕だけがいない街",
+                "userPreferred": "Boku dake ga Inai Machi"
+            },
+            "status": "Completed",
+            "episodes": 12,
+            "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx21234-XmqW39aQ9o7O.jpg",
+            "imageHash": "hash",
+            "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/21234-7lfSSPoMmwr2.jpg",
+            "coverHash": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/21234-7lfSSPoMmwr2.jpg",
+            "rating": 81,
+            "type": "TV"
+        },
+        {
+            "id": 235,
+            "malId": 235,
+            "title": {
+                "romaji": "Meitantei Conan",
+                "english": "Case Closed",
+                "native": "名探偵コナン",
+                "userPreferred": "Meitantei Conan"
+            },
+            "status": "Ongoing",
+            "episodes": null,
+            "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx235-MyYT7K3chBdO.jpg",
+            "imageHash": "hash",
+            "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/235-MTmiz0uB0fMd.jpg",
+            "coverHash": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/235-MTmiz0uB0fMd.jpg",
+            "rating": 82,
+            "type": "TV"
+        },
+        {
+            "id": 20505,
+            "malId": 20889,
+            "title": {
+                "romaji": "Kuro no Sumika -Chronus-",
+                "english": null,
+                "native": "黒の栖 -Chronus-",
+                "userPreferred": "Kuro no Sumika -Chronus-"
+            },
+            "status": "Completed",
+            "episodes": 1,
+            "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx20505-bE2CRsOocE24.png",
+            "imageHash": "hash",
+            "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/20505-X6byjnUaRHzs.jpg",
+            "coverHash": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/20505-X6byjnUaRHzs.jpg",
+            "rating": 64,
+            "type": "MOVIE"
+        }
+    ]
+}
