@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import "./PlayerStyles.css";
 import {
   MediaPlayer,
+  MediaProvider,
+  Track,
   type MediaPlayerInstance,
   useMediaStore,
 } from "@vidstack/react";
@@ -138,7 +140,7 @@ export function UnifiedPlayer({
   const [seeking, setSeeking] = useState(false);
   
   // Player state
-  const [playerMode, setPlayerMode] = useState<PlayerMode>("advanced"); // Start with advanced, will auto-switch if needed
+  const [playerMode, setPlayerMode] = useState<PlayerMode>("advanced"); 
   const [src, setSrc] = useState<string>("");
   const [subtitles, setSubtitles] = useState<any>([]);
   const [vttUrl, setVttUrl] = useState<string>("");
@@ -468,6 +470,29 @@ export function UnifiedPlayer({
               keyTarget="player"
               onEnded={handlePlaybackEnded}
             >
+              <MediaProvider>
+                {vttUrl && (
+                  <Track
+                    kind="chapters"
+                    src={vttUrl}
+                    default
+                    label="Skip Times"
+                  />
+                )}
+
+                {subtitles &&
+                  subtitles.map((subtitle: any, index: number) => (
+                    <Track
+                      key={String(index)}
+                      kind="subtitles"
+                      type="vtt"
+                      src={subtitle.file || subtitle.url}
+                      label={subtitle.label || subtitle.lang}
+                      {...(subtitle.default || subtitle.label === "English" ? { default: true } : {})}
+                    />
+                  ))}
+              </MediaProvider>
+
               {showLoader && <CustomLoader />}
               
               <DefaultAudioLayout icons={defaultLayoutIcons} />
