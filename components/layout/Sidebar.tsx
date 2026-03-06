@@ -47,7 +47,7 @@ export function AppSidebar() {
   return (
     <>
       {/* Desktop Sidebar - Fixed */}
-      <aside className="hidden md:block fixed top-16 left-0 bottom-0 w-[70px] border-r bg-background z-30 ">
+      <aside className="hidden md:block fixed top-16 left-0 bottom-0 w-17.5 border-r bg-background z-30 ">
         <div className="flex flex-col items-center py-4 h-full">
           {sidebarItems.map((item) => {
             const isActive = filteredPathname === item.href.split("?")[0] // Compare without query parameters
