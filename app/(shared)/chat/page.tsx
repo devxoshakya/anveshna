@@ -9,14 +9,10 @@ const ChatPage = () => {
   const { 
     messages: aiMessages, 
     isLoading: isAiLoading, 
-    sendMessage, 
-    sessionId,
-    streamingMessageId
-  } = useAiChat();
+    sendMessage  } = useAiChat();
   const { identifyAnime, isLoading: isIdentifying } = useAnimeIdentification();
   const { getRecommendations, isLoading: isGettingRecommendations } = useAnimeRecommendation();
   const [imageMessages, setImageMessages] = useState<Message[]>([]);
-  const imageMessageCountRef = useRef(0);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   
