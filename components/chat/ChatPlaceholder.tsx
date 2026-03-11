@@ -1,5 +1,4 @@
 import { ImagesBadge } from "@/components/ui/images-badge";
-import { ChatLoader } from "@/components/chat/ChatLoader";
 
 export const ChatPlaceholder = () => {
   return (
