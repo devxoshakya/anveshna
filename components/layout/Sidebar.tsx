@@ -1,6 +1,6 @@
 "use client"
 
-import { Home, Flame, Search, History, User2, Settings } from "lucide-react"
+import { Home, Flame, Search, History, User2, Settings, MessageSquare } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
@@ -11,6 +11,11 @@ const sidebarItems = [
     title: "Home",
     href: "/home",
     icon: Home,
+  },
+  {
+    title: "Chat",
+    href: "/chat",
+    icon: MessageSquare,
   },
   {
     title: "Trending",

@@ -32,11 +32,11 @@ export function Navbar() {
         <div className="mr-4 flex items-center">
           <Link href="/" className="flex items-center">
             <Image
-              src="/landing.png"
+              src="/loader.png"
               alt="Logo"
               width={4000}
               height={4000}
-              className="h-full w-36 object-contain pt-4"
+              className="h-full w-36 object-contain"
             />
           </Link>
         </div>
