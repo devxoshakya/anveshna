@@ -1,9 +1,10 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { PromptInputBox } from "@/components/ui/ai-prompt-box";
 import { ChatPlaceholder } from "@/components/chat/ChatPlaceholder";
 import { ChatMessages, type Message } from "@/components/chat/ChatMessages";
 import { useAiChat, useAnimeIdentification, useAnimeRecommendation } from "@/hooks/useAi";
+import { useAutoScroll } from "@/hooks/useAutoScroll";
 
 const ChatPage = () => {
   const { 
@@ -13,8 +14,8 @@ const ChatPage = () => {
   const { identifyAnime, isLoading: isIdentifying } = useAnimeIdentification();
   const { getRecommendations, isLoading: isGettingRecommendations } = useAnimeRecommendation();
   const [imageMessages, setImageMessages] = useState<Message[]>([]);
+  const [currentMode, setCurrentMode] = useState<'search' | 'recommendation' | 'chat'>('chat');
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const chatContainerRef = useRef<HTMLDivElement>(null);
   
   // Track context from search/recommendation for chat mode
   const lastContextRef = useRef<string | null>(null);
@@ -38,13 +39,11 @@ const ChatPage = () => {
     })
   ].sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
 
-  // Auto-scroll to bottom when messages change or during streaming
-  useEffect(() => {
-    if (chatContainerRef.current && isAiLoading) {
-      // Smooth scroll during streaming
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-    }
-  }, [messages, isAiLoading]);
+  // Auto-scroll to bottom when messages change
+  const chatContainerRef = useAutoScroll<HTMLDivElement>([messages, isAiLoading], {
+    behavior: 'smooth',
+    delay: 100
+  });
 
   const handleSendMessage = async (message: string, files?: File[], mode?: 'search' | 'recommendation' | 'chat') => {
     if (!message.trim() && (!files || files.length === 0)) return;
@@ -56,6 +55,9 @@ const ChatPage = () => {
     }
 
     try {
+      // Set the current mode for loader display
+      if (mode) setCurrentMode(mode);
+      
       // Handle based on the mode
       if (mode === 'search' && files && files.length > 0) {
         // Search mode with image - use identifyAnime
@@ -181,7 +183,7 @@ const ChatPage = () => {
             <ChatPlaceholder />
           ) : (
             <>
-              <ChatMessages messages={messages} isLoading={isLoading} />
+              <ChatMessages messages={messages} isLoading={isLoading} currentMode={currentMode} />
               <div ref={messagesEndRef} />
             </>
           )}
@@ -189,9 +191,12 @@ const ChatPage = () => {
       </div>
 
       {/* Input Area */}
-      <div className="p-0 md:p-8 pb-20 md:pb-8 pt-4 backdrop-blur-md bg-background/50">
-        <div className="max-w-4xl mx-auto w-full px-0 md:px-4">
+      <div className="p-0 md:p-8 pb-16 md:pb-4 pt-4 backdrop-blur-md bg-background/50">
+        <div className="max-w-4xl mx-auto w-full px-0 md:px-4 space-y-2">
           <PromptInputBox onSend={handleSendMessage} isLoading={isLoading} />
+          <p className="text-sm text-center text-muted-foreground px-4 font-sans">
+            Pippo can make mistakes. Check important info.
+          </p>
         </div>
       </div>
     </div>

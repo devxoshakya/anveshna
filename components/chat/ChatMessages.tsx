@@ -1,6 +1,6 @@
 import ReactMarkdown from "react-markdown";
 import type { AnimeIdentificationResult, AnimeRecommendationResult } from "@/hooks/useAi";
-import { ChatLoader } from "./ChatLoader";
+import AILoadingState from "@/components/kokonutui/ai-loading";
 import { SearchResultCard } from "./SearchResultCard";
 import { CardGrid } from "@/components/cards/CardGrid";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -19,10 +19,16 @@ export interface Message {
 interface ChatMessagesProps {
   messages: Message[];
   isLoading?: boolean;
+  currentMode?: 'search' | 'recommendation' | 'chat';
 }
 
-export const ChatMessages = ({ messages, isLoading }: ChatMessagesProps) => {
+export const ChatMessages = ({ messages, isLoading, currentMode = 'chat' }: ChatMessagesProps) => {
   const isMobile = useIsMobile();
+  
+  // Check if there's currently a streaming message with actual content
+  const hasStreamingMessage = messages.some(msg => msg.isStreaming && msg.content.length > 0);
+  // Only show loader if loading and no streaming has started yet
+  const shouldShowLoader = isLoading && !hasStreamingMessage;
   
   return (
     <div className="space-y-6 px-2">
@@ -138,11 +144,11 @@ export const ChatMessages = ({ messages, isLoading }: ChatMessagesProps) => {
         );
       })}
       
-      {/* Loading indicator */}
-      {isLoading && (
+      {/* Loading indicator - only show before streaming starts */}
+      {shouldShowLoader && (
         <div className="flex justify-start w-full">
-          <div className="max-w-[85%] rounded-2xl px-0 py-0 md:px-4 md:py-3 bg-background text-foreground">
-            <ChatLoader />
+          <div className="max-w-full rounded-2xl p-4">
+            <AILoadingState mode={currentMode} />
           </div>
         </div>
       )}
