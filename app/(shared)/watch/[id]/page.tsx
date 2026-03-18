@@ -71,7 +71,7 @@ export default function WatchPage({ params }: PageProps) {
   const [error, setError] = useState<string | null>(null);
 
   // Player settings
-  const [serverName, setServerName] = useState<string>("vidcloud");
+  const [serverName, setServerName] = useState<string>("hd-1");
   const [language, setLanguage] = useState<string>("sub");
   const [downloadLink, setDownloadLink] = useState<string>("");
   const nextEpisodeAiringTime =
@@ -339,7 +339,7 @@ export default function WatchPage({ params }: PageProps) {
                 
                 episodeId={episodeNumber.toString()}
                 airingTime={
-                animeInfo && animeInfo.status === 'Ongoing'
+                animeInfo && (animeInfo.status === 'RELEASING' || animeInfo.status === 'Ongoing')
                   ? countdown
                   : undefined
               }

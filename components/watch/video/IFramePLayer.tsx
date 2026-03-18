@@ -53,7 +53,7 @@ export function Player({
   onNextEpisode,
   onEpisodeEnd,
   animeTitle,
-  serverName = "vidcloud",
+  serverName = "hd-1",
 }: PlayerProps) {
   const [autoPlay, setAutoPlay] = useState(true);
   const [autoNext, setAutoNext] = useState(true);
@@ -67,7 +67,11 @@ export function Player({
   const getIframeSrc = () => {
     const parts = episodeId.split("$");
     const extractedEpId = parts.length >= 3 ? parts[2] : "";
-    const domain = serverName === "vidstreaming" ? "vidwish.live" : "megaplay.buzz";
+    const normalizedServer = serverName.toLowerCase();
+    const domain =
+      normalizedServer === "hd-2" || normalizedServer === "vidstreaming"
+        ? "vidwish.live"
+        : "megaplay.buzz";
     return `https://${domain}/stream/s-2/${extractedEpId}/${category}`;
   };
 

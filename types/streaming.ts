@@ -21,10 +21,13 @@ export interface StreamingData {
   id: string;
   type: string;
   link: StreamingLink | null;
+  headers?: Record<string, string>;
+  sources?: Array<Record<string, any>>;
+  subtitles?: Track[];
   tracks: Track[];
   intro: SkipTimeData | null;
   outro: SkipTimeData | null;
-  server: "HD-2" | "HD-3" | null;
+  server: "hd-1" | "hd-2" | null;
 }
 
 export interface StreamingApiResponse {

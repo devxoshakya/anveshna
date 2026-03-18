@@ -81,29 +81,29 @@ export const MediaSource: React.FC<MediaSourceProps> = ({
           <div className="flex gap-2">
             <button
               className={`px-4 py-2 border-none font-bold rounded-lg cursor-pointer transition-all duration-200 text-center hover:scale-105 active:scale-95 ${
-                serverName === 'vidcloud' && language === 'sub'
+                serverName === 'hd-1' && language === 'sub'
                   ? 'bg-accent text-accent-foreground'
                   : 'bg-card text-card-foreground hover:bg-accent'
               }`}
               onClick={() => {
-                setServerName('vidcloud');
+                setServerName('hd-1');
                 setLanguage('sub');
               }}
             >
-              Vidcloud
+              HD-1
             </button>
             <button
               className={`px-4 py-2 border-none font-bold rounded-lg cursor-pointer transition-all duration-200 text-center hover:scale-105 active:scale-95 ${
-                serverName === 'vidstreaming' && language === 'sub'
+                serverName === 'hd-2' && language === 'sub'
                   ? 'bg-accent text-accent-foreground'
                   : 'bg-card text-card-foreground hover:bg-accent'
               }`}
               onClick={() => {
-                setServerName('vidstreaming');
+                setServerName('hd-2');
                 setLanguage('sub');
               }}
             >
-              Vidstream
+              HD-2
             </button>
           </div>
         </div>
@@ -117,29 +117,29 @@ export const MediaSource: React.FC<MediaSourceProps> = ({
           <div className="flex gap-2">
             <button
               className={`px-4 py-2 border-none font-bold rounded-lg cursor-pointer transition-all duration-200 text-center hover:scale-105 active:scale-95 ${
-                serverName === 'vidcloud' && language === 'dub'
+                serverName === 'hd-1' && language === 'dub'
                   ? 'bg-accent text-accent-foreground'
                   : 'bg-card text-card-foreground hover:bg-accent'
               }`}
               onClick={() => {
-                setServerName('vidcloud');
+                setServerName('hd-1');
                 setLanguage('dub');
               }}
             >
-              Vidcloud
+              HD-1
             </button>
             <button
               className={`px-4 py-2 border-none font-bold rounded-lg cursor-pointer transition-all duration-200 text-center hover:scale-105 active:scale-95 ${
-                serverName === 'vidstreaming' && language === 'dub'
+                serverName === 'hd-2' && language === 'dub'
                   ? 'bg-accent text-accent-foreground'
                   : 'bg-card text-card-foreground hover:bg-accent'
               }`}
               onClick={() => {
-                setServerName('vidstreaming');
+                setServerName('hd-2');
                 setLanguage('dub');
               }}
             >
-              Vidstream
+              HD-2
             </button>
           </div>
         </div>

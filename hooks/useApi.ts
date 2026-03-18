@@ -11,6 +11,9 @@ function ensureUrlEndsWithSlash(url: string): string {
 const BASE_URL = ensureUrlEndsWithSlash(
     process.env.NEXT_PUBLIC_BACKEND_URL as string,
 );
+const CF_BACKEND_URL = ensureUrlEndsWithSlash(
+    (process.env.NEXT_PUBLIC_CF_BACKEND_URL || process.env.cf_backend_url || process.env.NEXT_PUBLIC_BACKEND_URL) as string,
+);
 const STREAM_URL = ensureUrlEndsWithSlash(
     process.env.NEXT_PUBLIC_STREAMING_BACKEND_URL as string,
 );
@@ -85,6 +88,80 @@ function generateCacheKey(...args: string[]) {
 interface CacheItem {
     value: any; // Replace 'any' with a more specific type if possible
     timestamp: number;
+}
+
+const SERVER_ID_TO_STREAM_SERVER: Record<number, string> = {
+    1: 'hd-2',
+    4: 'hd-1',
+};
+
+const LEGACY_SERVER_ALIAS_MAP: Record<string, string> = {
+    vidcloud: 'hd-1',
+    vidsrc: 'hd-1',
+    vidstreaming: 'hd-2',
+    megacloud: 'hd-2',
+};
+
+function normalizeServerName(serverName?: string) {
+    if (!serverName) return 'hd-1';
+    const normalized = serverName.toLowerCase();
+    return LEGACY_SERVER_ALIAS_MAP[normalized] || normalized;
+}
+
+function mapEpisodeSourceServers(payload: any) {
+    const data = payload?.data || payload;
+    if (!data || typeof data !== 'object') {
+        return payload;
+    }
+
+    const mapServers = (servers: any[] = []) =>
+        servers.map((server) => {
+            const mappedServerName = SERVER_ID_TO_STREAM_SERVER[server?.serverId] || server?.serverName;
+            return {
+                ...server,
+                originalServerName: server?.serverName,
+                serverName: mappedServerName,
+            };
+        });
+
+    const mappedData = {
+        ...data,
+        sub: mapServers(data?.sub || []),
+        dub: mapServers(data?.dub || []),
+        raw: mapServers(data?.raw || []),
+    };
+
+    return payload?.data ? { ...payload, data: mappedData } : mappedData;
+}
+
+function resolveStreamingServerFromSources(
+    sourcesPayload: any,
+    category: string,
+    requestedServer: string,
+) {
+    const normalizedCategory = (category || 'sub').toLowerCase();
+    const normalizedRequest = normalizeServerName(requestedServer);
+
+    const sourceData = sourcesPayload?.data || sourcesPayload;
+    const categoryServers =
+        sourceData?.[normalizedCategory] ||
+        sourceData?.sub ||
+        sourceData?.dub ||
+        [];
+
+    if (!Array.isArray(categoryServers) || categoryServers.length === 0) {
+        return normalizedRequest;
+    }
+
+    const mappedServers = categoryServers
+        .map((server: any) => SERVER_ID_TO_STREAM_SERVER[server?.serverId] || normalizeServerName(server?.serverName))
+        .filter(Boolean);
+
+    if (mappedServers.includes(normalizedRequest)) {
+        return normalizedRequest;
+    }
+
+    return mappedServers[0] || normalizedRequest;
 }
 
 // Session storage cache creation
@@ -223,11 +300,103 @@ async function fetchFromProxy(url: string, cache: any, cacheKey: string) {
 
 // function to get new episode id 
 function parseEpisodeId(input: string) {
-  const [seriesId, , number, type] = input.split("$");
-  return {
-    episodeId: `${seriesId}::ep=${number}`,
-    type
-  };
+    const parts = input.split('$');
+    if (parts.length < 3 || !parts[0] || !parts[2]) {
+        return {
+            episodeId: input,
+            type: undefined,
+        };
+    }
+
+    const [seriesId, , number, type] = parts;
+    return {
+        episodeId: `${seriesId}::ep=${number}`,
+        type,
+    };
+}
+
+function normalizeAnimeInfoResponse(response: any) {
+    const payload = response?.data || response;
+
+    const normalizedEpisodes =
+        payload?.episodesList ||
+        payload?.episodeList ||
+        payload?.episodes ||
+        [];
+
+    const normalizedNextAiring = payload?.nextAiringEpisode
+        ? {
+            ...payload.nextAiringEpisode,
+            // Keep legacy key used by watch page countdown logic.
+            airingTime:
+                payload.nextAiringEpisode.airingTime ||
+                payload.nextAiringEpisode.airingAt ||
+                null,
+        }
+        : null;
+
+    return {
+        ...payload,
+        malId: payload?.malId || payload?.idMal,
+        image:
+            payload?.image ||
+            payload?.coverImage?.large ||
+            payload?.coverImage?.extraLarge ||
+            payload?.coverImage?.medium ||
+            null,
+        cover:
+            payload?.cover ||
+            payload?.bannerImage ||
+            payload?.coverImage?.extraLarge ||
+            payload?.coverImage?.large ||
+            null,
+        episodes: normalizedEpisodes,
+        episodeList: normalizedEpisodes,
+        episodesList: normalizedEpisodes,
+        nextAiringEpisode: normalizedNextAiring,
+    };
+}
+
+function normalizeStreamingResponse(payload: any, fallbackServer: string, category: string) {
+    const data = payload?.data || payload?.result || payload;
+
+    const sources = Array.isArray(data?.sources) ? data.sources : [];
+    const subtitles = Array.isArray(data?.subtitles) ? data.subtitles : [];
+    const tracks = Array.isArray(data?.tracks) ? data.tracks : [];
+    const mergedTracks = [...tracks, ...subtitles].filter(Boolean);
+
+    const streamLink =
+        data?.link?.file ||
+        data?.link ||
+        data?.source?.file ||
+        data?.source?.url ||
+        sources?.[0]?.file ||
+        sources?.[0]?.url ||
+        null;
+
+    const linkType =
+        data?.link?.type ||
+        data?.source?.type ||
+        sources?.[0]?.type ||
+        (sources?.[0]?.isM3U8 ? 'hls' : null) ||
+        (typeof streamLink === 'string' && streamLink.includes('.m3u8') ? 'hls' : null);
+
+    return {
+        success: !!streamLink,
+        data: {
+            id: data?.id || null,
+            type: data?.category || category,
+            link: streamLink,
+            linkType,
+            headers: data?.headers || {},
+            sources,
+            subtitles,
+            tracks: mergedTracks,
+            intro: data?.intro || null,
+            outro: data?.outro || null,
+            server: data?.server || fallbackServer,
+        },
+    };
 }
 
 // Function to fetch anime data
@@ -277,11 +446,11 @@ export async function fetchAnimeInfo(
     animeId: string,
     provider: string = 'zoro',
 ) {
-    const params = new URLSearchParams({ provider });
-    const url = `${BASE_URL}meta/anilist/info/${animeId}?${params.toString()}`;
-    const cacheKey = generateCacheKey('animeInfo', animeId, provider);
+    const url = `${CF_BACKEND_URL}anime/info/${animeId}`;
+    const cacheKey = generateCacheKey('animeInfo', animeId, provider, 'cf');
 
-    return fetchFromProxy(url, animeInfoCache, cacheKey);
+    const response = await fetchFromProxy(url, animeInfoCache, cacheKey);
+    return normalizeAnimeInfoResponse(response);
 }
 
 // Function to fetch list of anime based on type (TopRated, Trending, Popular)
@@ -373,67 +542,75 @@ export async function fetchAnimeEpisodes(
     provider: string = 'gogoanime',
     dub: boolean = false,
 ) {
-    const params = new URLSearchParams({ provider, dub: dub ? 'true' : 'false' });
-    const url = `${BASE_URL}meta/anilist/episodes/${animeId}?${params.toString()}`;
+    const url = `${CF_BACKEND_URL}anime/info/${animeId}`;
     const cacheKey = generateCacheKey(
         'animeEpisodes',
         animeId,
         provider,
         dub ? 'dub' : 'sub',
+        'cf',
     );
 
-    return fetchFromProxy(url, animeEpisodesCache, cacheKey);
+    const response = await fetchFromProxy(url, animeEpisodesCache, cacheKey);
+    const normalized = normalizeAnimeInfoResponse(response);
+    return normalized?.episodes || normalized?.episodeList || normalized?.episodesList || [];
 }
 
 // Fetch Embedded Anime Episodes Servers
-export async function fetchAnimeEmbeddedEpisodes(episodeId: string) {
-    const url = `${BASE_URL}meta/anilist/servers/${episodeId}`;
-    const cacheKey = generateCacheKey('animeEmbeddedServers', episodeId);
+export async function fetchAnimeEmbeddedEpisodes(episodeId: string, episodeNumberId?: string) {
+    const params = new URLSearchParams();
 
-    return fetchFromProxy(url, fetchAnimeEmbeddedEpisodesCache, cacheKey);
+    let normalizedEpisodeId = episodeId;
+    if (episodeId.includes('?ep=')) {
+        const [baseEpisodeId, embeddedEpId] = episodeId.split('?ep=');
+        normalizedEpisodeId = baseEpisodeId;
+        if (!episodeNumberId && embeddedEpId) {
+            params.set('ep', embeddedEpId);
+        }
+    }
+
+    if (episodeNumberId) {
+        params.set('ep', episodeNumberId);
+    }
+
+    const suffix = params.toString() ? `?${params.toString()}` : '';
+    const url = `${CF_BACKEND_URL}anime/servers/${encodeURIComponent(normalizedEpisodeId)}${suffix}`;
+    const cacheKey = generateCacheKey('animeEmbeddedServers', normalizedEpisodeId, episodeNumberId || '');
+
+    const response = await fetchFromProxy(url, fetchAnimeEmbeddedEpisodesCache, cacheKey);
+    return mapEpisodeSourceServers(response);
 }
 
 // Function to fetch anime streaming links
 export async function fetchAnimeStreamingLinks(
     episodeId: string,
-    serverName: string = "vidcloud",
+    serverName: string = 'hd-1',
     type: string
 ) {
     const parsedEpisodeId = parseEpisodeId(episodeId).episodeId;
-
-    const urlHD2 = `${STREAM_URL}api/v1/stream?id=${encodeURIComponent(parsedEpisodeId)}&type=${type}&server=hd-2`;
-    const urlHD3 = `${STREAM_URL}api/v1/stream?id=${encodeURIComponent(parsedEpisodeId)}&type=${type}&server=hd-3`;
+    const candidateEpisodeIds = Array.from(new Set([episodeId, parsedEpisodeId]));
+    const preferredServer = normalizeServerName(serverName);
+    const category = (type || 'sub').toLowerCase();
 
     try {
-        const [responseHD2, responseHD3] = await Promise.allSettled([
-            axios.get(urlHD2, { headers: { Accept: "*/*" } }).then(res => res.data),
-            axios.get(urlHD3, { headers: { Accept: "*/*" } }).then(res => res.data)
-        ]);
+        for (const candidateEpisodeId of candidateEpisodeIds) {
+            const embeddedServers = await fetchAnimeEmbeddedEpisodes(candidateEpisodeId);
+            const resolvedServer = resolveStreamingServerFromSources(
+                embeddedServers,
+                category,
+                preferredServer,
+            );
 
-        const hd2Data = responseHD2.status === "fulfilled" ? responseHD2.value.data : null;
-        const hd3Data = responseHD3.status === "fulfilled" ? responseHD3.value.data : null;
+            const url = `${CF_BACKEND_URL}anime/sources?episodeId=${encodeURIComponent(candidateEpisodeId)}&server=${encodeURIComponent(resolvedServer)}&category=${encodeURIComponent(category)}`;
+            const response = await axios.get(url, { headers: { Accept: '*/*' } });
+            const normalized = normalizeStreamingResponse(response.data, resolvedServer, category);
 
-        if (!hd2Data && !hd3Data) {
-            return { success: false, data: null };
+            if (normalized.success) {
+                return normalized;
+            }
         }
 
-        let selectedServerData = hd2Data || hd3Data;
-        let selectedServer = hd2Data ? "HD-2" : "HD-3";
-
-        return {
-            success: true,
-            data: {
-                id: parsedEpisodeId,
-                type,
-                // Handle new API object format
-                link: selectedServerData?.link?.file || null,
-                linkType: selectedServerData?.link?.type || null,
-                tracks: selectedServerData?.tracks || [],
-                intro: selectedServerData?.intro || null,
-                outro: selectedServerData?.outro || null,
-                server: selectedServer
-            }
-        };
+        return { success: false, data: null };
     } catch (error) {
         return {
             success: false,

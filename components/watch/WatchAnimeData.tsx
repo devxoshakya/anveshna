@@ -404,18 +404,18 @@ export const WatchAnimeData: React.FC<{ animeData: any }> = ({
               <ParentContainer>
                 <AnimeDataContainerMiddle>
                   <AnimeDataText>
-                    {animeData.type ? (
+                    {animeData.format ? (
                       <p>
-                        Type: <strong>{animeData.type}</strong>
+                        Type: <strong>{animeData.format}</strong>
                       </p>
                     ) : (
                       <p>
                         Type: <strong>Unknown</strong>
                       </p>
                     )}
-                    {animeData.releaseDate ? (
+                    {animeData.seasonYear ? (
                       <p>
-                        Year: <strong>{animeData.releaseDate}</strong>
+                        Year: <strong>{animeData.seasonYear}</strong>
                       </p>
                     ) : (
                       <p>
@@ -428,15 +428,15 @@ export const WatchAnimeData: React.FC<{ animeData: any }> = ({
                         <strong>
                           {animeData.status === 'Completed'
                             ? 'Finished'
-                            : animeData.status === 'Ongoing'
+                            : animeData.status === 'RELEASING'
                               ? 'Airing'
                               : animeData.status}
                         </strong>
                       </p>
                     )}
-                    {animeData.rating ? (
+                    {animeData.averageScore !== null ? (
                       <p>
-                        Rating: <strong>{animeData.rating}</strong>
+                        Rating: <strong>{animeData.averageScore}</strong>
                       </p>
                     ) : (
                       <p>
@@ -551,8 +551,8 @@ export const WatchAnimeData: React.FC<{ animeData: any }> = ({
       {animeData.relations &&
         animeData.relations.some(
           (relation: any) =>
-            relation.relationType.toUpperCase() === 'PREQUEL' ||
-            relation.relationType.toUpperCase() === 'SEQUEL',
+            (relation?.relationType || '').toUpperCase() === 'PREQUEL' ||
+            (relation?.relationType || '').toUpperCase() === 'SEQUEL',
         ) && (
           <>
             <AnimeDataText>
@@ -560,8 +560,8 @@ export const WatchAnimeData: React.FC<{ animeData: any }> = ({
               <Seasons
                 relations={animeData.relations.filter(
                   (relation: any) =>
-                    relation.relationType.toUpperCase() === 'PREQUEL' ||
-                    relation.relationType.toUpperCase() === 'SEQUEL',
+                    (relation?.relationType || '').toUpperCase() === 'PREQUEL' ||
+                    (relation?.relationType || '').toUpperCase() === 'SEQUEL',
                 )}
               />
             </AnimeDataText>

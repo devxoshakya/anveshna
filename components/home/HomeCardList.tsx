@@ -185,6 +185,10 @@ export const HomeSideBar: React.FC<{
 
   const displayedAnime = windowWidth <= 500 ? animeData.slice(0, 5) : animeData;
 
+ animeData.forEach(element => {
+  console.log(element.status);
+ });
+
   return (
     <SidebarStyled>
       <div className="flex items-center justify-start mb-2">

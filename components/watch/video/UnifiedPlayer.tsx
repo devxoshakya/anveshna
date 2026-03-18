@@ -130,7 +130,7 @@ export function UnifiedPlayer({
   onNextEpisode,
   episodeNumber,
   animeTitle,
-  serverName = "vidcloud",
+  serverName = "hd-1",
   language = "sub",
   defaultMode = "advanced",
 }: UnifiedPlayerProps) {
@@ -155,6 +155,28 @@ export function UnifiedPlayer({
   const [autoNext, setAutoNext] = useState<boolean>(true);
   const [autoSkip, setAutoSkip] = useState<boolean>(false);
   const [showLoader, setShowLoader] = useState<boolean>(true);
+
+  const resolveStreamUrl = (data: any) => {
+    if (typeof data?.link === "string") return data.link;
+    if (typeof data?.link?.file === "string") return data.link.file;
+    if (typeof data?.link?.url === "string") return data.link.url;
+    if (Array.isArray(data?.sources) && data.sources.length > 0) {
+      return data.sources[0]?.url || data.sources[0]?.file || "";
+    }
+    return "";
+  };
+
+  const resolveSubtitleTracks = (data: any) => {
+    const subtitleList = Array.isArray(data?.subtitles) ? data.subtitles : [];
+    const trackList = Array.isArray(data?.tracks) ? data.tracks : [];
+    const merged = [...subtitleList, ...trackList];
+
+    return merged.filter((track: any) => {
+      const kind = (track?.kind || "").toLowerCase();
+      const hasSource = !!(track?.url || track?.file);
+      return hasSource && kind !== "thumbnails";
+    });
+  };
 
   const animeVideoTitle = animeTitle;
 
@@ -320,9 +342,9 @@ export function UnifiedPlayer({
 
       const data = response.data;
       
-      // Check if we have a valid HLS link
-      if (data.link && (typeof data.link === 'string' || data.link.file)) {
-        const streamUrl = typeof data.link === 'string' ? data.link : data.link.file;
+      // Check if we have a valid HLS link from new schema (sources) or legacy fields.
+      const streamUrl = resolveStreamUrl(data);
+      if (streamUrl) {
         
         // Validate if it's a proper HLS link
         if (streamUrl && (streamUrl.includes('.m3u8') || data.linkType === 'hls')) {
@@ -332,12 +354,7 @@ export function UnifiedPlayer({
           setPlayerMode("advanced");
           
           // Handle subtitles/tracks
-          const tracks = data.tracks || [];
-          if (tracks.length > 0) {
-            // Filter out thumbnails and process subtitles
-            const subtitleTracks = tracks.filter((track: any) => track.kind !== 'thumbnails');
-            setSubtitles(subtitleTracks);
-          }
+          setSubtitles(resolveSubtitleTracks(data));
 
           // Handle intro/outro data
           if (data.intro || data.outro) {
@@ -384,9 +401,13 @@ export function UnifiedPlayer({
 
   // Iframe player functions
   const getIframeSrc = () => {
-    const parts = episodeId.split("$");
-    const extractedEpId = parts.length >= 3 ? parts[2] : "";
-    const domain = serverName === "vidstreaming" ? "vidwish.live" : "megaplay.buzz";
+    const epMatch = episodeId.match(/ep=(\d+)/);
+    const extractedEpId = epMatch ? epMatch[1] : "";
+    const normalizedServer = serverName.toLowerCase();
+    const domain =
+      normalizedServer === "hd-2" || normalizedServer === "vidstreaming"
+        ? "vidwish.live"
+        : "megaplay.buzz";
     return `https://${domain}/stream/s-2/${extractedEpId}/${language}`;
   };
 
@@ -452,8 +473,9 @@ export function UnifiedPlayer({
               onCanPlay={() => { setCanPlay(true); setWaiting(false); }}
               onSeeking={() => setSeeking(true)}
               onSeeked={() => setSeeking(false)}
-              onError={(error) => {
-                console.error('Video player error:', error);
+              onError={() => {
+                // Avoid logging the raw Vidstack error object; Next devtools tries to stringify it and can crash.
+                console.error('Video player error: switching to iframe fallback');
                 // Fallback to iframe if HLS fails
                 if (hasValidHLSLink) {
                   setHasValidHLSLink(false);
@@ -488,7 +510,7 @@ export function UnifiedPlayer({
                       type="vtt"
                       src={subtitle.file || subtitle.url}
                       label={subtitle.label || subtitle.lang}
-                      {...(subtitle.default || subtitle.label === "English" ? { default: true } : {})}
+                      {...(subtitle.default || subtitle.label === "English" || subtitle.lang === "English" ? { default: true } : {})}
                     />
                   ))}
               </MediaProvider>
@@ -496,10 +518,7 @@ export function UnifiedPlayer({
               {showLoader && <CustomLoader />}
               
               <DefaultAudioLayout icons={defaultLayoutIcons} />
-              <DefaultVideoLayout
-                thumbnails={subtitles.find((s: any) => s.kind === 'thumbnails')?.file}
-                icons={defaultLayoutIcons}
-              />
+              <DefaultVideoLayout icons={defaultLayoutIcons} />
             </MediaPlayer>
           </div>
         ) : (

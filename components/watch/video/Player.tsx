@@ -90,7 +90,7 @@ export function Player({
   onNextEpisode,
   episodeNumber,
   animeTitle,
-  serverName = "vidcloud",
+  serverName = "hd-1",
   language = "sub",
 }: PlayerProps) {
   const player = useRef<MediaPlayerInstance>(null);
@@ -110,6 +110,28 @@ export function Player({
   const [autoNext, setAutoNext] = useState<boolean>(true);
   const [autoSkip, setAutoSkip] = useState<boolean>(false);
   const [showLoader, setShowLoader] = useState<boolean>(true);
+
+  const resolveStreamUrl = (data: any) => {
+    if (typeof data?.link === "string") return data.link;
+    if (typeof data?.link?.file === "string") return data.link.file;
+    if (typeof data?.link?.url === "string") return data.link.url;
+    if (Array.isArray(data?.sources) && data.sources.length > 0) {
+      return data.sources[0]?.url || data.sources[0]?.file || "";
+    }
+    return "";
+  };
+
+  const resolveSubtitleTracks = (data: any) => {
+    const subtitleList = Array.isArray(data?.subtitles) ? data.subtitles : [];
+    const trackList = Array.isArray(data?.tracks) ? data.tracks : [];
+    const merged = [...subtitleList, ...trackList];
+
+    return merged.filter((track: any) => {
+      const kind = (track?.kind || "").toLowerCase();
+      const hasSource = !!(track?.url || track?.file);
+      return hasSource && kind !== "thumbnails";
+    });
+  };
 
   useEffect(() => {
     setCurrentTime(parseFloat(localStorage.getItem("currentTime") || "0"));
@@ -301,26 +323,16 @@ export function Player({
 
       const data = response.data;
       
-      // Handle streaming sources - check for valid link
-      if (data.link) {
-        const streamUrl = typeof data.link === 'string' ? data.link : data.link;
-        if (streamUrl) {
-          setSrc(streamUrl);
-          updateDownloadLink(streamUrl);
-        } else {
-          return;
-        }
-      } else {
+      // Handle streaming sources using new schema first, then legacy fallbacks.
+      const streamUrl = resolveStreamUrl(data);
+      if (!streamUrl) {
         return;
       }
+      setSrc(streamUrl);
+      updateDownloadLink(streamUrl);
 
       // Handle subtitles/tracks
-      const tracks = data.tracks || [];
-      if (tracks.length > 0) {
-        // Filter out thumbnails and process subtitles
-        const subtitleTracks = tracks.filter((track: Track) => track.kind !== 'thumbnails');
-        setSubtitles(subtitleTracks);
-      }
+      setSubtitles(resolveSubtitleTracks(data));
 
       // Handle intro/outro data from the response
       if (data.intro || data.outro) {
@@ -378,10 +390,6 @@ export function Player({
     }
   };
 
-  const thumbnailSubtitle = subtitles.find(
-    (subtitle: any) => subtitle.lang === "thumbnails"
-  );
-
   useEffect(() => {
     if(canPlay) {
       // If the player is ready to play, we can set the current time
@@ -433,9 +441,9 @@ export function Player({
                   key={String(index)}
                   kind="subtitles"
                   type="vtt"
-                  src={subtitle.url}
-                  label={subtitle.lang}
-                  {...(subtitle.lang === "English" ? { default: true } : {})}
+                  src={subtitle.file || subtitle.url}
+                  label={subtitle.label || subtitle.lang}
+                  {...(subtitle.default || subtitle.lang === "English" ? { default: true } : {})}
                 />
               ))}
           </MediaProvider>
@@ -444,12 +452,7 @@ export function Player({
           {showLoader && <CustomLoader />}
           
           <DefaultAudioLayout icons={defaultLayoutIcons} />
-          <DefaultVideoLayout
-            thumbnails={`https://hls.pacalabs.top/proxy?url=${encodeURIComponent(
-              thumbnailSubtitle?.url
-            )}`}
-            icons={defaultLayoutIcons}
-          />
+          <DefaultVideoLayout icons={defaultLayoutIcons} />
         </MediaPlayer>
       </div>
       

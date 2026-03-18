@@ -32,9 +32,11 @@ const DefaultIndicator = styled(IndicatorDot)`
 export const StatusIndicator: React.FC<{ status: string }> = ({ status }) => {
   const handleStatusCheck = useMemo(() => {
     switch (status) {
+      case 'RELEASING':
       case 'Ongoing':
         return <OngoingIndicator />;
       case 'Completed':
+      case 'FINISHED':
         return <CompletedIndicator />;
       case 'Cancelled':
         return <CancelledIndicator />;
