@@ -142,6 +142,14 @@ bun start
 
 ## Self-Hosting Notice
 
+### Deploy to Diploi
+
+[![launch with diploi button](https://diploi.com/launch-big.svg)](https://diploi.com/launch/devxoshakya/anveshna)
+
+**Important:** In Diploi, you can add custom environment variables by opening **Deployment Page -> Options -> Next.js (for example)-> Environment** and add any environment variables you have. 
+
+For further information and documentation, please visit [Diploi](https://diploi.com/)
+
 **⚠️ RESTRICTED USE**
 
 > [!CAUTION]
