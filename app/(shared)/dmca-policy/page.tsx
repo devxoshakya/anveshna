@@ -84,7 +84,7 @@ export default function DMCAPage() {
             <p className="leading-relaxed">
               <strong className="text-foreground">DMCA Agent</strong><br />
               Anveshna<br />
-              Email: <span className="text-foreground">dmca@anveshna.devshakya.xyz</span>
+              Email: <span className="text-foreground">dmca@anveshna.devxoshakya.xyz</span>
             </p>
           </div>
           <p className="leading-relaxed mt-3">

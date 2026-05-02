@@ -31,7 +31,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Anveshna.",
-  metadataBase : new URL('https://anveshna.devshakya.xyz') ,
+  metadataBase : new URL('https://anveshna.devxoshakya.xyz') ,
   description: "A comprehensive anime streaming platform",
   openGraph: {
     title: "Anveshna.",
