@@ -26,13 +26,13 @@ Anveshna.
 
 | Official Domains | Links                                      |
 | ---------------- | ------------------------------------------ |
-| Active              | [anveshna.devshakya.xyz](https://anveshna.devshakya.xyz)       |
+| Active              | [anveshna.devxoshakya.xyz](https://anveshna.devxoshakya.xyz)       |
 
 </div>
 
 ## What is Anveshna. ?
 
-Welcome to **Anveshna.** - your ultimate anime destination! 🤯 Explore **[anveshna.devshakya.xyz](https://anveshna.devshakya.xyz)** and dive into the world of anime.
+Welcome to **Anveshna.** - your ultimate anime destination! 🤯 Explore **[anveshna.devxoshakya.xyz](https://anveshna.devxoshakya.xyz)** and dive into the world of anime.
 
 Crafted with using **React**, our site rocks a slick and modern interface. Experience lightning-fast performance and smooth navigation as you explore a vast collection of HD anime titles.
 
@@ -157,13 +157,13 @@ For further information and documentation, please visit [Diploi](https://diploi.
 
 ## License 📝
 
-This project is governed by a Custom BY-NC License. What does this entail? Simply put, you are permitted to utilize, distribute, and modify the code for non-commercial purposes. However, it is imperative that due credit is accorded to our platform, [anveshna.devshakya.xyz](https://anveshna.devshakya.xyz). Any commercial utilization of this code is strictly prohibited. For comprehensive details, please refer to the [LICENSE](LICENSE) file. Should you have inquiries or require special permissions, do not hesitate to contact us.
+This project is governed by a Custom BY-NC License. What does this entail? Simply put, you are permitted to utilize, distribute, and modify the code for non-commercial purposes. However, it is imperative that due credit is accorded to our platform, [anveshna.devxoshakya.xyz](https://anveshna.devxoshakya.xyz). Any commercial utilization of this code is strictly prohibited. For comprehensive details, please refer to the [LICENSE](LICENSE) file. Should you have inquiries or require special permissions, do not hesitate to contact us.
 
 
 ## Get in Touch! 📧
 
 Got questions, suggestions, or just wanna say hi? Drop us a line at <devxoshakya@gmail.com>.
 
-- Visit our website at **[anveshna.devshakya.xyz](https://anveshna.devshakya.xyz)**
+- Visit our website at **[anveshna.devxoshakya.xyz](https://anveshna.devxoshakya.xyz)**
 
 - Follow us on **[Twitter](https://twitter.com/devxoshakya)**
