@@ -11,6 +11,13 @@ jobs:
     name: Build and test
     runs-on: ubuntu-latest
 
+    env:
+      NEXT_PUBLIC_BACKEND_URL: ${{ secrets.NEXT_PUBLIC_BACKEND_URL }}
+      NEXT_PUBLIC_AI_API_URL: ${{ secrets.NEXT_PUBLIC_AI_API_URL }}
+      NEXT_PUBLIC_CF_PROXY_URL: ${{secrets.NEXT_PUBLIC_CF_PROXY_URL }}
+      NEXT_PUBLIC_STREAMING_BACKEND_URL: ${{secrets.NEXT_PUBLIC_STREAMING_BACKEND_URL }}
+      NEXT_PUBLIC_SKIP_TIMES: ${{secrets.NEXT_PUBLIC_SKIP_TIMES }}
+      NEXT_PUBLIC_CF_BACKEND_URL: ${{secrets.NEXT_PUBLIC_CF_BACKEND_URL }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

@@ -14,9 +14,9 @@ const BASE_URL = ensureUrlEndsWithSlash(
 const CF_BACKEND_URL = ensureUrlEndsWithSlash(
     (process.env.NEXT_PUBLIC_CF_BACKEND_URL || process.env.cf_backend_url || process.env.NEXT_PUBLIC_BACKEND_URL) as string,
 );
-const STREAM_URL = ensureUrlEndsWithSlash(
-    process.env.NEXT_PUBLIC_STREAMING_BACKEND_URL as string,
-);
+// const STREAM_URL = ensureUrlEndsWithSlash(
+//     process.env.NEXT_PUBLIC_STREAMING_BACKEND_URL as string,
+// );
 
 export const MEDIA_PROXY_URL = ensureUrlEndsWithSlash(
     process.env.NEXT_PUBLIC_CF_PROXY_URL as string,
