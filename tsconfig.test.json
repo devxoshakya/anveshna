@@ -16,8 +16,8 @@
     }
   },
   "include": [
-    "__tests__/**/*.ts",
-    "__tests__/**/*.tsx",
+    "tests/**/*.ts",
+    "tests/**/*.tsx",
     "test-setup.ts"
   ],
   "exclude": [

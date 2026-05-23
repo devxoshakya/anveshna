@@ -1,7 +1,7 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
-  testMatch: ['**/__tests__/**/*.test.(ts|tsx)'],
+  testMatch: ['**/tests/**/*.test.(ts|tsx)'],
   transform: {
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
