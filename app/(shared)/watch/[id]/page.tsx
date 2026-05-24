@@ -1,27 +1,14 @@
 "use client";
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useMemo, useState, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import {
-  fetchAnimeInfo,
-  fetchAnimeEpisodes,
-  fetchAnimeStreamingLinks,
-} from "@/hooks/useApi";
+import { fetchAnimeData } from "@/hooks/useApi";
+import { usePaheEpisodes } from "@/hooks/usePaheApi";
 import { UnifiedPlayer } from "@/components/watch/video/UnifiedPlayer";
 import { EpisodeList } from "@/components/watch/EpisodeList";
-import { MediaSource } from "@/components/watch/video/MediaSource";
 import { WatchAnimeData } from "@/components/watch/WatchAnimeData";
 import { AnimeDataList } from "@/components/watch/AnimeDataList";
-import { StatusIndicator } from "@/components/shared/StatusIndicator";
-import {
-  ArrowLeft,
-  ChevronLeft,
-  ChevronRight,
-  Settings2,
-  Monitor,
-  Smartphone,
-} from "lucide-react";
-import { useCountdown } from "@/hooks/useCountdown";
+import { ArrowLeft } from "lucide-react";
 import Loader from "@/app/loading";
 
 interface PageProps {
@@ -32,9 +19,11 @@ interface PageProps {
 
 interface Episode {
   id: string;
-  title: string;
+  episode: number;
   number: number;
-  image: string;
+  session: string;
+  title?: string;
+  image?: string;
   description?: string;
   createdAt?: string;
   url?: string;
@@ -65,21 +54,25 @@ export default function WatchPage({ params }: PageProps) {
   const [animeId, setAnimeId] = useState<string>("");
   const [episodeNumber, setEpisodeNumber] = useState<number>(1);
   const [animeInfo, setAnimeInfo] = useState<AnimeInfo | null>(null);
-  const [episodes, setEpisodes] = useState<Episode[]>([]);
   const [currentEpisode, setCurrentEpisode] = useState<Episode | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [animeLoading, setAnimeLoading] = useState(true);
+  const [animeError, setAnimeError] = useState<string | null>(null);
+  const [episodeError, setEpisodeError] = useState<string | null>(null);
 
-  // Player settings
-  const [serverName, setServerName] = useState<string>("hd-1");
-  const [language, setLanguage] = useState<string>("sub");
-  const [downloadLink, setDownloadLink] = useState<string>("");
-  const nextEpisodeAiringTime =
-    animeInfo && animeInfo.nextAiringEpisode
-      ? animeInfo.nextAiringEpisode.airingTime * 1000
-      : null;
-  const nextEpisodenumber = animeInfo?.nextAiringEpisode?.episode;
-  const countdown = useCountdown(nextEpisodeAiringTime);
+  const { data: paheEpisodesResponse, loading: episodesLoading, error: episodesError } =
+    usePaheEpisodes(animeInfo?.malId);
+
+  const episodes = useMemo<Episode[]>(() => {
+    return (paheEpisodesResponse?.episodes || []).map((episode) => ({
+      id: episode.session,
+      episode: episode.episode,
+      number: episode.episode,
+      session: episode.session,
+      title: episode.title,
+      image: episode.snapshot,
+      url: episode.link,
+    }));
+  }, [paheEpisodesResponse]);
 
   // Resolve params and query parameters
   useEffect(() => {
@@ -102,75 +95,73 @@ export default function WatchPage({ params }: PageProps) {
             { scroll: false }
           );
         }
-
       } catch (err) {
-        setError("Failed to load page parameters.");
-        setLoading(false);
+        setAnimeError("Failed to load page parameters.");
+        setAnimeLoading(false);
       }
     }
 
     resolveParams();
   }, [params, searchParams, router]);
 
-  // Fetch anime info and episodes
   useEffect(() => {
     if (!animeId) return;
 
     async function fetchData() {
-      setLoading(true);
+      setAnimeLoading(true);
       try {
-        // Fetch anime info
-        const animeData = await fetchAnimeInfo(animeId);
+        const animeData = await fetchAnimeData(animeId);
         setAnimeInfo(animeData);
-
-        // Fetch episodes based on language preference
-        const isDub = language === "dub";
-        const episodesData = animeData.episodes;
-
-        if (episodesData && Array.isArray(episodesData)) {
-          const transformedEpisodes = episodesData.map((ep: any) => ({
-            id: ep.id,
-            title: ep.title || `Episode ${ep.number}`,
-            number: ep.number,
-            image: ep.image,
-            createdAt: ep.createdAt,
-            url: ep.url,
-          }));
-          setEpisodes(transformedEpisodes);
-
-          // Find and set current episode
-          const currentEp = transformedEpisodes.find(
-            (ep: Episode) => ep.number === episodeNumber
-          );
-          if (currentEp) {
-            setCurrentEpisode(currentEp);
-          } else if (transformedEpisodes.length > 0) {
-            // Fallback to first episode if specified episode not found
-            setCurrentEpisode(transformedEpisodes[0]);
-            setEpisodeNumber(transformedEpisodes[0].number);
-          }
-        }
-
-        setError(null);
+        setAnimeError(null);
       } catch (err) {
-        setError("Failed to load anime information. Please try again later.");
+        setAnimeError("Failed to load anime information. Please try again later.");
       } finally {
-        setLoading(false);
+        setAnimeLoading(false);
       }
     }
 
     fetchData();
-  }, [animeId, language]);
+  }, [animeId]);
 
-  // Update current episode when episode number changes
   useEffect(() => {
-    if (episodes.length > 0) {
-      const episode = episodes.find((ep) => ep.number === episodeNumber);
-      if (episode) {
-        setCurrentEpisode(episode);
+    if (!episodes.length) {
+      setCurrentEpisode(null);
+      if (!episodesLoading && paheEpisodesResponse) {
+        setEpisodeError("No episodes were returned for this anime.");
       }
+      return;
     }
-  }, [episodeNumber, episodes]);
+
+    const episode = episodes.find((ep) => ep.episode === episodeNumber);
+    if (episode) {
+      setCurrentEpisode(episode);
+      setEpisodeError(null);
+      return;
+    }
+
+    const firstEpisode = episodes[0];
+    setCurrentEpisode(firstEpisode);
+    setEpisodeNumber(firstEpisode.episode);
+  }, [episodeNumber, episodes, episodesLoading, paheEpisodesResponse]);
+
+  useEffect(() => {
+    if (!animeId || episodes.length === 0) return;
+
+    const matchedEpisode = episodes.find((ep) => ep.episode === episodeNumber);
+    if (matchedEpisode) {
+      setEpisodeError(null);
+      return;
+    }
+
+    const firstEpisode = episodes[0];
+    setEpisodeNumber(firstEpisode.episode);
+
+    const currentParams = new URLSearchParams(searchParams.toString());
+    currentParams.set("ep", firstEpisode.episode.toString());
+    router.replace(`/watch/${animeId}?${currentParams.toString()}`, {
+      scroll: false,
+    });
+  }, [animeId, episodeNumber, episodes, router, searchParams]);
 
   // Save to watch history - separate function
   const saveToWatchHistory = useCallback((episode: Episode) => {
@@ -181,7 +172,7 @@ export default function WatchPage({ params }: PageProps) {
         localStorage.getItem("watch-history") || "{}"
       );
       watchHistory[animeId] = {
-        episodeNumber: episode.number,
+        episodeNumber: episode.episode,
         episodeId: episode.id,
         timestamp: Date.now(),
         animeTitle: animeInfo?.title?.english || animeInfo?.title?.romaji,
@@ -207,12 +198,12 @@ export default function WatchPage({ params }: PageProps) {
     (episodeId: string) => {
       const episode = episodes.find((ep) => ep.id === episodeId);
       if (episode) {
-        setEpisodeNumber(episode.number);
+        setEpisodeNumber(episode.episode);
         setCurrentEpisode(episode);
 
         // Update URL with new episode number
         const currentParams = new URLSearchParams(searchParams.toString());
-        currentParams.set("ep", episode.number.toString());
+        currentParams.set("ep", episode.episode.toString());
         router.replace(`/watch/${animeId}?${currentParams.toString()}`, {
           scroll: false,
         });
@@ -223,11 +214,10 @@ export default function WatchPage({ params }: PageProps) {
     [episodes, animeId, router, searchParams]
   );
 
-  // Navigation functions
   const goToPreviousEpisode = useCallback(() => {
     if (episodeNumber > 1) {
       const prevEpisode = episodes.find(
-        (ep) => ep.number === episodeNumber - 1
+        (ep) => ep.episode === episodeNumber - 1
       );
       if (prevEpisode) {
         handleEpisodeSelect(prevEpisode.id);
@@ -236,45 +226,27 @@ export default function WatchPage({ params }: PageProps) {
   }, [episodeNumber, episodes, handleEpisodeSelect]);
 
   const goToNextEpisode = useCallback(() => {
-    const nextEpisode = episodes.find((ep) => ep.number === episodeNumber + 1);
+    const nextEpisode = episodes.find((ep) => ep.episode === episodeNumber + 1);
     if (nextEpisode) {
       handleEpisodeSelect(nextEpisode.id);
     }
   }, [episodeNumber, episodes, handleEpisodeSelect]);
 
-  // Handle episode end (for auto-next feature)
   const handleEpisodeEnd = useCallback(async () => {
     goToNextEpisode();
   }, [goToNextEpisode]);
 
-  // Update download link callback
-  const updateDownloadLink = useCallback((link: string) => {
-    setDownloadLink(link);
-  }, []);
-
-  // Handle server name change
-  const handleServerChange = useCallback((newServerName: string) => {
-    setServerName(newServerName);
-  }, []);
-
-  // Handle language change
-  const handleLanguageChange = useCallback((newLanguage: string) => {
-    setLanguage(newLanguage);
-  }, []);
-
-  // Loading state
-  if (loading) {
-    return (
-      <Loader/>
-    );
+  if (animeLoading || episodesLoading) {
+    return <Loader />;
   }
 
-  // Error state
-  if (error) {
+  if (animeError || episodesError || episodeError) {
     return (
       <div className="min-h-screen bg-background p-4">
         <div className="max-w-4xl mx-auto text-center py-20">
-          <div className="text-destructive text-xl mb-4">{error}</div>
+          <div className="text-destructive text-xl mb-4">
+            {animeError || episodesError || episodeError}
+          </div>
           <Link
             href="/"
             className="inline-flex items-center gap-2 text-primary hover:underline"
@@ -294,30 +266,21 @@ export default function WatchPage({ params }: PageProps) {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      
-
-      {/* Main Content */}
       <div className="max-w-9xl mx-auto mt-16">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Video Player and Controls */}
           <div className="lg:col-span-3 space-y-4">
-            {/* Video Player */}
             <div className="relative rounded-lg w-full">
               {currentEpisode ? (
                 <UnifiedPlayer
                   episodeId={currentEpisode.id}
+                  anilistId={animeId}
                   banner={animeInfo.cover}
                   malId={animeInfo.malId}
-                  updateDownloadLink={updateDownloadLink}
                   onEpisodeEnd={handleEpisodeEnd}
                   onPrevEpisode={goToPreviousEpisode}
                   onNextEpisode={goToNextEpisode}
                   animeTitle={animeTitle}
                   episodeNumber={episodeNumber.toString()}
-                  serverName={serverName}
-                  language={language}
-                  defaultMode="advanced"
                 />
               ) : (
                 <div className="flex items-center justify-center h-full">
@@ -328,34 +291,10 @@ export default function WatchPage({ params }: PageProps) {
                 </div>
               )}
             </div>
-
-            {/* Media Source Controls */}
-            <div className="">
-              <MediaSource
-                serverName={serverName}
-                setServerName={handleServerChange}
-                language={language}
-                setLanguage={handleLanguageChange}
-                
-                episodeId={episodeNumber.toString()}
-                airingTime={
-                animeInfo && (animeInfo.status === 'RELEASING' || animeInfo.status === 'Ongoing')
-                  ? countdown
-                  : undefined
-              }
-              nextEpisodenumber={nextEpisodenumber}
-              />
-            </div>
-
-            {/* Anime Details */}
             <WatchAnimeData animeData={animeInfo} />
           </div>
-
-          {/* Sidebar */}
           <div className="space-y-6">
-            {/* Episode List */}
             <div className="bg-card border border-border rounded-lg">
-              
               <div className="max-h-96 overflow-hidden">
                 <EpisodeList
                   animeId={animeId}
@@ -366,8 +305,6 @@ export default function WatchPage({ params }: PageProps) {
                 />
               </div>
             </div>
-
-            {/* Related Anime */}
             <AnimeDataList animeData={animeInfo} />
           </div>
         </div>
