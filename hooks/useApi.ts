@@ -11,9 +11,6 @@ function ensureUrlEndsWithSlash(url: string): string {
 const BASE_URL = ensureUrlEndsWithSlash(
     process.env.NEXT_PUBLIC_BACKEND_URL as string,
 );
-const CF_BACKEND_URL = ensureUrlEndsWithSlash(
-    (process.env.NEXT_PUBLIC_CF_BACKEND_URL || process.env.cf_backend_url || process.env.NEXT_PUBLIC_BACKEND_URL) as string,
-);
 // const STREAM_URL = ensureUrlEndsWithSlash(
 //     process.env.NEXT_PUBLIC_STREAMING_BACKEND_URL as string,
 // );
@@ -446,7 +443,7 @@ export async function fetchAnimeInfo(
     animeId: string,
     provider: string = 'zoro',
 ) {
-    const url = `${CF_BACKEND_URL}anime/info/${animeId}`;
+    const url = `${BASE_URL}anime/info/${animeId}`;
     const cacheKey = generateCacheKey('animeInfo', animeId, provider, 'cf');
 
     const response = await fetchFromProxy(url, animeInfoCache, cacheKey);
@@ -542,7 +539,7 @@ export async function fetchAnimeEpisodes(
     provider: string = 'gogoanime',
     dub: boolean = false,
 ) {
-    const url = `${CF_BACKEND_URL}anime/info/${animeId}`;
+    const url = `${BASE_URL}anime/info/${animeId}`;
     const cacheKey = generateCacheKey(
         'animeEpisodes',
         animeId,
@@ -574,7 +571,7 @@ export async function fetchAnimeEmbeddedEpisodes(episodeId: string, episodeNumbe
     }
 
     const suffix = params.toString() ? `?${params.toString()}` : '';
-    const url = `${CF_BACKEND_URL}anime/servers/${encodeURIComponent(normalizedEpisodeId)}${suffix}`;
+    const url = `${BASE_URL}anime/servers/${encodeURIComponent(normalizedEpisodeId)}${suffix}`;
     const cacheKey = generateCacheKey('animeEmbeddedServers', normalizedEpisodeId, episodeNumberId || '');
 
     const response = await fetchFromProxy(url, fetchAnimeEmbeddedEpisodesCache, cacheKey);
@@ -601,7 +598,7 @@ export async function fetchAnimeStreamingLinks(
                 preferredServer,
             );
 
-            const url = `${CF_BACKEND_URL}anime/sources?episodeId=${encodeURIComponent(candidateEpisodeId)}&server=${encodeURIComponent(resolvedServer)}&category=${encodeURIComponent(category)}`;
+            const url = `${BASE_URL}anime/sources?episodeId=${encodeURIComponent(candidateEpisodeId)}&server=${encodeURIComponent(resolvedServer)}&category=${encodeURIComponent(category)}`;
             const response = await axios.get(url, { headers: { Accept: '*/*' } });
             const normalized = normalizeStreamingResponse(response.data, resolvedServer, category);
 
