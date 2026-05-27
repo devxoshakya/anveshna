@@ -27,6 +27,8 @@ Anveshna.
 | Official Domains | Links                                      |
 | ---------------- | ------------------------------------------ |
 | Active              | [anveshna.devxoshakya.xyz](https://anveshna.devxoshakya.xyz)       |
+| Active              | [anveshna.akshita.dev](https://anveshna.akshita.dev)       |
+
 
 </div>
 
