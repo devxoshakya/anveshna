@@ -1,3 +1,25 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+  description:
+    "Read how Anveshna handles data, watch history, cookies, and browser storage.",
+  alternates: {
+    canonical: "/privacy-policy",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    title: "Privacy Policy",
+    description:
+      "Read how Anveshna handles data, watch history, cookies, and browser storage.",
+    url: "/privacy-policy",
+    type: "article",
+  },
+};
+
 export default function PrivacyPolicyPage() {
   return (
     <div className="container mx-auto px-4 py-8 mt-20 max-w-4xl">

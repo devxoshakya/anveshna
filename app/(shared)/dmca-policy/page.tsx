@@ -1,3 +1,25 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "DMCA Policy",
+  description:
+    "Review Anveshna's DMCA policy, notice process, and copyright contact details.",
+  alternates: {
+    canonical: "/dmca-policy",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    title: "DMCA Policy",
+    description:
+      "Review Anveshna's DMCA policy, notice process, and copyright contact details.",
+    url: "/dmca-policy",
+    type: "article",
+  },
+};
+
 export default function DMCAPage() {
   return (
     <div className="container mx-auto px-4 py-8 mt-20 max-w-4xl">
