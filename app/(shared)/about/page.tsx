@@ -1,3 +1,21 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "About Anveshna",
+    description:
+        "Learn what Anveshna is, how it helps anime fans discover titles, and what features the platform provides.",
+    alternates: {
+        canonical: "/about",
+    },
+    openGraph: {
+        title: "About Anveshna",
+        description:
+            "Learn what Anveshna is, how it helps anime fans discover titles, and what features the platform provides.",
+        url: "/about",
+        type: "article",
+    },
+};
+
 export default function AboutPage() {
     return (
         <div className="container mx-auto px-4 py-8 mt-20 max-w-4xl">

@@ -30,20 +30,63 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Anveshna.",
-  metadataBase : new URL('https://anveshna.devxoshakya.xyz') ,
-  description: "A comprehensive anime streaming platform",
+  metadataBase: new URL("https://anveshna.devxoshakya.xyz"),
+  title: {
+    default: "Anveshna | Watch Anime Online",
+    template: "%s | Anveshna",
+  },
+  description:
+    "Discover, stream, and explore anime with curated recommendations, trending titles, and a fast search experience.",
+  applicationName: "Anveshna",
+  keywords: [
+    "anime streaming",
+    "watch anime online",
+    "anime search",
+    "trending anime",
+    "anime recommendations",
+    "anime anveshna streaming dev shakya akshita srivastava github anveshna",
+    "hls anime chat",
+    "ai recommendation of anime",
+  ],
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-snippet": -1,
+      "max-image-preview": "large",
+      "max-video-preview": -1,
+    },
+  },
   openGraph: {
-    title: "Anveshna.",
-    description: "A comprehensive anime streaming platform",
+    title: "Anveshna | Watch Anime Online",
+    description:
+      "Discover, stream, and explore anime with curated recommendations, trending titles, and a fast search experience.",
+    url: "/",
+    siteName: "Anveshna",
+    type: "website",
     images: [
       {
-        url: "/og-image.png", // Place this in /public
+        url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Anveshna.",
+        alt: "Anveshna",
       },
     ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Anveshna | Watch Anime Online",
+    description:
+      "Discover, stream, and explore anime with curated recommendations, trending titles, and a fast search experience.",
+    images: ["/og-image.png"],
+  },
+  icons: {
+    icon: "/favicon.png",
   },
 }
 
