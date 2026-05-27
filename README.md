@@ -19,10 +19,10 @@
 </p>
 
 <div align="center">
-| Type                 | URL                                                                                 |
-| -------------------- | ----------------------------------------------------------------------------------- |
-| Production           | [anveshna.devxoshakya.xyz](https://anveshna.devxoshakya.xyz) |
-| Staging Deployment | [anveshna.akshita.dev](https://anveshna.akshita.dev)         |
+| Type | URL |
+| ---- | --- |
+| Production Deployment | [anveshna.devxoshakya.xyz](https://anveshna.devxoshakya.xyz) |
+| Staging Deployment | [anveshna.akshita.dev](https://anveshna.akshita.dev) |
 
 </div>
 
