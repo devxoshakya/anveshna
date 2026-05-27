@@ -124,6 +124,9 @@ export function UnifiedPlayer(props: UnifiedPlayerProps) {
     [anilistId, episodeNumber, language],
   );
 
+  console.log("UnifiedPlayer props:", props);
+  console.log("Generated iframeSrc:", iframeSrc);
+
   useEffect(() => {
     setShowLoader(true);
   }, [iframeSrc]);
