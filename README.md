@@ -19,10 +19,11 @@
 </p>
 
 <div align="center">
-| Official Domains | Links |
-| ---------------- | ----- |
-| Active | [anveshna.devxoshakya.xyz](https://anveshna.devxoshakya.xyz) |
-| Active | [anveshna.akshita.dev](https://anveshna.akshita.dev) |
+| Type                 | URL                                                                                 |
+| -------------------- | ----------------------------------------------------------------------------------- |
+| Production           | [anveshna.devxoshakya.xyz](https://anveshna.devxoshakya.xyz) |
+| Staging Deployment | [anveshna.akshita.dev](https://anveshna.akshita.dev)         |
+
 </div>
 
 ## What is Anveshna?
