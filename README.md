@@ -1,6 +1,4 @@
-<h1 align="center">
-Anveshna.
-</h1>
+<h1 align="center">Anveshna.</h1>
 
 <p align="center">
   <a href="#"><img src="https://img.shields.io/badge/typescript-%23007acc.svg?style=for-the-badge&logo=typescript&logoColor=%23ffffff"/></a>
@@ -20,127 +18,83 @@ Anveshna.
   </a>
 </p>
 
-
-
-<div align="center" >
-
-| Official Domains | Links                                      |
-| ---------------- | ------------------------------------------ |
-| Active              | [anveshna.devxoshakya.xyz](https://anveshna.devxoshakya.xyz)       |
-| Active              | [anveshna.akshita.dev](https://anveshna.akshita.dev)       |
-
-
+<div align="center">
+| Official Domains | Links |
+| ---------------- | ----- |
+| Active | [anveshna.devxoshakya.xyz](https://anveshna.devxoshakya.xyz) |
+| Active | [anveshna.akshita.dev](https://anveshna.akshita.dev) |
 </div>
 
-## What is Anveshna. ?
+## What is Anveshna?
 
-Welcome to **Anveshna.** - your ultimate anime destination! 🤯 Explore **[anveshna.devxoshakya.xyz](https://anveshna.devxoshakya.xyz)** and dive into the world of anime.
+Anveshna is a fast, user-friendly anime streaming site built with React and optimized for performance. Browse HD titles, enjoy English subs/dubs, stream or download episodes, and switch themes for a comfortable viewing experience.
 
-Crafted with using **React**, our site rocks a slick and modern interface. Experience lightning-fast performance and smooth navigation as you explore a vast collection of HD anime titles.
+## Key Features
 
-Enjoy your favorite shows with English subs or dubs, and here's the kicker - you can download individual episodes hassle-free, no sign-up required!
+- **Fast**: Optimized loading and smooth navigation.
+- **Responsive**: Works on mobile and desktop.
+- **Dark Mode**: System-aware theme toggle.
+- **Watch Page**: Autoplay next episode, skip OP/ED, theater mode.
+- **Search**: AI-assisted search and suggestions.
 
-<!-- ## Features 🪴 -->
-
-<details>
-<summary>Features [View More]</summary>
-
-### General
-
-- Latest Anime support
-- User-friendly interface
-- Mobile responsive
-- Fast page load
-- Dark theme
-
-### Watch Page
-
-- **Player**
-  - Autoplay next episode
-  - Skip op/ed button
-  - Theater mode
-
-
-</details>
-
-## Images
+## Screenshots
 
 <div style="text-align: left;">
-  <img src="https://raw.githubusercontent.com/devxoshakya/anveshna/main/src/images/home.png" alt="Home Page" style="max-width: 70%;" >
+  <img src="https://raw.githubusercontent.com/devxoshakya/anveshna/refs/heads/main/public/features/landing.png" alt="Landing Page" style="max-width: 70%;" >
   <details>
-  <summary>Screenshots [View More]</summary>
-  <br>
-  <img src="https://raw.githubusercontent.com/devxoshakya/anveshna/main/src/images/initial.png" alt="Splash Page" style="max-width: 70%;">
-  <img src="https://raw.githubusercontent.com/devxoshakya/anveshna/main/src/images/watch.png" alt="Watch Page" style="max-width: 70%;">
+    <summary>Screenshots [View More]</summary>
+    <br>
+    <p>
+      <a href="https://raw.githubusercontent.com/devxoshakya/anveshna/refs/heads/main/public/features/anime-serach-ai-based.png"><img src="https://raw.githubusercontent.com/devxoshakya/anveshna/refs/heads/main/public/features/anime-serach-ai-based.png" alt="Anime Search (AI)" style="max-width: 70%; margin-bottom: 8px;"></a>
+    </p>
+    <p>
+      <a href="https://raw.githubusercontent.com/devxoshakya/anveshna/refs/heads/main/public/features/home.png"><img src="https://raw.githubusercontent.com/devxoshakya/anveshna/refs/heads/main/public/features/home.png" alt="Home" style="max-width: 70%; margin-bottom: 8px;"></a>
+    </p>
+    <p>
+      <a href="https://raw.githubusercontent.com/devxoshakya/anveshna/refs/heads/main/public/features/landing.png"><img src="https://raw.githubusercontent.com/devxoshakya/anveshna/refs/heads/main/public/features/landing.png" alt="Landing Page" style="max-width: 70%; margin-bottom: 8px;"></a>
+    </p>
+    <p>
+      <a href="https://raw.githubusercontent.com/devxoshakya/anveshna/refs/heads/main/public/features/pippo-ai.png"><img src="https://raw.githubusercontent.com/devxoshakya/anveshna/refs/heads/main/public/features/pippo-ai.png" alt="Pippo AI" style="max-width: 70%; margin-bottom: 8px;"></a>
+    </p>
+    <p>
+      <a href="https://raw.githubusercontent.com/devxoshakya/anveshna/refs/heads/main/public/features/seasonal-trending-anime.png"><img src="https://raw.githubusercontent.com/devxoshakya/anveshna/refs/heads/main/public/features/seasonal-trending-anime.png" alt="Seasonal Trending" style="max-width: 70%; margin-bottom: 8px;"></a>
+    </p>
+    <p>
+      <a href="https://raw.githubusercontent.com/devxoshakya/anveshna/refs/heads/main/public/features/trending-anime-section.png"><img src="https://raw.githubusercontent.com/devxoshakya/anveshna/refs/heads/main/public/features/trending-anime-section.png" alt="Trending Section" style="max-width: 70%; margin-bottom: 8px;"></a>
+    </p>
+    <p>
+      <a href="https://raw.githubusercontent.com/devxoshakya/anveshna/refs/heads/main/public/features/watch-page.png"><img src="https://raw.githubusercontent.com/devxoshakya/anveshna/refs/heads/main/public/features/watch-page.png" alt="Watch Page" style="max-width: 70%; margin-bottom: 8px;"></a>
+    </p>
   </details>
 </div>
 
-## Installation and Local Development 💻
+## Installation and Local Development
 
-### 1. Clone this repository using
+1. Clone the repository
 
 ```bash
 git clone https://github.com/devxoshakya/anveshna.git
-```
-
-```bash
 cd anveshna
 ```
 
-### 2. Installation
-
-### Basic Pre-Requisites
-
-> [!TIP]
-> This platform is built on [Node.js](https://nodejs.org/) and utilizes [Bun](https://bun.sh/) to ensure the quickest response times achievable. While `npm` can also be used, the commands for npm would mirror those of Bun, simply substituting the specific commands accordingly.
-
-> Bun is now available on **Windows**, **Linux**, and **macOS**. Below are the installation commands for each operating system.
-
-### Install Bun
-
-- Linux & macOS
+2. Install dependencies (Bun recommended)
 
 ```bash
-curl -fsSL https://bun.sh/install | bash
-```
-
-- Windows
-
-```powershell
-powershell -c "irm bun.sh/install.ps1 | iex"
-```
-
-### Verify installations
-
-- Check that both Node.js and Bun are correctly installed by running.
-
-```bash
-node -v
-bun -v
-```
-
-### Install Dependencies
-
-- You can use Bun to install dependencies quickly. If you prefer, `npm` can also be used with equivalent commands.
-
-```bash
+curl -fsSL https://bun.sh/install | bash # if Bun not installed
 bun install
 ```
 
-
-### 3. Run on development &/or production (npm also works)
-
-- Run on development mode
+3. Run locally
 
 ```bash
 bun run dev
 ```
 
-- Run on production mode
+Notes:
 
-```bash
-bun start
-```
+- `npm` can be used as an alternative to `bun` by running equivalent commands.
+- Verify installations with `node -v` and `bun -v`.
+
 
 ## Self-Hosting Notice
 
@@ -168,4 +122,4 @@ Got questions, suggestions, or just wanna say hi? Drop us a line at <devxoshakya
 
 - Visit our website at **[anveshna.devxoshakya.xyz](https://anveshna.devxoshakya.xyz)**
 
-- Follow us on **[Twitter](https://twitter.com/devxoshakya)**
+ 
