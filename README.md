@@ -19,19 +19,28 @@
 </p>
 
 <div align="center">
-<p align="center">
-  <strong>Production Deployment</strong><br>
-  <a href="https://anveshna.devxoshakya.xyz">
-    anveshna.devxoshakya.xyz
-  </a>
-</p>
-
-<p align="center">
-  <strong>Staging Deployment</strong><br>
-  <a href="https://anveshna.akshita.dev">
-    anveshna.akshita.dev
-  </a>
-</p>
+<table align="center">
+  <tr>
+    <th>Environment</th>
+    <th>URL</th>
+  </tr>
+  <tr>
+    <td>Production</td>
+    <td>
+      <a href="https://anveshna.devxoshakya.xyz">
+        anveshna.devxoshakya.xyz
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td>Staging</td>
+    <td>
+      <a href="https://anveshna.akshita.dev">
+        anveshna.akshita.dev
+      </a>
+    </td>
+  </tr>
+</table>
 </div>
 
 ## What is Anveshna?
