@@ -19,11 +19,19 @@
 </p>
 
 <div align="center">
-| Type | URL |
-| ---- | --- |
-| Production Deployment | [anveshna.devxoshakya.xyz](https://anveshna.devxoshakya.xyz) |
-| Staging Deployment | [anveshna.akshita.dev](https://anveshna.akshita.dev) |
+<p align="center">
+  <strong>Production Deployment</strong><br>
+  <a href="https://anveshna.devxoshakya.xyz">
+    anveshna.devxoshakya.xyz
+  </a>
+</p>
 
+<p align="center">
+  <strong>Staging Deployment</strong><br>
+  <a href="https://anveshna.akshita.dev">
+    anveshna.akshita.dev
+  </a>
+</p>
 </div>
 
 ## What is Anveshna?
