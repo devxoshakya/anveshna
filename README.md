@@ -42,6 +42,31 @@
   </tr>
 </table>
 </div>
+<h2 align="center">Contributors</h2>
+
+<table align="center">
+<tr>
+<td align="center" width="180">
+<a href="https://github.com/devxoshakya">
+<img src="https://github.com/devxoshakya.png" width="100px;" alt="Dev Shakya"/>
+<br />
+<b>Dev Shakya</b>
+<br />
+<sub>@devxoshakya</sub>
+</a>
+</td>
+
+<td align="center" width="180">
+<a href="https://github.com/akshitasrivastava20">
+<img src="https://github.com/akshitasrivastava20.png" width="100px;" alt="Akshita Srivastava"/>
+<br />
+<b>Akshita Srivastava</b>
+<br />
+<sub>@akshitasrivastava20</sub>
+</a>
+</td>
+</tr>
+</table>
 
 ## What is Anveshna?
 
